@@ -903,7 +903,9 @@ jobs:
           patch -p1 < 'ntsync_base.patch'
           patch -p1 < 'ntsync_compat_android15-6.6.patch'
           cd ../
-          echo "CONFIG_NTSYNC=y" >> ./common/arch/arm64/configs/gki_defconfig      - name: 集成 Droidspaces 支持
+          echo "CONFIG_NTSYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
+
+      - name: 集成 Droidspaces 支持
         if: inputs.droidspaces != 'off'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
