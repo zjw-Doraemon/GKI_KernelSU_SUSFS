@@ -904,6 +904,8 @@ jobs:
           patch -p1 < 'ntsync_compat_android15-6.6.patch'
           cd ../
           echo "CONFIG_NTSYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
+          sed -i '/^# CONFIG_USER_NS is not set$/d' ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
 
       - name: 集成 Droidspaces 支持
         if: inputs.droidspaces != 'off'
