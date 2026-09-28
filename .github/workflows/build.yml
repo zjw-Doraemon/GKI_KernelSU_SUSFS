@@ -894,18 +894,6 @@ jobs:
 
       - name: 备份基准 defconfig
         run: cp "$DEFCONFIG" "$DEFCONFIG.orig"
-      - name: 注入NTsync内核配置
-        run: |
-          cd "$KERNEL_ROOT"
-          cd ./common
-          wget "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/ntsync_base.patch"
-          wget "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/ntsync_compat_android15-6.6.patch"
-          patch -p1 < 'ntsync_base.patch'
-          patch -p1 < 'ntsync_compat_android15-6.6.patch'
-          cd ../
-          echo "CONFIG_NTSYNC=y" >> ./common/arch/arm64/configs/gki_defconfig
-          sed -i '/^# CONFIG_USER_NS is not set$/d' ./common/arch/arm64/configs/gki_defconfig
-          echo "CONFIG_USER_NS=y" >> ./common/arch/arm64/configs/gki_defconfig
 
       - name: 集成 Droidspaces 支持
         if: inputs.droidspaces != 'off'
@@ -1025,7 +1013,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
             # 1. 开启用户命名空间（必须）
-            # enable_config_if_defined CONFIG_USER_NS
+            enable_config_if_defined CONFIG_USER_NS
             # 2. 关闭安卓严格网络控制（必须）
             disable_config CONFIG_ANDROID_PARANOID_NETWORK
           fi
@@ -1658,3 +1646,4 @@ jobs:
           path: patch-rejects/
           if-no-files-found: ignore
           compression-level: 9
+
