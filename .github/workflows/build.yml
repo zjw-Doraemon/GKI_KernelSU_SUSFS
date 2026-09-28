@@ -92,7 +92,8 @@ jobs:
       CCACHE_HARDLINK: "true"
 
     steps:
-      - name: 閺嬪嫬缂撴穱鈩冧紖閹芥顩?        run: |
+      - name: 閺嬪嫬缂撴穱鈩冧紖閹芥顩?
+            run: |
           echo "========================================"
           echo "       閸愬懏鐗抽弸鍕紦闁板秶鐤嗛幗妯款洣"
           echo "========================================"
@@ -130,7 +131,8 @@ jobs:
 
       - name: 濡偓閸戣桨鍞惍浣风波鎼?        uses: actions/checkout@v7
 
-      - name: 閸掓繂顫愰崠鏍ㄧ€铏瑰箚婢?        run: |
+      - name: 閸掓繂顫愰崠鏍ㄧ€铏瑰箚婢?
+            run: |
           CONFIG="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}"
           KERNEL_ROOT="$GITHUB_WORKSPACE/$CONFIG"
           mkdir -p "$KERNEL_ROOT"
@@ -168,7 +170,8 @@ jobs:
           echo "$GITHUB_WORKSPACE/git-repo" >> "$GITHUB_PATH"
           echo "REPO=$GITHUB_WORKSPACE/git-repo/repo" >> $GITHUB_ENV
 
-      - name: 閺勫墽銇氶柊宥囩枂娣団剝浼?        run: |
+      - name: 閺勫墽銇氶柊宥囩枂娣団剝浼?
+            run: |
           CONFIG_FILE="$GITHUB_WORKSPACE/config/config"
           if [ -f "$CONFIG_FILE" ]; then
             echo "閸旂姾娴囬柊宥囩枂閺傚洣娆? $CONFIG_FILE"
@@ -179,7 +182,8 @@ jobs:
             cat "$LEGACY_SUKISU_CONFIG"
           fi
 
-      - name: 鐎瑰顥婄紓鏍槯娓氭繆绂?        run: |
+      - name: 鐎瑰顥婄紓鏍槯娓氭繆绂?
+            run: |
           sudo apt-get update
           sudo apt-get install -y ccache python3 git curl build-essential libssl-dev bison flex libelf-dev dwarves
 
@@ -213,7 +217,8 @@ jobs:
           git clone $AOSP_MIRROR/kernel/prebuilts/build-tools -b $BRANCH --depth 1 kernel-build-tools
           git clone $AOSP_MIRROR/platform/system/tools/mkbootimg -b $BRANCH --depth 1 mkbootimg
 
-      - name: 閻㈢喐鍨氱粵鎯ф倳鐎靛棝鎸?        run: |
+      - name: 閻㈢喐鍨氱粵鎯ф倳鐎靛棝鎸?
+            run: |
           openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 > $BOOT_SIGN_KEY_PATH
 
       - name: 闁板秶鐤?Git
@@ -221,7 +226,8 @@ jobs:
           git config --global user.name "BuildBot"
           git config --global user.email "BuildGkiKernel@gmail.com"
 
-      - name: 閸忓娈曟笟婵婄娴犳挸绨?        run: |
+      - name: 閸忓娈曟笟婵婄娴犳挸绨?
+            run: |
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
 
@@ -317,7 +323,8 @@ jobs:
           $REPO --trace sync -c -j$(nproc --all) --no-tags --fail-fast
           echo "REMOTE_BRANCH=$REMOTE_BRANCH" >> $GITHUB_ENV
 
-      - name: 鎼存梻鏁?Stock Config 娴碱亣顥?        run: |
+      - name: 鎼存梻鏁?Stock Config 娴碱亣顥?
+            run: |
           STOCK_SRC="$GITHUB_WORKSPACE/config/stock_defconfig"
           STOCK_DST="$KERNEL_ROOT/common/arch/arm64/configs/stock_defconfig"
 
@@ -352,7 +359,8 @@ jobs:
             exit 1
           fi
 
-      - name: 閹绘劕褰囩€圭偤妾€涙劗澧楅張顒€褰?        run: |
+      - name: 閹绘劕褰囩€圭偤妾€涙劗澧楅張顒€褰?
+            run: |
           ACTUAL_SUBLEVEL="${{ inputs.sub_level }}"
           if [[ -f "$KERNEL_ROOT/common/Makefile" ]]; then
             EXTRACTED=$(grep '^SUBLEVEL = ' "$KERNEL_ROOT/common/Makefile" | awk '{print $3}')
