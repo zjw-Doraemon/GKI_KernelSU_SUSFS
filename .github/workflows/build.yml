@@ -1,5 +1,4 @@
-name: 鍐呮牳鏋勫缓娴佺▼
-
+name: 閸愬懏鐗抽弸鍕紦濞翠胶鈻?
 permissions:
   contents: write
   actions: write
@@ -7,7 +6,7 @@ permissions:
 on:
   workflow_call:
     inputs:
-      # ==================== 鍩虹閰嶇疆 ====================
+      # ==================== 閸╄櫣顢呴柊宥囩枂 ====================
       android_version:
         required: true
         type: string
@@ -21,12 +20,12 @@ on:
         required: true
         type: string
 
-      # ==================== KernelSU 閰嶇疆 ====================
+      # ==================== KernelSU 闁板秶鐤?====================
       ksu_variant:
         required: true
         type: string
 
-      # ==================== 鍙€夐厤缃?====================
+      # ==================== 閸欘垶鈧鍘ょ純?====================
       version:
         required: false
         type: string
@@ -39,7 +38,7 @@ on:
         type: string
         default: "Sun Dec 01 08:10:00 UTC 2024"
 
-      # ==================== 鍔熻兘寮€鍏?====================
+      # ==================== 閸旂喕鍏樺鈧崗?====================
       use_zram:
         required: true
         type: boolean
@@ -51,7 +50,7 @@ on:
       use_kpm:
         required: true
         type: string
-        default: "disabled (鍏抽棴)"
+        default: "disabled (閸忔娊妫?"
       use_rekernel:
         required: false
         type: boolean
@@ -75,7 +74,7 @@ on:
       artifact_upload_mode:
         required: false
         type: string
-        default: "涓婁紶鍏ㄩ儴"
+        default: "娑撳﹣绱堕崗銊╁劥"
       droidspaces_ntsync:
         required: false
         type: boolean
@@ -93,31 +92,29 @@ jobs:
       CCACHE_HARDLINK: "true"
 
     steps:
-      - name: 鏋勫缓淇℃伅鎽樿
-        run: |
+      - name: 閺嬪嫬缂撴穱鈩冧紖閹芥顩?        run: |
           echo "========================================"
-          echo "       鍐呮牳鏋勫缓閰嶇疆鎽樿"
+          echo "       閸愬懏鐗抽弸鍕紦闁板秶鐤嗛幗妯款洣"
           echo "========================================"
-          echo "Android 鐗堟湰  : ${{ inputs.android_version }}"
-          echo "鍐呮牳鐗堟湰      : ${{ inputs.kernel_version }}"
-          echo "瀛愮増鏈彿      : ${{ inputs.sub_level }}"
-          echo "琛ヤ竵绾у埆      : ${{ inputs.os_patch_level }}"
-          echo "KSU 鍙樹綋      : ${{ inputs.ksu_variant }}"
-          echo "鏋勫缓鏃堕棿      : ${{ inputs.build_time }}"
-          echo "SUSFS 鐘舵€?   : ${{ inputs.enable_susfs }}"
-          echo "ZRAM 澧炲己     : ${{ inputs.use_zram }}"
-          echo "BBG 琛ヤ竵      : ${{ inputs.use_bbg }}"
-          echo "KPM 鍔熻兘      : ${{ inputs.use_kpm }}"
+          echo "Android 閻楀牊婀? : ${{ inputs.android_version }}"
+          echo "閸愬懏鐗抽悧鍫熸拱      : ${{ inputs.kernel_version }}"
+          echo "鐎涙劗澧楅張顒€褰?     : ${{ inputs.sub_level }}"
+          echo "鐞涖儰绔电痪褍鍩?     : ${{ inputs.os_patch_level }}"
+          echo "KSU 閸欐ü缍?     : ${{ inputs.ksu_variant }}"
+          echo "閺嬪嫬缂撻弮鍫曟？      : ${{ inputs.build_time }}"
+          echo "SUSFS 閻樿埖鈧?   : ${{ inputs.enable_susfs }}"
+          echo "ZRAM 婢х偛宸?    : ${{ inputs.use_zram }}"
+          echo "BBG 鐞涖儰绔?     : ${{ inputs.use_bbg }}"
+          echo "KPM 閸旂喕鍏?     : ${{ inputs.use_kpm }}"
           echo "Re-Kernel     : ${{ inputs.use_rekernel }}"
           echo "CVE-2026-43499: ${{ inputs.cve_2026_43499_patch }}"
           echo "Droidspaces   : ${{ inputs.droidspaces }}"
           echo "NTSync        : ${{ inputs.droidspaces_ntsync }}"
-          echo "浜х墿涓婁紶妯″紡  : ${{ inputs.artifact_upload_mode }}"
-          echo "Stock Config  : 鑷姩妫€娴?config/stock_defconfig"
+          echo "娴溠呭⒖娑撳﹣绱跺Ο鈥崇础  : ${{ inputs.artifact_upload_mode }}"
+          echo "Stock Config  : 閼奉亜濮╁Λ鈧ù?config/stock_defconfig"
           echo "========================================"
 
-      - name: 娓呯悊纾佺洏绌洪棿
-        uses: endersonmenezes/free-disk-space@v3
+      - name: 濞撳懐鎮婄壕浣烘磸缁屾椽妫?        uses: endersonmenezes/free-disk-space@v3
         with:
           remove_android: true
           remove_dotnet: true
@@ -131,9 +128,9 @@ jobs:
           rmz_version: "3.1.1"
           testing: false
 
-      - name: 妫€鍑轰唬鐮佷粨搴?        uses: actions/checkout@v7
+      - name: 濡偓閸戣桨鍞惍浣风波鎼?        uses: actions/checkout@v7
 
-      - name: 鍒濆鍖栨瀯寤虹幆澧?        run: |
+      - name: 閸掓繂顫愰崠鏍ㄧ€铏瑰箚婢?        run: |
           CONFIG="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}"
           KERNEL_ROOT="$GITHUB_WORKSPACE/$CONFIG"
           mkdir -p "$KERNEL_ROOT"
@@ -144,7 +141,7 @@ jobs:
           esac
 
           if [ -n "$LEGACY_SUKISU_CONFIG" ] && [ ! -f "$LEGACY_SUKISU_CONFIG" ]; then
-            echo "鏈壘鍒?${{ inputs.ksu_variant }} 鍥哄畾鎻愪氦閰嶇疆: $LEGACY_SUKISU_CONFIG" >&2
+            echo "閺堫亝澹橀崚?${{ inputs.ksu_variant }} 閸ュ搫鐣鹃幓鎰唉闁板秶鐤? $LEGACY_SUKISU_CONFIG" >&2
             exit 1
           fi
 
@@ -171,24 +168,22 @@ jobs:
           echo "$GITHUB_WORKSPACE/git-repo" >> "$GITHUB_PATH"
           echo "REPO=$GITHUB_WORKSPACE/git-repo/repo" >> $GITHUB_ENV
 
-      - name: 鏄剧ず閰嶇疆淇℃伅
-        run: |
+      - name: 閺勫墽銇氶柊宥囩枂娣団剝浼?        run: |
           CONFIG_FILE="$GITHUB_WORKSPACE/config/config"
           if [ -f "$CONFIG_FILE" ]; then
-            echo "鍔犺浇閰嶇疆鏂囦欢: $CONFIG_FILE"
+            echo "閸旂姾娴囬柊宥囩枂閺傚洣娆? $CONFIG_FILE"
             cat "$CONFIG_FILE"
           fi
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
-            echo "鍔犺浇鑰佺増 SukiSU 鍥哄畾鎻愪氦閰嶇疆: $LEGACY_SUKISU_CONFIG"
+            echo "閸旂姾娴囬懓浣哄 SukiSU 閸ュ搫鐣鹃幓鎰唉闁板秶鐤? $LEGACY_SUKISU_CONFIG"
             cat "$LEGACY_SUKISU_CONFIG"
           fi
 
-      - name: 瀹夎缂栬瘧渚濊禆
-        run: |
+      - name: 鐎瑰顥婄紓鏍槯娓氭繆绂?        run: |
           sudo apt-get update
           sudo apt-get install -y ccache python3 git curl build-essential libssl-dev bison flex libelf-dev dwarves
 
-      - name: 閰嶇疆 ccache
+      - name: 闁板秶鐤?ccache
         run: |
           mkdir -p ~/.cache/bazel
           ccache --version
@@ -196,15 +191,14 @@ jobs:
           ccache --set-config=compression=true
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
 
-      - name: 鎭㈠ ccache 缂撳瓨
-        uses: actions/cache@v5
+      - name: 閹垹顦?ccache 缂傛挸鐡?        uses: actions/cache@v5
         with:
           path: ~/.ccache
           key: ${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}-ccache-${{ github.sha }}
           restore-keys: |
             ${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}-ccache-
 
-      - name: 缂撳瓨宸ュ叿閾?        id: cache-toolchain
+      - name: 缂傛挸鐡ㄥ銉ュ徔闁?        id: cache-toolchain
         uses: actions/cache@v5
         with:
           path: |
@@ -212,37 +206,35 @@ jobs:
             mkbootimg
           key: toolchain-${{ runner.os }}-v1
 
-      - name: 涓嬭浇宸ュ叿閾?        if: steps.cache-toolchain.outputs.cache-hit != 'true'
+      - name: 娑撳娴囧銉ュ徔闁?        if: steps.cache-toolchain.outputs.cache-hit != 'true'
         run: |
           AOSP_MIRROR=https://android.googlesource.com
           BRANCH=main-kernel-build-2024
           git clone $AOSP_MIRROR/kernel/prebuilts/build-tools -b $BRANCH --depth 1 kernel-build-tools
           git clone $AOSP_MIRROR/platform/system/tools/mkbootimg -b $BRANCH --depth 1 mkbootimg
 
-      - name: 鐢熸垚绛惧悕瀵嗛挜
-        run: |
+      - name: 閻㈢喐鍨氱粵鎯ф倳鐎靛棝鎸?        run: |
           openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 > $BOOT_SIGN_KEY_PATH
 
-      - name: 閰嶇疆 Git
+      - name: 闁板秶鐤?Git
         run: |
           git config --global user.name "BuildBot"
           git config --global user.email "BuildGkiKernel@gmail.com"
 
-      - name: 鍏嬮殕渚濊禆浠撳簱
-        run: |
+      - name: 閸忓娈曟笟婵婄娴犳挸绨?        run: |
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
 
-          echo "鍏嬮殕 AnyKernel3..."
+          echo "閸忓娈?AnyKernel3..."
           git clone https://github.com/WildKernels/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           rm -rf AnyKernel3/.git
 
-          echo "鍏嬮殕 SUSFS (鍒嗘敮: $SUSFS_BRANCH)..."
+          echo "閸忓娈?SUSFS (閸掑棙鏁? $SUSFS_BRANCH)..."
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
             git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
           elif [ "${{ inputs.ksu_variant }}" == "SukiSU" ]; then
             if ! git clone https://github.com/ShirkNeko/susfs4ksu.git -b "$SUSFS_BRANCH" 2>/dev/null; then
-              echo "ShirkNeko 浠撳簱鏈壘鍒板垎鏀?$SUSFS_BRANCH锛屽洖閫€鍒?simonpunk 鍘熺増..."
+              echo "ShirkNeko 娴犳挸绨遍張顏呭閸掓澘鍨庨弨?$SUSFS_BRANCH閿涘苯娲栭柅鈧崚?simonpunk 閸樼喓澧?.."
               git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
             fi
           else
@@ -252,10 +244,10 @@ jobs:
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
             SUSFS_FIXED_COMMIT=$(grep "^${SUSFS_BRANCH}=" "$LEGACY_SUKISU_CONFIG" | cut -d'=' -f2-)
             if [ -z "$SUSFS_FIXED_COMMIT" ]; then
-              echo "鏈湪 $LEGACY_SUKISU_CONFIG 閰嶇疆 $SUSFS_BRANCH 鐨勫浐瀹?SUSFS 鎻愪氦" >&2
+              echo "閺堫亜婀?$LEGACY_SUKISU_CONFIG 闁板秶鐤?$SUSFS_BRANCH 閻ㄥ嫬娴愮€?SUSFS 閹绘劒姘? >&2
               exit 1
             fi
-            echo "${{ inputs.ksu_variant }} 鍥哄畾 SUSFS 鎻愪氦: $SUSFS_FIXED_COMMIT"
+            echo "${{ inputs.ksu_variant }} 閸ュ搫鐣?SUSFS 閹绘劒姘? $SUSFS_FIXED_COMMIT"
             git -C susfs4ksu checkout "$SUSFS_FIXED_COMMIT"
           fi
 
@@ -265,7 +257,7 @@ jobs:
             if [ "$CUSTOM_ENABLED" == "true" ]; then
               CUSTOM_COMMIT=$(grep "^${SUSFS_BRANCH}=" "$CONFIG_FILE" | cut -d'=' -f2)
               if [ -n "$CUSTOM_COMMIT" ]; then
-                echo "鍒囨崲 SUSFS 鍒拌嚜瀹氫箟鎻愪氦: $CUSTOM_COMMIT"
+                echo "閸掑洦宕?SUSFS 閸掓媽鍤滅€规矮绠熼幓鎰唉: $CUSTOM_COMMIT"
                 cd susfs4ksu
                 git checkout "$CUSTOM_COMMIT"
                 cd ..
@@ -275,21 +267,20 @@ jobs:
 
           SUSFS_LATEST_COMMIT_DATE=$(git -C susfs4ksu log -1 --date=format:'%Y-%m-%d %H:%M:%S %z' --format='%cd')
           echo "SUSFS_LATEST_COMMIT_DATE=$SUSFS_LATEST_COMMIT_DATE" >> $GITHUB_ENV
-          echo "SUSFS 浠撳簱鏈€鏂版彁浜ゆ棩鏈? $SUSFS_LATEST_COMMIT_DATE"
+          echo "SUSFS 娴犳挸绨遍張鈧弬鐗堝絹娴溿倖妫╅張? $SUSFS_LATEST_COMMIT_DATE"
 
-          echo "鍑嗗琛ヤ竵璧勬簮..."
+          echo "閸戝棗顦悰銉ょ鐠у嫭绨?.."
           git clone https://github.com/WildKernels/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
-          echo "浣跨敤褰撳墠浠撳簱琛ヤ竵鐩綍: $ZZH_PATCHES"
+          echo "娴ｈ法鏁よぐ鎾冲娴犳挸绨辩悰銉ょ閻╊喖缍? $ZZH_PATCHES"
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
 
-      - name: 鍒濆鍖栧苟鍚屾鍐呮牳婧愮爜
-        working-directory: ${{ env.KERNEL_ROOT }}
+      - name: 閸掓繂顫愰崠鏍ц嫙閸氬本顒為崘鍛壋濠ф劗鐖?        working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-6.4.1.git gcc
 
           FORMATTED_BRANCH="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}"
-          echo "鍒濆鍖?repo锛屽垎鏀? common-${FORMATTED_BRANCH}"
+          echo "閸掓繂顫愰崠?repo閿涘苯鍨庨弨? common-${FORMATTED_BRANCH}"
 
           $REPO init --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-${FORMATTED_BRANCH} --repo-rev=v2.16
 
@@ -297,60 +288,58 @@ jobs:
           DEFAULT_MANIFEST_PATH=.repo/manifests/default.xml
 
           if grep -q deprecated <<< $REMOTE_BRANCH; then
-            echo "妫€娴嬪埌宸插純鐢ㄧ殑鍒嗘敮: $FORMATTED_BRANCH"
+            echo "濡偓濞村鍩屽鎻掔磾閻劎娈戦崚鍡樻暜: $FORMATTED_BRANCH"
             sed -i "s/\"${FORMATTED_BRANCH}\"/\"deprecated\/${FORMATTED_BRANCH}\"/g" $DEFAULT_MANIFEST_PATH
           fi
 
           $REPO --trace sync -c -j$(nproc --all) --no-tags --fail-fast
           echo "REMOTE_BRANCH=$REMOTE_BRANCH" >> $GITHUB_ENV
 
-      - name: 搴旂敤 Stock Config 浼
-        run: |
+      - name: 鎼存梻鏁?Stock Config 娴碱亣顥?        run: |
           STOCK_SRC="$GITHUB_WORKSPACE/config/stock_defconfig"
           STOCK_DST="$KERNEL_ROOT/common/arch/arm64/configs/stock_defconfig"
 
           if [ ! -f "$STOCK_SRC" ]; then
-            echo "鏈娴嬪埌 $STOCK_SRC锛岃烦杩?Stock Config 浼銆?
+            echo "閺堫亝顥呭ù瀣煂 $STOCK_SRC閿涘矁鐑︽潻?Stock Config 娴碱亣顥婇妴?
             exit 0
           fi
 
           mkdir -p "$(dirname "$STOCK_DST")"
           if ! cp "$STOCK_SRC" "$STOCK_DST"; then
-            echo "::error::澶嶅埗 stock_defconfig 澶辫触: $STOCK_SRC -> $STOCK_DST"
+            echo "::error::婢跺秴鍩?stock_defconfig 婢惰精瑙? $STOCK_SRC -> $STOCK_DST"
             exit 1
           fi
-          echo "宸插鍒?stock_defconfig -> $STOCK_DST"
+          echo "瀹告彃顦查崚?stock_defconfig -> $STOCK_DST"
 
           NEW_RULE='$(obj)/config_data: arch/arm64/configs/stock_defconfig FORCE'
           OLD_RULE='$(obj)/config_data: $(KCONFIG_CONFIG) FORCE'
           TARGET_MAKEFILE="$KERNEL_ROOT/common/kernel/Makefile"
 
           if [ ! -f "$TARGET_MAKEFILE" ]; then
-            echo "::error::鏈壘鍒?$TARGET_MAKEFILE"
+            echo "::error::閺堫亝澹橀崚?$TARGET_MAKEFILE"
             exit 1
           fi
 
           if grep -qF "$NEW_RULE" "$TARGET_MAKEFILE"; then
-            echo "config_data 瑙勫垯宸叉槸 stock_defconfig锛岃烦杩囥€?
+            echo "config_data 鐟欏嫬鍨鍙夋Ц stock_defconfig閿涘矁鐑︽潻鍥モ偓?
           elif grep -qF "$OLD_RULE" "$TARGET_MAKEFILE"; then
             sed -i 's|$(obj)/config_data: $(KCONFIG_CONFIG) FORCE|$(obj)/config_data: arch/arm64/configs/stock_defconfig FORCE|' "$TARGET_MAKEFILE"
-            echo "宸叉浛鎹?config_data 瑙勫垯: $TARGET_MAKEFILE"
+            echo "瀹稿弶娴涢幑?config_data 鐟欏嫬鍨? $TARGET_MAKEFILE"
           else
-            echo "::error::鏈湪 $TARGET_MAKEFILE 鎵惧埌瑙勫垯: $OLD_RULE"
+            echo "::error::閺堫亜婀?$TARGET_MAKEFILE 閹垫儳鍩岀憴鍕灟: $OLD_RULE"
             exit 1
           fi
 
-      - name: 鎻愬彇瀹為檯瀛愮増鏈彿
-        run: |
+      - name: 閹绘劕褰囩€圭偤妾€涙劗澧楅張顒€褰?        run: |
           ACTUAL_SUBLEVEL="${{ inputs.sub_level }}"
           if [[ -f "$KERNEL_ROOT/common/Makefile" ]]; then
             EXTRACTED=$(grep '^SUBLEVEL = ' "$KERNEL_ROOT/common/Makefile" | awk '{print $3}')
             [[ -n "$EXTRACTED" ]] && ACTUAL_SUBLEVEL="$EXTRACTED"
           fi
           echo "ACTUAL_SUBLEVEL=$ACTUAL_SUBLEVEL" >> $GITHUB_ENV
-          echo "瀹為檯瀛愮増鏈彿: $ACTUAL_SUBLEVEL"
+          echo "鐎圭偤妾€涙劗澧楅張顒€褰? $ACTUAL_SUBLEVEL"
 
-      # 浠ュ悓姝ュ悗鐨勫疄闄?SUBLEVEL 鍒ゆ柇锛岄伩鍏嶅宸插寘鍚笂娓镐慨澶嶇殑 LTS 閲嶅鎵撹ˉ涓?      - name: 鑷姩搴旂敤 CVE-2026-43499 rtmutex 淇閾?        if: inputs.cve_2026_43499_patch
+      # 娴犮儱鎮撳銉ユ倵閻ㄥ嫬鐤勯梽?SUBLEVEL 閸掋倖鏌囬敍宀勪缉閸忓秴顕鎻掑瘶閸氼偂绗傚〒闀愭叏婢跺秶娈?LTS 闁插秴顦查幍鎾顾夋稉?      - name: 閼奉亜濮╂惔鏃傛暏 CVE-2026-43499 rtmutex 娣囶喖顦查柧?        if: inputs.cve_2026_43499_patch
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           bash "$GITHUB_WORKSPACE/security_patch/apply_cve_2026_43499.sh" \
@@ -358,7 +347,7 @@ jobs:
             "$ACTUAL_SUBLEVEL" \
             "$GITHUB_WORKSPACE/security_patch"
 
-      - name: 淇 glibc 2.38 鍏煎鎬?        working-directory: ${{ env.KERNEL_ROOT }}/common
+      - name: 娣囶喖顦?glibc 2.38 閸忕厧顔愰幀?        working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           RAW_SUB="${{ inputs.sub_level }}"
           [[ ! "$RAW_SUB" =~ ^[0-9]+$ ]] && CURRENT_SUB=99999 || CURRENT_SUB=$RAW_SUB
@@ -373,7 +362,7 @@ jobs:
           if [ "$NEEDS_FIX" = true ]; then
             GLIBC_VERSION=$(ldd --version 2>/dev/null | head -n 1 | awk '{print $NF}')
             if [ "$(printf '%s\n' "2.38" "$GLIBC_VERSION" | sort -V | head -n1)" = "2.38" ]; then
-              echo "搴旂敤 glibc 2.38 鍏煎鎬т慨澶?.."
+              echo "鎼存梻鏁?glibc 2.38 閸忕厧顔愰幀褌鎱ㄦ径?.."
               sed -i '/\$(Q)\$(MAKE) -C \$(SUBCMD_SRC) OUTPUT=\$(abspath \$(dir \$@))\/ \$(abspath \$@)/s//$(Q)$(MAKE) -C $(SUBCMD_SRC) EXTRA_CFLAGS="$(CFLAGS)" OUTPUT=$(abspath $(dir $@))\/ $(abspath $@)/' tools/bpf/resolve_btfids/Makefile 2>/dev/null || true
 
               if [[ "${{ inputs.kernel_version }}" == "5.10" || "${{ inputs.kernel_version }}" == "5.15" ]]; then
@@ -385,15 +374,14 @@ jobs:
             fi
           fi
 
-      - name: 娣诲姞涓€鍔?8E 澶勭悊鍣ㄦ敮鎸?        if: inputs.supp_op
+      - name: 濞ｈ濮炴稉鈧崝?8E 婢跺嫮鎮婇崳銊︽暜閹?        if: inputs.supp_op
         working-directory: ${{ env.KERNEL_ROOT }}/common/drivers
         run: |
-          echo "涓嬭浇涓€鍔?8E 鏀寔琛ヤ竵..."
+          echo "娑撳娴囨稉鈧崝?8E 閺€顖涘瘮鐞涖儰绔?.."
           curl -LSs "https://github.com/zzh20188/GKI_KernelSU_SUSFS/raw/refs/heads/dev/hmbird_patch.c" -o hmbird_patch.c
           echo "obj-y += hmbird_patch.o" >> Makefile
 
-      - name: 纭畾 KernelSU 鍒嗘敮
-        id: ksu-branch
+      - name: 绾喖鐣?KernelSU 閸掑棙鏁?        id: ksu-branch
         run: |
           variant_input="${{ inputs.ksu_variant }}"
 
@@ -413,19 +401,19 @@ jobs:
               ;;
             *)
               if [ -z "$LEGACY_SUKISU_CONFIG" ] || [ ! -f "$LEGACY_SUKISU_CONFIG" ]; then
-                echo "鏈煡鍙樹綋: $variant_input" >&2
+                echo "閺堫亞鐓￠崣妯圭秼: $variant_input" >&2
                 exit 1
               fi
               SUKISU_FIXED_COMMIT=$(grep "^sukisu=" "$LEGACY_SUKISU_CONFIG" | cut -d'=' -f2-)
               if [ -z "$SUKISU_FIXED_COMMIT" ]; then
-                echo "鏈湪 $LEGACY_SUKISU_CONFIG 閰嶇疆 SukiSU 鍥哄畾鎻愪氦" >&2
+                echo "閺堫亜婀?$LEGACY_SUKISU_CONFIG 闁板秶鐤?SukiSU 閸ュ搫鐣鹃幓鎰唉" >&2
                 exit 1
               fi
               BRANCH="-s $SUKISU_FIXED_COMMIT"
               ;;
           esac
 
-          # 妫€鏌ヨ嚜瀹氫箟鎻愪氦 (浠呭 SukiSU 鐢熸晥)
+          # 濡偓閺屻儴鍤滅€规矮绠熼幓鎰唉 (娴犲懎顕?SukiSU 閻㈢喐鏅?
           CONFIG_FILE="config/config"
           if [ -f "$CONFIG_FILE" ]; then
             CUSTOM_ENABLED=$(grep "^custom=" "$CONFIG_FILE" | cut -d'=' -f2)
@@ -433,20 +421,20 @@ jobs:
               SUKISU_COMMIT=$(grep "^sukisu=" "$CONFIG_FILE" | cut -d'=' -f2)
               if [ -n "$SUKISU_COMMIT" ]; then
                 BRANCH="-s $SUKISU_COMMIT"
-                echo "SukiSU 浣跨敤鑷畾涔夋彁浜? $SUKISU_COMMIT"
+                echo "SukiSU 娴ｈ法鏁ら懛顏勭暰娑斿褰佹禍? $SUKISU_COMMIT"
               fi
             fi
           fi
 
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "KSU 鍒嗘敮: $BRANCH"
+          echo "KSU 閸掑棙鏁? $BRANCH"
 
-      - name: 娣诲姞 KernelSU
+      - name: 濞ｈ濮?KernelSU
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           case "${{ inputs.ksu_variant }}" in
             "Official")
-              echo "娣诲姞 KernelSU 瀹樻柟鐗?.."
+              echo "濞ｈ濮?KernelSU 鐎规ɑ鏌熼悧?.."
               curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash $BRANCH
 
               cd KernelSU
@@ -460,23 +448,23 @@ jobs:
               cd ..
               ;;
             "Next")
-              echo "娣诲姞 KernelSU-Next..."
+              echo "濞ｈ濮?KernelSU-Next..."
               curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev_susfs
               ;;
             "SukiSU")
-              echo "娣诲姞 ${{ inputs.ksu_variant }}..."
+              echo "濞ｈ濮?${{ inputs.ksu_variant }}..."
               curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash $BRANCH
               ;;
             "ReSukiSU")
-              echo "娣诲姞 ReSukiSU..."
+              echo "濞ｈ濮?ReSukiSU..."
               curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash $BRANCH
               ;;
             *)
               if [ -z "$LEGACY_SUKISU_CONFIG" ]; then
-                echo "鏈煡鍙樹綋: ${{ inputs.ksu_variant }}" >&2
+                echo "閺堫亞鐓￠崣妯圭秼: ${{ inputs.ksu_variant }}" >&2
                 exit 1
               fi
-              echo "娣诲姞 ${{ inputs.ksu_variant }}..."
+              echo "濞ｈ濮?${{ inputs.ksu_variant }}..."
               curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash $BRANCH
               ;;
           esac
@@ -485,17 +473,17 @@ jobs:
             KSU_LATEST_COMMIT_DATE=$(git -C KernelSU log -1 --date=format:'%Y-%m-%d %H:%M:%S %z' --format='%cd')
             echo "KSU_LATEST_COMMIT_DATE=$KSU_LATEST_COMMIT_DATE" >> $GITHUB_ENV
           else
-            echo "KSU_LATEST_COMMIT_DATE=鏈煡" >> $GITHUB_ENV
+            echo "KSU_LATEST_COMMIT_DATE=閺堫亞鐓? >> $GITHUB_ENV
           fi
 
-      - name: 閰嶇疆 SukiSU 绠＄悊鍣ㄤ俊鎭?        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
+      - name: 闁板秶鐤?SukiSU 缁狅紕鎮婇崳銊や繆閹?        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
         working-directory: ${{ env.KERNEL_ROOT }}/KernelSU
         run: |
           KBUILD_FILE="./kernel/Kbuild"
           CUSTOM_TAG="${{ vars.MANAGER_STR }}"
 
           if [ ! -f "$KBUILD_FILE" ]; then
-            echo "鏈壘鍒?$KBUILD_FILE锛岃烦杩?SukiSU 鐗堟湰鏍囪瘑瀹氬埗"
+            echo "閺堫亝澹橀崚?$KBUILD_FILE閿涘矁鐑︽潻?SukiSU 閻楀牊婀伴弽鍥槕鐎规艾鍩?
             exit 0
           fi
 
@@ -538,13 +526,12 @@ jobs:
             }
           ' "$KBUILD_FILE" > "${KBUILD_FILE}.tmp" && mv "${KBUILD_FILE}.tmp" "$KBUILD_FILE"
 
-          echo "宸叉洿鏂?get_ksu_version_full 妯℃澘: $VERSION_TEMPLATE"
+          echo "瀹稿弶娲块弬?get_ksu_version_full 濡剝婢? $VERSION_TEMPLATE"
 
-      - name: 搴旂敤 SUSFS 琛ヤ竵
-        if: inputs.enable_susfs
+      - name: 鎼存梻鏁?SUSFS 鐞涖儰绔?        if: inputs.enable_susfs
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
-          echo "搴旂敤 SUSFS 琛ヤ竵..."
+          echo "鎼存梻鏁?SUSFS 鐞涖儰绔?.."
 
           SUSFS_PATCH="50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch"
           cp "$SUSFS4KSU/kernel_patches/$SUSFS_PATCH" ./common/
@@ -555,7 +542,7 @@ jobs:
             "Official")
               cd ./KernelSU
               cp $SUSFS4KSU/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
-              # 鍏煎鏃х増琛ヤ竵锛氫粎褰撹ˉ涓佷粛鍙慨鏀?kernel/Makefile 鏃讹紝鎵嶆浛鎹负 kernel/Kbuild
+              # 閸忕厧顔愰弮褏澧楃悰銉ょ閿涙矮绮庤ぐ鎾顾夋稉浣风矝閸欘亙鎱ㄩ弨?kernel/Makefile 閺冭绱濋幍宥嗘禌閹诡澀璐?kernel/Kbuild
               if grep -q '^diff --git a/kernel/Makefile b/kernel/Makefile' ./10_enable_susfs_for_ksu.patch \
                 && ! grep -q '^diff --git a/kernel/Kbuild b/kernel/Kbuild' ./10_enable_susfs_for_ksu.patch; then
                 sed -i 's|kernel/Makefile|kernel/Kbuild|g' ./10_enable_susfs_for_ksu.patch
@@ -565,7 +552,7 @@ jobs:
               cd ..
               ;;
             "Next"|"SukiSU"|"SukiSU(40726)"|"SukiSU(40548)"|"ReSukiSU")
-              echo "Next/SukiSU/SukiSU(40726)/SukiSU(40548)/ReSukiSU 浣跨敤鍐呯疆 SUSFS 鏀寔"
+              echo "Next/SukiSU/SukiSU(40726)/SukiSU(40548)/ReSukiSU 娴ｈ法鏁ら崘鍛枂 SUSFS 閺€顖涘瘮"
               ;;
           esac
 
@@ -575,28 +562,26 @@ jobs:
             CURRENT_SUB=99999
           fi
 
-          # 鍏滃簳鍏煎 SUSFS 涓婃父璇皢 5.15+ 鐨?set_nameidata 鍥涘弬鏁拌皟鐢ㄧ敤浜?Android 12 5.10锛屼笂娓镐慨澶嶅悗鑷姩璺宠繃
-          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]] \
+          # 閸忔粌绨抽崗鐓庮啇 SUSFS 娑撳﹥鐖剁拠顖氱殺 5.15+ 閻?set_nameidata 閸ユ稑寮弫鎷岀殶閻劎鏁ゆ禍?Android 12 5.10閿涘奔绗傚〒闀愭叏婢跺秴鎮楅懛顏勫З鐠哄疇绻?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]] \
             && grep -qF 'static void set_nameidata(struct nameidata *p, int dfd, struct filename *name)' fs/namei.c \
             && grep -qF 'set_nameidata(nd, old_dfd, fake_filename, NULL);' "$SUSFS_PATCH"; then
-            echo "妫€娴嬪埌 Android 12 5.10 set_nameidata 涓夊弬鏁版帴鍙ｏ紝淇 SUSFS 琛ヤ竵涓殑鍥涘弬鏁拌皟鐢?
+            echo "濡偓濞村鍩?Android 12 5.10 set_nameidata 娑撳寮弫鐗堝复閸欙綇绱濇穱顔筋劀 SUSFS 鐞涖儰绔垫稉顓犳畱閸ユ稑寮弫鎷岀殶閻?
             sed -i 's/set_nameidata(nd, old_dfd, fake_filename, NULL);/set_nameidata(nd, old_dfd, fake_filename);/g' "$SUSFS_PATCH"
           fi
 
-          # 鍏煎 5.10.66~5.10.209銆?.15.74~5.15.144 鍜?6.1.25~6.1.68 缂哄皯 VMA padding 鎺ュ彛
-          if grep -qF 'VMA_PAD_START(vma)' "$SUSFS_PATCH" \
+          # 閸忕厧顔?5.10.66~5.10.209閵?.15.74~5.15.144 閸?6.1.25~6.1.68 缂傚搫鐨?VMA padding 閹恒儱褰?          if grep -qF 'VMA_PAD_START(vma)' "$SUSFS_PATCH" \
             && ! grep -Rqs 'VMA_PAD_START' ./include/linux; then
-            echo "鐩爣鍐呮牳鏈彁渚?VMA_PAD_START锛屼娇鐢?vma->vm_end 鍏煎 SUSFS OPEN_REDIRECT"
+            echo "閻╊喗鐖ｉ崘鍛壋閺堫亝褰佹笟?VMA_PAD_START閿涘奔濞囬悽?vma->vm_end 閸忕厧顔?SUSFS OPEN_REDIRECT"
             sed -i 's/VMA_PAD_START(vma)/vma->vm_end/g' "$SUSFS_PATCH"
           fi
 
-          # 鍦ㄥ簲鐢ㄤ富琛ヤ竵鍓嶄复鏃惰皟鏁存簮鐮佷笂涓嬫枃锛屾浛浠ｅ凡褰掓。鐨?wild 淇灏忚ˉ涓?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
+          # 閸︺劌绨查悽銊ゅ瘜鐞涖儰绔甸崜宥勫閺冩儼鐨熼弫瀛樼爱閻椒绗傛稉瀣瀮閿涘本娴涙禒锝呭嚒瑜版帗銆傞惃?wild 娣囶喖顦茬亸蹇毸夋稉?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 43 ]]; then
-              echo "涓存椂璋冩暣 Android 12 5.10 base.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 12 5.10 base.c 娑撳﹣绗呴弬?
               perl -i -pe 's/(int|size_t)\s+this_len\s*=\s*min_t\s*\(\s*\1\s*,/size_t this_len = min_t(size_t,/;' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 117 ]]; then
-              echo "涓存椂璋冩暣 Android 12 5.10 fdinfo.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 12 5.10 fdinfo.c 娑撳﹣绗呴弬?
               sed -i '/^[[:space:]]*\/\*$/,/^[[:space:]]*u32 mask = mark->mask & IN_ALL_EVENTS;$/d' fs/notify/fdinfo.c
               perl -i -pe 's/\bmask,\s*mark->ignored_mask/inotify_mark_user_mask(mark)/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:%x/ignored_mask:0/g' fs/notify/fdinfo.c
@@ -605,7 +590,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 107 ]]; then
-              echo "涓存椂璋冩暣 Android 13 5.10 fdinfo.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 13 5.10 fdinfo.c 娑撳﹣绗呴弬?
               sed -i '/^[[:space:]]*\/\*$/,/^[[:space:]]*u32 mask = mark->mask & IN_ALL_EVENTS;$/d' fs/notify/fdinfo.c
               perl -i -pe 's/\bmask,\s*mark->ignored_mask/inotify_mark_user_mask(mark)/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:%x/ignored_mask:0/g' fs/notify/fdinfo.c
@@ -614,7 +599,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
             if [[ "$CURRENT_SUB" -le 41 ]]; then
-              echo "涓存椂璋冩暣 Android 13 5.15 namespace.c/open.c/fdinfo.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 13 5.15 namespace.c/open.c/fdinfo.c 娑撳﹣绗呴弬?
               if ! grep -qF '#include <linux/mnt_idmapping.h>' fs/namespace.c; then
                 sed -i '/^#include <linux\/shmem_fs.h>$/a #include <linux/mnt_idmapping.h>' fs/namespace.c
               fi
@@ -629,50 +614,50 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android14" && "${{ inputs.kernel_version }}" == "6.1" ]]; then
             if [[ "$CURRENT_SUB" -le 25 ]] && ! grep -qF '#include <trace/hooks/sched.h>' fs/proc/base.c; then
-              echo "涓存椂璋冩暣 Android 14 6.1 sched.h 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 14 6.1 sched.h 娑撳﹣绗呴弬?
               sed -i '/^#include <trace\/events\/oom.h>$/a #include <trace/hooks/sched.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 141 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/proc/base.c; then
-              echo "涓存椂璋冩暣 Android 14 6.1 dma-buf.h 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 14 6.1 dma-buf.h 娑撳﹣绗呴弬?
               sed -i '/^#include <linux\/cpufreq_times.h>$/a #include <linux/dma-buf.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -ge 157 ]]; then
-              echo "涓存椂璋冩暣 Android 14 6.1 namespace.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 14 6.1 namespace.c 娑撳﹣绗呴弬?
               sed -i '/^#include <trace\/hooks\/blk.h>$/d' fs/namespace.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
             if [[ "$CURRENT_SUB" -le 30 ]] && ! grep -qF 'last_vma_end = vma->vm_end;' fs/proc/task_mmu.c; then
-              echo "涓存椂璋冩暣 Android 15 6.6 task_mmu.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 15 6.6 task_mmu.c 娑撳﹣绗呴弬?
               sed -i '/smap_gather_stats(vma, &mss, last_vma_end);/a\last_vma_end = vma->vm_end;' fs/proc/task_mmu.c
             fi
             if [[ "$CURRENT_SUB" -le 92 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/proc/base.c; then
-              echo "涓存椂璋冩暣 Android 15 6.6 base.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 15 6.6 base.c 娑撳﹣绗呴弬?
               sed -i '/^#include <linux\/cpufreq_times.h>$/a #include <linux/dma-buf.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 57 ]] && ! grep -qF '#include <linux/zswap.h>' mm/memory.c; then
-              echo "涓存椂璋冩暣 Android 15 6.6 memory.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 15 6.6 memory.c 娑撳﹣绗呴弬?
               sed -i '/^#include <linux\/sched\/sysctl.h>$/a #include <linux/zswap.h>' mm/memory.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
             if [[ "$CURRENT_SUB" -ge 58 ]]; then
-              echo "涓存椂璋冩暣 Android 16 6.12 exec.c 涓婁笅鏂?
+              echo "娑撳瓨妞傜拫鍐╂殻 Android 16 6.12 exec.c 娑撳﹣绗呴弬?
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/exec.c
             fi
           fi
 
           patch -p1 < "$SUSFS_PATCH" || true
 
-          # 涓昏ˉ涓佸簲鐢ㄥ悗杩樺師涓存椂涓婁笅鏂囷紝閬垮厤鏃犲叧婧愮爜宸紓淇濈暀鍒版渶缁堜骇鐗?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
+          # 娑撴槒藟娑撲礁绨查悽銊ユ倵鏉╂ê甯稉瀛樻娑撳﹣绗呴弬鍥风礉闁灝鍘ら弮鐘插彠濠ф劗鐖滃顔肩磽娣囨繄鏆€閸掔増娓剁紒鍫滈獓閻?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 43 ]]; then
-              echo "杩樺師 Android 12 5.10 base.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 12 5.10 base.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i 's/^size_t this_len = min_t(size_t, count, PAGE_SIZE);$/int this_len = min_t(int, count, PAGE_SIZE);/' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 117 ]]; then
-              echo "杩樺師 Android 12 5.10 fdinfo.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 12 5.10 fdinfo.c 娑撳瓨妞傜拫鍐╂殻"
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
               perl -i -pe 's/\binotify_mark_user_mask\(mark\)/mask, mark->ignored_mask/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:0/ignored_mask:%x/g' fs/notify/fdinfo.c
@@ -681,7 +666,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 107 ]]; then
-              echo "杩樺師 Android 13 5.10 fdinfo.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 13 5.10 fdinfo.c 娑撳瓨妞傜拫鍐╂殻"
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
               perl -i -pe 's/\binotify_mark_user_mask\(mark\)/mask, mark->ignored_mask/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:0/ignored_mask:%x/g' fs/notify/fdinfo.c
@@ -690,7 +675,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
             if [[ "$CURRENT_SUB" -le 41 ]]; then
-              echo "杩樺師 Android 13 5.15 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 13 5.15 娑撳瓨妞傜拫鍐╂殻"
               sed -i '/#include <linux\/mnt_idmapping.h>$/d' fs/namespace.c
               sed -i '/#include <linux\/mnt_idmapping.h>$/d' fs/open.c
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
@@ -706,29 +691,29 @@ jobs:
               sed -i '/^#include <trace\/hooks\/sched.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 141 ]]; then
-              echo "杩樺師 Android 14 6.1 base.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 14 6.1 base.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -ge 157 ]] && ! grep -qF '#include <trace/hooks/blk.h>' fs/namespace.c; then
-              echo "杩樺師 Android 14 6.1 namespace.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 14 6.1 namespace.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i '/^#include "internal.h"$/a #include <trace/hooks/blk.h>' fs/namespace.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
             if [[ "$CURRENT_SUB" -le 92 ]]; then
-              echo "杩樺師 Android 15 6.6 base.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 15 6.6 base.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 57 ]]; then
-              echo "杩樺師 Android 15 6.6 memory.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 15 6.6 memory.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i '/^#include <linux\/zswap.h>$/d' mm/memory.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
             if [[ "$CURRENT_SUB" -ge 58 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/exec.c; then
-              echo "杩樺師 Android 16 6.12 exec.c 涓存椂璋冩暣"
+              echo "鏉╂ê甯?Android 16 6.12 exec.c 娑撳瓨妞傜拫鍐╂殻"
               sed -i '0,/^#include /s//#include <linux\/dma-buf.h>\n&/' fs/exec.c
             fi
           fi
@@ -743,7 +728,7 @@ jobs:
               fi
 
               if ! grep -qF '#include <linux/susfs_def.h>' ./fs/namespace.c; then
-                echo "妫€娴嬪埌 ${label} namespace.c 缂哄皯 susfs_def.h锛屾敞鍏ュ０鏄?.."
+                echo "濡偓濞村鍩?${label} namespace.c 缂傚搫鐨?susfs_def.h閿涘本鏁為崗銉ワ紣閺?.."
                 if grep -qF '#include <linux/mnt_idmapping.h>' ./fs/namespace.c; then
                   sed -i '/#include <linux\/mnt_idmapping.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT\n#include <linux\/susfs_def.h>\n#endif' ./fs/namespace.c
                 elif grep -qF '#include <linux/shmem_fs.h>' ./fs/namespace.c; then
@@ -754,7 +739,7 @@ jobs:
               fi
 
               if ! grep -q 'extern bool susfs_is_current_ksu_domain' ./fs/namespace.c; then
-                echo "妫€娴嬪埌 ${label} namespace.c 缂哄皯 SUSFS mount extern锛屾敞鍏ュ０鏄?.."
+                echo "濡偓濞村鍩?${label} namespace.c 缂傚搫鐨?SUSFS mount extern閿涘本鏁為崗銉ワ紣閺?.."
                 sed -i '/#include "internal.h"/a \\n#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT\nextern bool susfs_is_current_ksu_domain(void);\nextern struct static_key_true susfs_is_sdcard_android_data_not_decrypted;\n\n#define CL_COPY_MNT_NS BIT(25)\n\n#endif' ./fs/namespace.c
               fi
             }
@@ -775,19 +760,17 @@ jobs:
               fi
             }
 
-            # Android 12 - 5.10 淇
-            if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
-              # 淇 2024-11 鍒嗘敮: mmap.c 璋冪敤浜?vm_flags_clear()锛屼絾鍚屽垎鏀?mm.h 鏈彁渚?helper
+            # Android 12 - 5.10 娣囶喖顦?            if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
+              # 娣囶喖顦?2024-11 閸掑棙鏁? mmap.c 鐠嬪啰鏁ゆ禍?vm_flags_clear()閿涘奔绲鹃崥灞藉瀻閺€?mm.h 閺堫亝褰佹笟?helper
               fix_missing_vm_flags_clear
               fix_task_mmu_show_pad 209
             fi
 
-            # Android 13 - 5.15 淇
-            if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
-              # 淇 2024-11 鍒嗘敮: mmap.c 璋冪敤浜?vm_flags_clear()锛屼絾鍚屽垎鏀?mm.h 鏈彁渚?helper
+            # Android 13 - 5.15 娣囶喖顦?            if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
+              # 娣囶喖顦?2024-11 閸掑棙鏁? mmap.c 鐠嬪啰鏁ゆ禍?vm_flags_clear()閿涘奔绲鹃崥灞藉瀻閺€?mm.h 閺堫亝褰佹笟?helper
               fix_missing_vm_flags_clear
               fix_task_mmu_show_pad 148 "2024-05"
-              # 淇 5.15 LTS: task_mmu.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS 瀹忕己灏戝０鏄?              if grep -q 'SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/task_mmu.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/task_mmu.c; then
+              # 娣囶喖顦?5.15 LTS: task_mmu.c 婢舵挳鍎?hunk 婢堕亶鍘ら敍灞筋嚤閼?SUSFS 鐎瑰繒宸辩亸鎴濓紣閺?              if grep -q 'SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/task_mmu.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/task_mmu.c; then
                 if grep -qF '#include <linux/pkeys.h>' ./fs/proc/task_mmu.c; then
                   sed -i '/#include <linux\/pkeys.h>/a #if defined(CONFIG_KSU_SUSFS_SUS_KSTAT) || defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)\n#include <linux\/susfs_def.h>\n#endif' ./fs/proc/task_mmu.c
                 elif grep -qF '#include <linux/uaccess.h>' ./fs/proc/task_mmu.c; then
@@ -795,14 +778,12 @@ jobs:
                 else
                   sed -i '0,/^#include /s//#if defined(CONFIG_KSU_SUSFS_SUS_KSTAT) || defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)\n#include <linux\/susfs_def.h>\n#endif\n&/' ./fs/proc/task_mmu.c
                 fi
-                echo "宸蹭慨澶?Android 13 5.15 task_mmu.c 缂哄皯 susfs_def.h 闂"
+                echo "瀹歌弓鎱ㄦ径?Android 13 5.15 task_mmu.c 缂傚搫鐨?susfs_def.h 闂傤噣顣?
               fi
-              # 淇 5.15 LTS: namespace.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS mount 绗﹀彿缂哄皯澹版槑
-              fix_namespace_susfs_mount_decls "Android 13 5.15" 'DEFAULT_KSU_MNT_ID\|VFSMOUNT_MNT_FLAGS_KSU_UNSHARED_MNT\|CL_COPY_MNT_NS'
+              # 娣囶喖顦?5.15 LTS: namespace.c 婢舵挳鍎?hunk 婢堕亶鍘ら敍灞筋嚤閼?SUSFS mount 缁楋箑褰跨紓鍝勭毌婢圭増妲?              fix_namespace_susfs_mount_decls "Android 13 5.15" 'DEFAULT_KSU_MNT_ID\|VFSMOUNT_MNT_FLAGS_KSU_UNSHARED_MNT\|CL_COPY_MNT_NS'
             fi
 
-            # Android 14 - 6.1 淇
-            if [[ "${{ inputs.android_version }}" == "android14" && "${{ inputs.kernel_version }}" == "6.1" ]]; then
+            # Android 14 - 6.1 娣囶喖顦?            if [[ "${{ inputs.android_version }}" == "android14" && "${{ inputs.kernel_version }}" == "6.1" ]]; then
               if grep -q 'susfs_is_current_proc_umounted\|SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/base.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/base.c; then
                 if grep -qF '#include <linux/dma-buf.h>' ./fs/proc/base.c; then
                   sed -i '/#include <linux\/dma-buf.h>/a #if defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)\n#include <linux\/susfs_def.h>\n#endif' ./fs/proc/base.c
@@ -811,14 +792,11 @@ jobs:
                 fi
               fi
               fix_task_mmu_show_pad 75 "2024-05"
-              # 淇 6.1 LTS: namespace.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS mount 绗﹀彿缂哄皯澹版槑
-              fix_namespace_susfs_mount_decls "Android 14 6.1" 'DEFAULT_KSU_MNT_ID\|susfs_mnt_id_ida'
+              # 娣囶喖顦?6.1 LTS: namespace.c 婢舵挳鍎?hunk 婢堕亶鍘ら敍灞筋嚤閼?SUSFS mount 缁楋箑褰跨紓鍝勭毌婢圭増妲?              fix_namespace_susfs_mount_decls "Android 14 6.1" 'DEFAULT_KSU_MNT_ID\|susfs_mnt_id_ida'
             fi
 
-            # Android 15 - 6.6 淇
-            if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
-              # 淇 6.6.50~6.6.97: fs/proc/base.c 澶撮儴 hunk 澶遍厤锛屽鑷?susfs_def.h 婕忔墦
-              if grep -q 'AS_FLAGS_SUS_MAP\|susfs_is_current_proc_umounted\|SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/base.c && ! grep -qF 'susfs_def.h' ./fs/proc/base.c; then
+            # Android 15 - 6.6 娣囶喖顦?            if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
+              # 娣囶喖顦?6.6.50~6.6.97: fs/proc/base.c 婢舵挳鍎?hunk 婢堕亶鍘ら敍灞筋嚤閼?susfs_def.h 濠曞繑澧?              if grep -q 'AS_FLAGS_SUS_MAP\|susfs_is_current_proc_umounted\|SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/base.c && ! grep -qF 'susfs_def.h' ./fs/proc/base.c; then
                 if ! grep -qF '#include <linux/dma-buf.h>' ./fs/proc/base.c; then
                   sed -i '/#include <linux\/cpufreq_times.h>/a #include <linux\/dma-buf.h>' ./fs/proc/base.c
                 fi
@@ -826,63 +804,60 @@ jobs:
                 sed -i '/#include <linux\/dma-buf.h>/a #include <linux\/susfs_def.h>' ./fs/proc/base.c
                 sed -i '/#include <linux\/dma-buf.h>/a #if defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)' ./fs/proc/base.c
               fi
-              # 淇 6.6 鏃╂湡鍒嗘敮: memory.c 澶撮儴涓婁笅鏂囩己灏?zswap.h锛屽鑷?SUSFS 澶存枃浠?hunk 婕忔墦
-              if grep -q 'SUSFS_IS_INODE_SUS_MAP' ./mm/memory.c && ! grep -qF '#include <linux/susfs_def.h>' ./mm/memory.c; then
+              # 娣囶喖顦?6.6 閺冣晜婀￠崚鍡樻暜: memory.c 婢舵挳鍎存稉濠佺瑓閺傚洨宸辩亸?zswap.h閿涘苯顕遍懛?SUSFS 婢跺瓨鏋冩禒?hunk 濠曞繑澧?              if grep -q 'SUSFS_IS_INODE_SUS_MAP' ./mm/memory.c && ! grep -qF '#include <linux/susfs_def.h>' ./mm/memory.c; then
                 if grep -qF '#include <linux/zswap.h>' ./mm/memory.c; then
                   sed -i '/#include <linux\/zswap.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MAP\n#include <linux\/susfs_def.h>\n#endif' ./mm/memory.c
                 else
                   sed -i '/#include <linux\/sched\/sysctl.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MAP\n#include <linux\/susfs_def.h>\n#endif' ./mm/memory.c
                 fi
               fi
-              # 淇鑰佺増 SukiSU 6.6.50~6.6.58: task_mmu.c 鎵撳叆 SUSFS 鍚庝娇鐢?vma锛屼絾鏃ф簮鐮佹病鏈夊搴斿０鏄?              if [[ -n "$LEGACY_SUKISU_CONFIG" && "$CURRENT_SUB" -ge 50 && "$CURRENT_SUB" -le 58 ]] \
+              # 娣囶喖顦查懓浣哄 SukiSU 6.6.50~6.6.58: task_mmu.c 閹垫挸鍙?SUSFS 閸氬簼濞囬悽?vma閿涘奔绲鹃弮褎绨惍浣圭梾閺堝顕惔鏂匡紣閺?              if [[ -n "$LEGACY_SUKISU_CONFIG" && "$CURRENT_SUB" -ge 50 && "$CURRENT_SUB" -le 58 ]] \
                 && grep -qF 'vma = find_vma(mm, start_vaddr);' ./fs/proc/task_mmu.c; then
                 TASK_MMU_PATCH="$KERNEL_PATCHES/wild/archived/susfs_fix_patches/v2.1.0/a15-6.6/task_mmu.c.patch"
                 if [ ! -f "$TASK_MMU_PATCH" ]; then
-                  echo "::error::琛ヤ竵涓嶅瓨鍦? $TASK_MMU_PATCH"
+                  echo "::error::鐞涖儰绔垫稉宥呯摠閸? $TASK_MMU_PATCH"
                   exit 1
                 fi
                 cp "$TASK_MMU_PATCH" ./
                 if patch -p1 --dry-run < task_mmu.c.patch >/dev/null 2>&1; then
                   patch -p1 --no-backup-if-mismatch < task_mmu.c.patch
-                  echo "宸插簲鐢?Android 15 6.6.50~6.6.58 task_mmu.c 褰掓。淇琛ヤ竵"
+                  echo "瀹告彃绨查悽?Android 15 6.6.50~6.6.58 task_mmu.c 瑜版帗銆傛穱顔碱槻鐞涖儰绔?
                 else
-                  echo "Android 15 6.6.50~6.6.58 task_mmu.c 褰掓。淇琛ヤ竵宸插簲鐢ㄦ垨褰撳墠涓婁笅鏂囦笉鍖归厤锛岃烦杩?
+                  echo "Android 15 6.6.50~6.6.58 task_mmu.c 瑜版帗銆傛穱顔碱槻鐞涖儰绔靛鎻掔安閻劍鍨ㄨぐ鎾冲娑撳﹣绗呴弬鍥︾瑝閸栧綊鍘ら敍宀冪儲鏉?
                 fi
               fi
 
             fi
 
-            # Android 16 - 6.12 淇
-            if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
-              # 淇 setuid_hook.c 閲嶅瀹氫箟
-              SETUID_HOOK="$KERNEL_ROOT/common/drivers/kernelsu/setuid_hook.c"
+            # Android 16 - 6.12 娣囶喖顦?            if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
+              # 娣囶喖顦?setuid_hook.c 闁插秴顦茬€规矮绠?              SETUID_HOOK="$KERNEL_ROOT/common/drivers/kernelsu/setuid_hook.c"
               if [ -f "$SETUID_HOOK" ]; then
                 sed -i 's/defined(CONFIG_KSU_MANUAL_HOOK))/!defined(CONFIG_KSU_SUSFS) \&\& defined(CONFIG_KSU_MANUAL_HOOK))/' "$SETUID_HOOK"
-                echo "宸蹭慨澶?setuid_hook.c 閲嶅瀹氫箟闂"
+                echo "瀹歌弓鎱ㄦ径?setuid_hook.c 闁插秴顦茬€规矮绠熼梻顕€顣?
               fi
 
-              # 淇 6.12.58+: exec.c 澶撮儴涓婁笅鏂囧彉鍖栧鑷?SUSFS 琛ヤ竵婕忔帀 susfs_def.h
+              # 娣囶喖顦?6.12.58+: exec.c 婢舵挳鍎存稉濠佺瑓閺傚洤褰夐崠鏍ь嚤閼?SUSFS 鐞涖儰绔靛蹇斿竴 susfs_def.h
               if grep -q 'susfs_is_current_proc_umounted' ./fs/exec.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/exec.c; then
                 if grep -qF '#include <linux/dma-buf.h>' ./fs/exec.c; then
                   sed -i '/#include <linux\/dma-buf.h>/a #ifdef CONFIG_KSU_SUSFS\n#include <linux\/susfs_def.h>\n#endif' ./fs/exec.c
                 else
                   sed -i '/#include <linux\/ksm.h>/a #ifdef CONFIG_KSU_SUSFS\n#include <linux\/susfs_def.h>\n#endif' ./fs/exec.c
                 fi
-                echo "宸蹭慨澶?exec.c 缂哄皯 susfs_def.h 闂"
+                echo "瀹歌弓鎱ㄦ径?exec.c 缂傚搫鐨?susfs_def.h 闂傤噣顣?
               fi
             fi
           fi
 
-      - name: 鍏嬮殕 Droidspaces 琛ヤ竵浠撳簱
+      - name: 閸忓娈?Droidspaces 鐞涖儰绔垫禒鎾崇氨
         if: inputs.droidspaces != 'off'
         run: |
           git clone --depth 1 https://github.com/ravindu644/Droidspaces-OSS.git /tmp/Droidspaces-OSS
           echo "DROIDSPACES_PATCHES=/tmp/Droidspaces-OSS/Documentation/resources/kernel-patches/GKI" >> $GITHUB_ENV
 
-      - name: 澶囦唤鍩哄噯 defconfig
+      - name: 婢跺洣鍞ら崺鍝勫櫙 defconfig
         run: cp "$DEFCONFIG" "$DEFCONFIG.orig"
 
-      - name: 闆嗘垚 Droidspaces 鏀寔
+      - name: 闂嗗棙鍨?Droidspaces 閺€顖涘瘮
         if: inputs.droidspaces != 'off'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
@@ -891,7 +866,7 @@ jobs:
 
           # 678 -> 6_7_8, 123 -> 1_2_3, 345 -> 3_4_5
           SLOT_NAME=$(echo "$SLOT" | sed 's/\(.\)/\1_/g; s/_$//')
-          echo "搴旂敤 Droidspaces SYSVIPC kABI 淇琛ヤ竵 (妲戒綅: $SLOT / $SLOT_NAME)..."
+          echo "鎼存梻鏁?Droidspaces SYSVIPC kABI 娣囶喖顦茬悰銉ょ (濡叉垝缍? $SLOT / $SLOT_NAME)..."
           case "$KERNEL_VER" in
             6.12)
               PATCH_FILE="$DROIDSPACES_PATCHES/kernel-6.12/001.GKI-6.12-or-above-fix_sysvipc_kabi.patch"
@@ -900,48 +875,46 @@ jobs:
               PATCH_FILE="$DROIDSPACES_PATCHES/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_${SLOT_NAME}.patch"
               ;;
             *)
-              echo "::warning::Droidspaces: 鏈€傞厤鐨勫唴鏍哥増鏈?$KERNEL_VER锛岃烦杩囪ˉ涓?
+              echo "::warning::Droidspaces: 閺堫亪鈧倿鍘ら惃鍕敶閺嶅摜澧楅張?$KERNEL_VER閿涘矁鐑︽潻鍥夋稉?
               exit 0
               ;;
           esac
           if ! patch -p1 --forward < "$PATCH_FILE"; then
-            echo "::warning::SYSVIPC kABI 琛ヤ竵搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
+            echo "::warning::SYSVIPC kABI 鐞涖儰绔垫惔鏃傛暏婢惰精瑙﹂敍灞藉讲閼宠棄鍑℃惔鏃傛暏閹存牔绗傛稉瀣瀮娑撳秴灏柊?
           fi
 
-          # 5.10 鍙婁互涓嬭繕闇€瑕?POSIX_MQUEUE 鐨?kABI 淇
-          if [ "$KERNEL_VER" = "5.10" ]; then
-            echo "搴旂敤 Droidspaces POSIX_MQUEUE kABI 淇琛ヤ竵 (5.10)..."
+          # 5.10 閸欏﹣浜掓稉瀣箷闂団偓鐟?POSIX_MQUEUE 閻?kABI 娣囶喖顦?          if [ "$KERNEL_VER" = "5.10" ]; then
+            echo "鎼存梻鏁?Droidspaces POSIX_MQUEUE kABI 娣囶喖顦茬悰銉ょ (5.10)..."
             POSIX_PATCH="$DROIDSPACES_PATCHES/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch"
             if ! patch -p1 --forward < "$POSIX_PATCH"; then
-              echo "::warning::POSIX_MQUEUE kABI 琛ヤ竵搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
+              echo "::warning::POSIX_MQUEUE kABI 鐞涖儰绔垫惔鏃傛暏婢惰精瑙﹂敍灞藉讲閼宠棄鍑℃惔鏃傛暏閹存牔绗傛稉瀣瀮娑撳秴灏柊?
             fi
           fi
 
-          # Android 16 / 6.12 鐨?rust_binder.ko 鍦ㄥ惎鐢?IPC_NS 鍚庝細寮曠敤
-          # init_ipc_ns 涓?put_ipc_ns锛屼絾褰撳墠 AOSP common 鍒嗘敮灏氭湭瀵煎嚭杩欎袱涓鍙枫€?          # 杩欓噷琛ラ綈瀵煎嚭锛岄伩鍏?modpost 鍥?undefined symbol 澶辫触銆?          if [ "$KERNEL_VER" = "6.12" ]; then
+          # Android 16 / 6.12 閻?rust_binder.ko 閸︺劌鎯庨悽?IPC_NS 閸氬簼绱板鏇犳暏
+          # init_ipc_ns 娑?put_ipc_ns閿涘奔绲捐ぐ鎾冲 AOSP common 閸掑棙鏁亸姘弓鐎电厧鍤潻娆庤⒈娑擃亞顑侀崣鏋偓?          # 鏉╂瑩鍣风悰銉╃秷鐎电厧鍤敍宀勪缉閸?modpost 閸?undefined symbol 婢惰精瑙﹂妴?          if [ "$KERNEL_VER" = "6.12" ]; then
             if [ -f "ipc/msgutil.c" ] && ! grep -qF 'EXPORT_SYMBOL(init_ipc_ns);' "ipc/msgutil.c"; then
               sed -i '/^struct msg_msgseg {/i EXPORT_SYMBOL(init_ipc_ns);' "ipc/msgutil.c"
-              echo "宸蹭负 init_ipc_ns 琛ュ厖绗﹀彿瀵煎嚭"
+              echo "瀹歌弓璐?init_ipc_ns 鐞涖儱鍘栫粭锕€褰跨€电厧鍤?
             fi
 
             if [ -f "ipc/namespace.c" ] && ! grep -qF 'EXPORT_SYMBOL(put_ipc_ns);' "ipc/namespace.c"; then
               sed -i '/^static struct ns_common \*ipcns_get(/i EXPORT_SYMBOL(put_ipc_ns);' "ipc/namespace.c"
-              echo "宸蹭负 put_ipc_ns 琛ュ厖绗﹀彿瀵煎嚭"
+              echo "瀹歌弓璐?put_ipc_ns 鐞涖儱鍘栫粭锕€褰跨€电厧鍤?
             fi
           fi
 
-          echo "娣诲姞 Droidspaces 鍐呮牳閰嶇疆..."
-          # 鎸夋枃妗ｈ鍒欓€愪釜澶勭悊: 宸插惎鐢ㄥ垯璺宠繃, "# not set" 鍒欐浛鎹? 涓嶅瓨鍦ㄥ垯杩藉姞
-          enable_config() {
+          echo "濞ｈ濮?Droidspaces 閸愬懏鐗抽柊宥囩枂..."
+          # 閹稿鏋冨锝堫潐閸掓瑩鈧劒閲滄径鍕倞: 瀹告彃鎯庨悽銊ュ灟鐠哄疇绻? "# not set" 閸掓瑦娴涢幑? 娑撳秴鐡ㄩ崷銊ュ灟鏉╄棄濮?          enable_config() {
             local cfg="$1"
             if grep -q "^${cfg}=y" "$DEFCONFIG"; then
-              echo "  宸插惎鐢? $cfg"
+              echo "  瀹告彃鎯庨悽? $cfg"
             elif grep -q "^# ${cfg} is not set" "$DEFCONFIG"; then
               sed -i "s/^# ${cfg} is not set$/${cfg}=y/" "$DEFCONFIG"
-              echo "  宸插垏鎹? $cfg"
+              echo "  瀹告彃鍨忛幑? $cfg"
             else
               echo "${cfg}=y" >> "$DEFCONFIG"
-              echo "  宸叉坊鍔? $cfg"
+              echo "  瀹稿弶鍧婇崝? $cfg"
             fi
           }
 
@@ -955,18 +928,18 @@ jobs:
             if config_defined "$cfg"; then
               enable_config "$cfg"
             else
-              echo "  褰撳墠鍐呮牳鏈畾涔? $cfg锛岃烦杩?
+              echo "  瑜版挸澧犻崘鍛壋閺堫亜鐣炬稊? $cfg閿涘矁鐑︽潻?
             fi
           }
 
-          # 蹇呰閰嶇疆
+          # 韫囧懓顩﹂柊宥囩枂
           enable_config CONFIG_SYSVIPC
           enable_config CONFIG_POSIX_MQUEUE
           enable_config CONFIG_IPC_NS
           enable_config CONFIG_PID_NS
           enable_config CONFIG_DEVTMPFS
 
-          # 鍙€? 缃戠粶鐩稿叧閰嶇疆 (Docker/NAT 妯″紡)
+          # 閸欘垶鈧? 缂冩垹绮堕惄绋垮彠闁板秶鐤?(Docker/NAT 濡€崇础)
           enable_config_if_defined CONFIG_NETFILTER_XT_MATCH_ADDRTYPE
           enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_LOG
           enable_config_if_defined CONFIG_NETFILTER_XT_MATCH_RECENT
@@ -975,41 +948,41 @@ jobs:
           enable_config_if_defined CONFIG_IP_SET_HASH_NET
           enable_config_if_defined CONFIG_NETFILTER_XT_SET
 
-          # REJECT 鐩爣鍦ㄤ笉鍚屽唴鏍哥増鏈笂鐨勭鍙峰悕鍙兘涓嶅悓锛屾寜瀹為檯瀛樺湪鐨勯厤缃惎鐢?          enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_REJECT
+          # REJECT 閻╊喗鐖ｉ崷銊ょ瑝閸氬苯鍞撮弽鍝ュ閺堫兛绗傞惃鍕儊閸欏嘲鎮曢崣顖濆厴娑撳秴鎮撻敍灞惧瘻鐎圭偤妾€涙ê婀惃鍕帳缂冾喖鎯庨悽?          enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_REJECT
           enable_config_if_defined CONFIG_IP_NF_TARGET_REJECT
 
-          echo "Droidspaces 闆嗘垚瀹屾垚"
+          echo "Droidspaces 闂嗗棙鍨氱€瑰本鍨?
 
-          echo "GKI6.6 鏅€氱敤鎴疯仈缃戜笓鐢ㄩ厤缃?(Droidspaces)"
-          # 涓撻棬澶勭悊 =n 绫诲瀷鐨勯厤缃紙瀹夊崜缃戠粶鏉冮檺蹇呴』鍏抽棴锛?          disable_config() {
+          echo "GKI6.6 閺咁噣鈧氨鏁ら幋鐤粓缂冩垳绗撻悽銊╁帳缂?(Droidspaces)"
+          # 娑撴捇妫径鍕倞 =n 缁鐎烽惃鍕帳缂冾噯绱欑€瑰宕滅純鎴犵捕閺夊啴妾鸿箛鍛淬€忛崗鎶芥４閿?          disable_config() {
             local cfg="$1"
             if grep -q "^${cfg}=n" "$DEFCONFIG"; then
-              echo "  宸茬鐢? $cfg"
+              echo "  瀹歌尙顩﹂悽? $cfg"
             elif grep -q "^${cfg}=y" "$DEFCONFIG"; then
               sed -i "s/^${cfg}=y$/${cfg}=n/" "$DEFCONFIG"
-              echo "  宸插叧闂? $cfg"
+              echo "  瀹告彃鍙ч梻? $cfg"
             else
               echo "# ${cfg} is not set" >> "$DEFCONFIG"
-              echo "  宸叉坊鍔犲苟绂佺敤: $cfg"
+              echo "  瀹稿弶鍧婇崝鐘茶嫙缁備胶鏁? $cfg"
             fi
           }
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
-            # 1. 寮€鍚敤鎴峰懡鍚嶇┖闂达紙蹇呴』锛夆€斺€?寮哄埗鍐欏叆锛屽嬁鐢?enable_config_if_defined锛坉efconfig 鏈畾涔夎绗﹀彿鏃剁┖杞級
+            # 1. enable user namespaces (required): force write, do not use enable_config_if_defined
             sed -i '/^# CONFIG_USER_NS is not set$/d' "$DEFCONFIG"
             grep -q '^CONFIG_USER_NS=y$' "$DEFCONFIG" || echo "CONFIG_USER_NS=y" >> "$DEFCONFIG"
-            # 2. 鍏抽棴瀹夊崜涓ユ牸缃戠粶鎺у埗锛堝繀椤伙級
+            # 2. disable android paranoid network (required)
             disable_config CONFIG_ANDROID_PARANOID_NETWORK
           fi
 
-      - name: 娉ㄥ叆 NTSync 鍐呮牳閰嶇疆
+      - name: 濞夈劌鍙?NTSync 閸愬懏鐗抽柊宥囩枂
         if: inputs.droidspaces != 'off' && inputs.droidspaces_ntsync
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           set -e
-          echo "=== 寮€濮嬫敞鍏?NTSync 鍐呮牳琛ヤ竵 ==="
-          echo "Android 鐗堟湰: ${{ inputs.android_version }}"
-          echo "Kernel 鐗堟湰: ${{ inputs.kernel_version }}"
+          echo "=== 瀵偓婵鏁為崗?NTSync 閸愬懏鐗崇悰銉ょ ==="
+          echo "Android 閻楀牊婀? ${{ inputs.android_version }}"
+          echo "Kernel 閻楀牊婀? ${{ inputs.kernel_version }}"
 
           case "${{ inputs.android_version }}-${{ inputs.kernel_version }}" in
             android12-5.10)
@@ -1028,12 +1001,12 @@ jobs:
               NTSYNC_PATCH="ntsync_compat_android16-6.12"
               ;;
             *)
-              echo "::warning::NTSync: 鏈€傞厤 ${{ inputs.android_version }} / ${{ inputs.kernel_version }}锛岃烦杩囪ˉ涓?
+              echo "::warning::NTSync: 閺堫亪鈧倿鍘?${{ inputs.android_version }} / ${{ inputs.kernel_version }}閿涘矁鐑︽潻鍥夋稉?
               exit 0
               ;;
           esac
 
-          echo "鑷姩閫夋嫨 NTSync 琛ヤ竵: ${NTSYNC_PATCH}.patch"
+          echo "閼奉亜濮╅柅澶嬪 NTSync 鐞涖儰绔? ${NTSYNC_PATCH}.patch"
           wget -q "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/ntsync_base.patch"
           wget -q "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/${NTSYNC_PATCH}.patch"
 
@@ -1042,21 +1015,21 @@ jobs:
 
           cd ..
 
-          # 閰嶇疆璺緞
+          # 闁板秶鐤嗙捄顖氱窞
           CONFIG_PATH="./common/arch/arm64/configs/gki_defconfig"
-          echo "姝ｅ湪妫€鏌ュ苟鍚敤 CONFIG_NTSYNC..."
+          echo "濮濓絽婀Λ鈧弻銉ヨ嫙閸氼垳鏁?CONFIG_NTSYNC..."
 
-          # 绉婚櫎鏈惎鐢ㄦ爣璁帮紝鍐嶈拷鍔犲惎鐢ㄩ」锛屼繚璇侀噸澶嶈繍琛屾椂淇濇寔骞傜瓑銆?          sed -i '/CONFIG_NTSYNC is not set/d' "$CONFIG_PATH"
+          # 缁夊娅庨張顏勬儙閻劍鐖ｇ拋甯礉閸愬秷鎷烽崝鐘叉儙閻劑銆嶉敍灞肩箽鐠囦線鍣告径宥堢箥鐞涘本妞傛穱婵囧瘮楠炲倻鐡戦妴?          sed -i '/CONFIG_NTSYNC is not set/d' "$CONFIG_PATH"
           if ! grep -q "^CONFIG_NTSYNC=y" "$CONFIG_PATH"; then
             echo "CONFIG_NTSYNC=y" >> "$CONFIG_PATH"
-            echo "鉁?宸叉垚鍔熷惎鐢?CONFIG_NTSYNC"
+            echo "閴?瀹稿弶鍨氶崝鐔锋儙閻?CONFIG_NTSYNC"
           else
-            echo "鉁?CONFIG_NTSYNC 宸插浜庡惎鐢ㄧ姸鎬?
+            echo "閴?CONFIG_NTSYNC 瀹告彃顦╂禍搴℃儙閻劎濮搁幀?
           fi
 
-          echo "=== NTSync 琛ヤ竵涓庨厤缃敞鍏ュ畬鎴?==="
+          echo "=== NTSync 鐞涖儰绔垫稉搴ㄥ帳缂冾喗鏁為崗銉ョ暚閹?==="
 
-      - name: 搴旂敤 Unicode 缁曡繃淇
+      - name: 鎼存梻鏁?Unicode 缂佹洝绻冩穱顔碱槻
         if: inputs.enable_susfs
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
@@ -1066,10 +1039,10 @@ jobs:
             patch -p1 --forward < "$ACTION_BUILD/patches/unicode_bypass_fix_6.1+.patch" || true
           fi
 
-      - name: 閰嶇疆 ZRAM LZ4 琛ヤ竵鏍?        if: inputs.use_zram
+      - name: 闁板秶鐤?ZRAM LZ4 鐞涖儰绔甸弽?        if: inputs.use_zram
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
-          echo "鍗囩骇 LZ4..."
+          echo "閸楀洨楠?LZ4..."
           rm -f lib/lz4/lz4_compress.c lib/lz4/lz4_decompress.c lib/lz4/lz4defs.h lib/lz4/lz4hc_compress.c
 
           cp -r $ZZH_PATCHES/zram/lz4/* ./lib/lz4/
@@ -1087,22 +1060,22 @@ jobs:
 
           cp $SUKISU_PATCHES/other/zram/zram_patch/${{ inputs.kernel_version }}/lz4kd.patch ./
           if ! patch -p1 -F 3 < lz4kd.patch; then
-            echo "::warning::lz4kd.patch 搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
+            echo "::warning::lz4kd.patch 鎼存梻鏁ゆ径杈Е閿涘苯褰查懗钘夊嚒鎼存梻鏁ら幋鏍︾瑐娑撳鏋冩稉宥呭爱闁?
           fi
 
           cp $SUKISU_PATCHES/other/zram/zram_patch/${{ inputs.kernel_version }}/lz4k_oplus.patch ./
           if ! patch -p1 -F 3 < lz4k_oplus.patch; then
-            echo "::warning::lz4k_oplus.patch 搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
+            echo "::warning::lz4k_oplus.patch 鎼存梻鏁ゆ径杈Е閿涘苯褰查懗钘夊嚒鎼存梻鏁ら幋鏍︾瑐娑撳鏋冩稉宥呭爱闁?
           fi
 
-      - name: 淇 6.6 WiFi/钃濈墮鍏煎鎬э紙涓夋槦 + 灏忕背锛?        if: inputs.kernel_version == '6.6'
+      - name: 娣囶喖顦?6.6 WiFi/閽冩繄澧崗鐓庮啇閹嶇礄娑撳妲?+ 鐏忓繒鑳岄敍?        if: inputs.kernel_version == '6.6'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           ensure_line_once() {
             local file="$1"
             local line="$2"
             if [ ! -f "$file" ]; then
-              echo "::error::鏂囦欢涓嶅瓨鍦? $file"
+              echo "::error::閺傚洣娆㈡稉宥呯摠閸? $file"
               exit 1
             fi
             if ! grep -qF "$line" "$file"; then
@@ -1122,17 +1095,17 @@ jobs:
           ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_inc"
 
           if [ ! -f "$MIN_KDP_PATCH" ]; then
-            echo "::error::琛ヤ竵涓嶅瓨鍦? $MIN_KDP_PATCH"
+            echo "::error::鐞涖儰绔垫稉宥呯摠閸? $MIN_KDP_PATCH"
             exit 1
           fi
           if patch -p1 --dry-run < "$MIN_KDP_PATCH" >/dev/null 2>&1; then
             patch -p1 --no-backup-if-mismatch < "$MIN_KDP_PATCH"
           else
-            echo "min_kdp symbols patch 宸插簲鐢ㄦ垨褰撳墠涓婁笅鏂囦笉鍖归厤锛岃烦杩囥€?
+            echo "min_kdp symbols patch 瀹告彃绨查悽銊﹀灗瑜版挸澧犳稉濠佺瑓閺傚洣绗夐崠褰掑帳閿涘矁鐑︽潻鍥モ偓?
           fi
 
           if [ ! -f "$MIN_KDP_SRC" ]; then
-            echo "::error::鏂囦欢涓嶅瓨鍦? $MIN_KDP_SRC"
+            echo "::error::閺傚洣娆㈡稉宥呯摠閸? $MIN_KDP_SRC"
             exit 1
           fi
           cp "$MIN_KDP_SRC" "$MIN_KDP_DST"
@@ -1140,8 +1113,7 @@ jobs:
 
           ensure_line_once "$XIAOMI_SYMBOL_LIST" "device_find_any_child"
 
-      - name: 閰嶇疆 ZRAM 閫夐」
-        if: inputs.use_zram
+      - name: 闁板秶鐤?ZRAM 闁銆?        if: inputs.use_zram
         run: |
           CONFIG_FILE="$DEFCONFIG"
 
@@ -1177,14 +1149,14 @@ jobs:
             cat "$ZZH_PATCHES/config/zram.config" >> "$CONFIG_FILE"
           fi
 
-      - name: 娣诲姞 BBG 闃叉牸鏈鸿ˉ涓?        if: inputs.use_bbg
+      - name: 濞ｈ濮?BBG 闂冨弶鐗搁張楦克夋稉?        if: inputs.use_bbg
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
           echo "CONFIG_BBG=y" >> common/arch/arm64/configs/gki_defconfig
           sed -i '/^config LSM$/,/^help$/{ /^[[:space:]]*default/ { /baseband_guard/! s/selinux/selinux,baseband_guard/ } }' common/security/Kconfig
 
-      - name: 搴旂敤 Re-Kernel
+      - name: 鎼存梻鏁?Re-Kernel
         if: inputs.use_rekernel
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
@@ -1194,35 +1166,32 @@ jobs:
           rm -rf "$TMP_REKERNEL"
           git clone --depth 1 https://github.com/Sakion-Team/Re-Kernel.git "$TMP_REKERNEL"
 
-          # 鍚屾涓婃父鎷嗗垎鍚庣殑瀹屾暣椹卞姩婧愮爜
-          rm -rf common/drivers/rekernel
+          # 閸氬本顒炴稉濠冪埗閹峰棗鍨庨崥搴ｆ畱鐎瑰本鏆ｆす鍗炲З濠ф劗鐖?          rm -rf common/drivers/rekernel
           mkdir -p common/drivers/rekernel
           cp -a "$TMP_REKERNEL/LKM-Source/." common/drivers/rekernel/
 
-          # 灏嗕笂娓稿缃ā鍧楅厤缃€傞厤涓哄唴鏍稿唴缃┍鍔?          REKERNEL_MAKEFILE="common/drivers/rekernel/Makefile"
+          # 鐏忓棔绗傚〒绋款樆缂冾喗膩閸ф鍘ょ純顕€鈧倿鍘ゆ稉鍝勫敶閺嶇鍞寸純顕€鈹嶉崝?          REKERNEL_MAKEFILE="common/drivers/rekernel/Makefile"
           sed -i 's/^obj-m := rekernel\.o$/obj-$(CONFIG_REKERNEL) += rekernel.o/' "$REKERNEL_MAKEFILE"
           grep -qF 'ccflags-$(CONFIG_REKERNEL_LEGACY_NETLINK) += -DLEGACY_NETLINK' "$REKERNEL_MAKEFILE" || \
             echo 'ccflags-$(CONFIG_REKERNEL_LEGACY_NETLINK) += -DLEGACY_NETLINK' >> "$REKERNEL_MAKEFILE"
           sed -i '/^[[:space:]]*depends on MODULES[[:space:]]*$/d' common/drivers/rekernel/Kconfig
 
-          # 鎸傝浇鍒伴┍鍔ㄦ爲
-          if ! grep -qF 'source "drivers/rekernel/Kconfig"' common/drivers/Kconfig; then
+          # 閹稿倽娴囬崚浼粹攳閸斻劍鐖?          if ! grep -qF 'source "drivers/rekernel/Kconfig"' common/drivers/Kconfig; then
             sed -i '/^endmenu$/i source "drivers/rekernel/Kconfig"' common/drivers/Kconfig
           fi
           if ! grep -qF 'obj-$(CONFIG_REKERNEL) += rekernel/' common/drivers/Makefile; then
             echo 'obj-$(CONFIG_REKERNEL) += rekernel/' >> common/drivers/Makefile
           fi
 
-          # 淇澶存枃浠跺寘鍚矾寰勶紙閫傞厤 in-tree 缂栬瘧锛?          sed -i 's|#include <../android/binder_internal.h>|#include "../android/binder_internal.h"|g' common/drivers/rekernel/rekernel_binder.c
-          # 琛ラ綈 5.10 binder_internal.h 浣跨敤 DEFINE_SHOW_ATTRIBUTE 鎵€闇€鐨勫畾涔?          grep -qF '#include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c || \
+          # 娣囶喗顒滄径瀛樻瀮娴犺泛瀵橀崥顐ョ熅瀵板嫸绱欓柅鍌炲帳 in-tree 缂傛牞鐦ч敍?          sed -i 's|#include <../android/binder_internal.h>|#include "../android/binder_internal.h"|g' common/drivers/rekernel/rekernel_binder.c
+          # 鐞涖儵缍?5.10 binder_internal.h 娴ｈ法鏁?DEFINE_SHOW_ATTRIBUTE 閹碘偓闂団偓閻ㄥ嫬鐣炬稊?          grep -qF '#include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c || \
             sed -i '/#include <linux\/kprobes.h>/a #include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c
 
-          # 閰嶇疆 defconfig锛堝箓绛夛級
+          # 闁板秶鐤?defconfig閿涘牆绠撶粵澶涚礆
           grep -q '^CONFIG_REKERNEL=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL=y" >> "$DEFCONFIG"
           grep -q '^CONFIG_REKERNEL_NETWORK=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL_NETWORK=y" >> "$DEFCONFIG"
 
-      - name: 閰嶇疆鍐呮牳閫夐」
-        working-directory: ${{ env.KERNEL_ROOT }}
+      - name: 闁板秶鐤嗛崘鍛壋闁銆?        working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
           CONFIG_KSU=y
@@ -1233,7 +1202,7 @@ jobs:
           if [ "${{ inputs.ksu_variant }}" == "SukiSU" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40726)" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40548)" ] || [ "${{ inputs.ksu_variant }}" == "ReSukiSU" ] || [ "${{ inputs.ksu_variant }}" == "Next" ]; then
             if [[ "${{ inputs.use_kpm }}" == enabled* ]] || [[ "${{ inputs.use_kpm }}" == patched* ]]; then
               if ! grep -RqsE '^[[:space:]]*config[[:space:]]+KPM([[:space:]]|$)' common KernelSU 2>/dev/null; then
-                echo "閿欒: 宸茶姹傚惎鐢?KPM锛屼絾褰撳墠 KernelSU 浠ｇ爜鏈０鏄?CONFIG_KPM" >&2
+                echo "闁挎瑨顕? 瀹歌尪顕Ч鍌氭儙閻?KPM閿涘奔绲捐ぐ鎾冲 KernelSU 娴狅絿鐖滈張顏勶紣閺?CONFIG_KPM" >&2
                 exit 1
               fi
               echo "CONFIG_KPM=y" >> "$DEFCONFIG"
@@ -1249,21 +1218,20 @@ jobs:
               echo "CONFIG_KALLSYMS=y"
               echo "CONFIG_KALLSYMS_ALL=y"
             } >> "$DEFCONFIG"
-            # 淇 5.15.74~5.15.137: kallsyms_on_each_symbol 浠呭湪 LIVEPATCH 涓嬬紪璇戯紝瀵艰嚧 ReSukiSU 閾炬帴澶辫触
+            # 娣囶喖顦?5.15.74~5.15.137: kallsyms_on_each_symbol 娴犲懎婀?LIVEPATCH 娑撳绱拠鎴礉鐎佃壈鍤?ReSukiSU 闁剧偓甯存径杈Е
             KALLSYMS_C="./common/kernel/kallsyms.c"
             if [ -f "$KALLSYMS_C" ] \
               && grep -qF 'int kallsyms_on_each_symbol' "$KALLSYMS_C" \
               && grep -qF '#endif /* CONFIG_LIVEPATCH */' "$KALLSYMS_C"; then
               sed -i '/^#ifdef CONFIG_LIVEPATCH$/,/^int kallsyms_on_each_symbol/ { /^#ifdef CONFIG_LIVEPATCH$/d }' "$KALLSYMS_C"
               sed -i '/^int kallsyms_on_each_symbol/,/^#endif \/\* CONFIG_LIVEPATCH \*\// { /^#endif \/\* CONFIG_LIVEPATCH \*\//d }' "$KALLSYMS_C"
-              echo "宸蹭慨澶?kallsyms_on_each_symbol 鐨?LIVEPATCH 缂栬瘧闄愬埗"
+              echo "瀹歌弓鎱ㄦ径?kallsyms_on_each_symbol 閻?LIVEPATCH 缂傛牞鐦ч梽鎰煑"
             fi
           fi
 
           sed -i 's/check_defconfig//' ./common/build.config.gki
 
-      - name: 娣诲姞 SUSFS 閰嶇疆
-        if: inputs.enable_susfs
+      - name: 濞ｈ濮?SUSFS 闁板秶鐤?        if: inputs.enable_susfs
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
           CONFIG_KSU_SUSFS=y
@@ -1278,7 +1246,7 @@ jobs:
           CONFIG_KSU_SUSFS_SUS_MAP=y
           EOF
 
-      - name: 閰嶇疆鍐呮牳鍚嶇О
+      - name: 闁板秶鐤嗛崘鍛壋閸氬秶袨
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           if [ -f "build/build.sh" ]; then
@@ -1317,7 +1285,7 @@ jobs:
             fi
           fi
 
-      - name: 璁剧疆鑷畾涔夋瀯寤烘椂闂?        shell: bash
+      - name: 鐠佸墽鐤嗛懛顏勭暰娑斿鐎鐑樻闂?        shell: bash
         env:
           INPUT_TIME: ${{ inputs.build_time }}
         run: |
@@ -1326,13 +1294,13 @@ jobs:
           if [[ -n "$INPUT_TIME" && "$INPUT_TIME" != "N" && "$INPUT_TIME" != "n" ]]; then
             TIME_REGEX='^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (0[1-9]|[12][0-9]|3[01]) ([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9] UTC [0-9]{4}$'
             if [[ ! "$INPUT_TIME" =~ $TIME_REGEX ]]; then
-              echo "::warning title=鏋勫缓鏃堕棿鏍煎紡閿欒::鑷畾涔夋瀯寤烘椂闂村繀椤诲舰濡?Sun Dec 01 08:10:00 UTC 2024锛岃鍒犻櫎澶氫綑鍓嶇紑骞朵娇鐢ㄤ袱浣嶆棩鏈熴€?
+              echo "::warning title=閺嬪嫬缂撻弮鍫曟？閺嶇厧绱￠柨娆掝嚖::閼奉亜鐣炬稊澶嬬€鐑樻闂傛潙绻€妞よ鑸版俊?Sun Dec 01 08:10:00 UTC 2024閿涘矁顕崚鐘绘珟婢舵矮缍戦崜宥囩磻楠炴湹濞囬悽銊よ⒈娴ｅ秵妫╅張鐔粹偓?
               exit 1
             fi
 
             NORMALIZED_TIME="$(LC_ALL=C TZ=UTC date -u -d "$INPUT_TIME" +'%a %b %d %T UTC %Y' 2>/dev/null || true)"
             if [[ "$NORMALIZED_TIME" != "$INPUT_TIME" ]]; then
-              echo "::warning title=鏋勫缓鏃堕棿鏃犳晥::鑷畾涔夋瀯寤烘椂闂存棤娉曡В鏋愪负鐪熷疄 UTC 鏃堕棿锛屾垨鏄熸湡涓庢棩鏈熶笉鍖归厤銆?
+              echo "::warning title=閺嬪嫬缂撻弮鍫曟？閺冪姵鏅?:閼奉亜鐣炬稊澶嬬€鐑樻闂傚瓨妫ゅ▔鏇⌒掗弸鎰礋閻喎鐤?UTC 閺冨爼妫块敍灞惧灗閺勭喐婀℃稉搴㈡）閺堢喍绗夐崠褰掑帳閵?
               exit 1
             fi
 
@@ -1341,18 +1309,17 @@ jobs:
             DATESTR="$(TZ='UTC' date +'%a %b %d %T %Z %Y')"
           fi
 
-          echo "浣跨敤鏋勫缓鏃堕棿: $DATESTR"
+          echo "娴ｈ法鏁ら弸鍕紦閺冨爼妫? $DATESTR"
           echo "KBUILD_BUILD_TIMESTAMP=$DATESTR" >> "$GITHUB_ENV"
           echo "KBUILD_BUILD_VERSION=1" >> "$GITHUB_ENV"
 
-          # 缁熶竴澶勭悊 mkcompile_h 琛ヤ竵
-          f="$KERNEL_ROOT/common/scripts/mkcompile_h"
+          # 缂佺喍绔存径鍕倞 mkcompile_h 鐞涖儰绔?          f="$KERNEL_ROOT/common/scripts/mkcompile_h"
           if [ -f "$f" ]; then
             if [[ "${{ inputs.kernel_version }}" == "5.10" || "${{ inputs.kernel_version }}" == "5.15" ]]; then
-              echo "搴旂敤 5.x 缁忓吀鏃堕棿鎴宠ˉ涓? $f"
+              echo "鎼存梻鏁?5.x 缂佸繐鍚€閺冨爼妫块幋瀹犓夋稉? $f"
               perl -pi -e "s{UTS_VERSION=\"\\\$\(echo \\\$UTS_VERSION \\\$CONFIG_FLAGS \\\$TIMESTAMP \\| cut -b -\\\$UTS_LEN\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" "$f"
             else
-              echo "搴旂敤 6.x mkcompile_h 琛ヤ竵: $f"
+              echo "鎼存梻鏁?6.x mkcompile_h 鐞涖儰绔? $f"
               if grep -q 'UTS_VERSION=' "$f"; then
                 perl -pi -e "s{UTS_VERSION=\"\\\$\\\(.*?\\\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" "$f"
               else
@@ -1361,7 +1328,7 @@ jobs:
             fi
           fi
 
-      - name: 缂栬瘧鍐呮牳
+      - name: 缂傛牞鐦ч崘鍛壋
         id: compile_kernel
         uses: nick-fields/retry@v4
         with:
@@ -1374,7 +1341,7 @@ jobs:
             ATTEMPT_FILE="$LOG_DIR/.compile-attempt"
             mkdir -p "$LOG_DIR"
 
-            # 涓?retry 鐨勬瘡娆℃墽琛岀敓鎴愮嫭绔嬫棩蹇?            ATTEMPT=1
+            # 娑?retry 閻ㄥ嫭鐦″▎鈩冨⒔鐞涘瞼鏁撻幋鎰缁斿妫╄箛?            ATTEMPT=1
             if [ -s "$ATTEMPT_FILE" ]; then
               read -r LAST_ATTEMPT < "$ATTEMPT_FILE"
               if [[ "$LAST_ATTEMPT" =~ ^[0-9]+$ ]]; then
@@ -1386,10 +1353,10 @@ jobs:
 
             set -o pipefail
             {
-              echo "缂栬瘧灏濊瘯: $ATTEMPT"
-              echo "寮€濮嬫椂闂? $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-              echo "褰撳墠 KSU 鏈€鏂版彁浜ゆ棩鏈? ${KSU_LATEST_COMMIT_DATE}"
-              echo "褰撳墠 SUSFS 鏈€鏂版彁浜ゆ棩鏈? ${SUSFS_LATEST_COMMIT_DATE}"
+              echo "缂傛牞鐦х亸婵婄槸: $ATTEMPT"
+              echo "瀵偓婵妞傞梻? $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+              echo "瑜版挸澧?KSU 閺堚偓閺傜増褰佹禍銈嗘）閺? ${KSU_LATEST_COMMIT_DATE}"
+              echo "瑜版挸澧?SUSFS 閺堚偓閺傜増褰佹禍銈嗘）閺? ${SUSFS_LATEST_COMMIT_DATE}"
               set -ex
               cd "$KERNEL_ROOT"
 
@@ -1401,10 +1368,10 @@ jobs:
                 LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh CC="/usr/bin/ccache clang" || exit 1
                 strings "out/${{ inputs.android_version }}-${{ inputs.kernel_version }}/dist/Image" | grep 'Linux version'
               else
-                # 鎻愬彇 gki_defconfig 淇敼鍒?fragment锛岄伩鍏?bazel trim 妫€鏌ュけ璐?                FRAG="common/arch/arm64/configs/ksu.fragment"
+                # 閹绘劕褰?gki_defconfig 娣囶喗鏁奸崚?fragment閿涘矂浼╅崗?bazel trim 濡偓閺屻儱銇戠拹?                FRAG="common/arch/arm64/configs/ksu.fragment"
                 diff "$DEFCONFIG.orig" "$DEFCONFIG" | grep '^>' | sed 's/^> //; s/^[[:space:]]*//' > "$FRAG" || true
                 cp "$DEFCONFIG.orig" "$DEFCONFIG"
-                echo "=== KSU Fragment 鍐呭 ==="
+                echo "=== KSU Fragment 閸愬懎顔?==="
                 cat "$FRAG"
                 echo "========================="
                 FRAG_FLAG=""
@@ -1419,19 +1386,19 @@ jobs:
                 strings ./bazel-bin/common/kernel_aarch64/Image | grep 'Linux version'
               fi
 
-              echo "褰撳墠 KSU 鏈€鏂版彁浜ゆ棩鏈? ${KSU_LATEST_COMMIT_DATE}"
-              echo "褰撳墠 SUSFS 鏈€鏂版彁浜ゆ棩鏈? ${SUSFS_LATEST_COMMIT_DATE}"
-              echo "濡傛灉鏃ユ湡涓嶅悓鎴栫浉宸繃杩滃垯琛ヤ竵澶辨晥銆佺紪璇戝け璐?
+              echo "瑜版挸澧?KSU 閺堚偓閺傜増褰佹禍銈嗘）閺? ${KSU_LATEST_COMMIT_DATE}"
+              echo "瑜版挸澧?SUSFS 閺堚偓閺傜増褰佹禍銈嗘）閺? ${SUSFS_LATEST_COMMIT_DATE}"
+              echo "婵″倹鐏夐弮銉︽埂娑撳秴鎮撻幋鏍祲瀹割喛绻冩潻婊冨灟鐞涖儰绔垫径杈ㄦ櫏閵嗕胶绱拠鎴濄亼鐠?
             } 2>&1 | tee "$LOG_FILE"
 
             BUILD_STATUS=${PIPESTATUS[0]}
             {
-              echo "缁撴潫鏃堕棿: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-              echo "閫€鍑虹爜: $BUILD_STATUS"
+              echo "缂佹挻娼弮鍫曟？: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+              echo "闁偓閸戣櫣鐖? $BUILD_STATUS"
             } >> "$LOG_FILE"
             exit "$BUILD_STATUS"
 
-      - name: 鏁寸悊缂栬瘧澶辫触鏃ュ織
+      - name: 閺佸鎮婄紓鏍槯婢惰精瑙﹂弮銉ョ箶
         if: ${{ always() && steps.compile_kernel.outcome == 'failure' }}
         env:
           COMPILE_ATTEMPTS: ${{ steps.compile_kernel.outputs.total_attempts }}
@@ -1441,17 +1408,17 @@ jobs:
           mkdir -p "$LOG_DIR"
 
           {
-            echo "Android 鐗堟湰: ${{ inputs.android_version }}"
-            echo "鍐呮牳鐗堟湰: ${{ inputs.kernel_version }}.${{ inputs.sub_level }}"
-            echo "瀹夊叏琛ヤ竵绾у埆: ${{ inputs.os_patch_level }}"
-            echo "KernelSU 鍙樹綋: ${{ inputs.ksu_variant }}"
-            echo "閰嶇疆鍚嶇О: ${CONFIG:-鏈煡}"
-            echo "Git 鎻愪氦: $GITHUB_SHA"
-            echo "宸ヤ綔娴佸湴鍧€: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-            echo "缂栬瘧灏濊瘯娆℃暟: ${COMPILE_ATTEMPTS:-鏈煡}"
-            echo "鏈€缁堥€€鍑虹爜: ${COMPILE_EXIT_CODE:-鏈煡}"
-            echo "KSU 鎻愪氦鏃ユ湡: ${KSU_LATEST_COMMIT_DATE:-鏈煡}"
-            echo "SUSFS 鎻愪氦鏃ユ湡: ${SUSFS_LATEST_COMMIT_DATE:-鏈煡}"
+            echo "Android 閻楀牊婀? ${{ inputs.android_version }}"
+            echo "閸愬懏鐗抽悧鍫熸拱: ${{ inputs.kernel_version }}.${{ inputs.sub_level }}"
+            echo "鐎瑰鍙忕悰銉ょ缁狙冨焼: ${{ inputs.os_patch_level }}"
+            echo "KernelSU 閸欐ü缍? ${{ inputs.ksu_variant }}"
+            echo "闁板秶鐤嗛崥宥囆? ${CONFIG:-閺堫亞鐓"
+            echo "Git 閹绘劒姘? $GITHUB_SHA"
+            echo "瀹搞儰缍斿ù浣告勾閸р偓: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "缂傛牞鐦х亸婵婄槸濞嗏剝鏆? ${COMPILE_ATTEMPTS:-閺堫亞鐓"
+            echo "閺堚偓缂佸牓鈧偓閸戣櫣鐖? ${COMPILE_EXIT_CODE:-閺堫亞鐓"
+            echo "KSU 閹绘劒姘﹂弮銉︽埂: ${KSU_LATEST_COMMIT_DATE:-閺堫亞鐓"
+            echo "SUSFS 閹绘劒姘﹂弮銉︽埂: ${SUSFS_LATEST_COMMIT_DATE:-閺堫亞鐓"
           } > "$LOG_DIR/summary.txt"
 
           printf '%s\n' "${{ inputs.ksu_variant }}_kernel-${CONFIG}-Build-Logs" > "$LOG_DIR/artifact-name.txt"
@@ -1459,7 +1426,7 @@ jobs:
           df -h "$GITHUB_WORKSPACE" > "$LOG_DIR/disk-usage.txt" 2>&1 || true
           ccache -s > "$LOG_DIR/ccache-stats.txt" 2>&1 || true
 
-      - name: 涓婁紶缂栬瘧澶辫触鏃ュ織
+      - name: 娑撳﹣绱剁紓鏍槯婢惰精瑙﹂弮銉ョ箶
         if: ${{ always() && steps.compile_kernel.outcome == 'failure' }}
         uses: actions/upload-artifact@v6
         with:
@@ -1469,7 +1436,7 @@ jobs:
           retention-days: 7
           compression-level: 9
 
-      # - name: 搴旂敤 KPM 琛ヤ竵 (SukiSU/ReSukiSU/Next)
+      # - name: 鎼存梻鏁?KPM 鐞涖儰绔?(SukiSU/ReSukiSU/Next)
       #   if: startsWith(inputs.use_kpm, 'patched') && (inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'ReSukiSU' || inputs.ksu_variant == 'Next')
       #   run: |
       #     case "${{ inputs.android_version }}" in
@@ -1490,7 +1457,7 @@ jobs:
       #     rm -rf Image
       #     mv oImage Image
 
-      - name: 鍑嗗 Boot 闀滃儚
+      - name: 閸戝棗顦?Boot 闂€婊冨剼
         run: |
           mkdir -p bootimgs
 
@@ -1506,19 +1473,18 @@ jobs:
           cp "$SRC_DIR/Image.lz4" ./
           gzip -n -k -f -9 ./Image > ./Image.gz
 
-      - name: 鍒涘缓 AnyKernel3 鍘嬬缉鍖?        if: inputs.artifact_upload_mode == '涓婁紶鍏ㄩ儴'
+      - name: 閸掓稑缂?AnyKernel3 閸樺缂夐崠?        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
         run: |
           cd "$ANYKERNEL3"
           ZIP_NAME="${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-AnyKernel3.zip"
           mv ../Image ./Image
           zip -r "../$ZIP_NAME" ./*
 
-      - name: 鍑嗗 AnyKernel3 鐩綍
-        if: inputs.artifact_upload_mode != '涓婁紶鍏ㄩ儴'
+      - name: 閸戝棗顦?AnyKernel3 閻╊喖缍?        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
         run: |
           mv ./Image "$ANYKERNEL3/Image"
 
-      - name: 鏋勫缓 Boot 闀滃儚 (Android 12)
+      - name: 閺嬪嫬缂?Boot 闂€婊冨剼 (Android 12)
         if: inputs.android_version == 'android12'
         working-directory: bootimgs
         run: |
@@ -1549,7 +1515,7 @@ jobs:
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot-lz4.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           cp ./boot-lz4.img ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot-lz4.img
 
-      - name: 鏋勫缓 Boot 闀滃儚 (Android 13+)
+      - name: 閺嬪嫬缂?Boot 闂€婊冨剼 (Android 13+)
         if: inputs.android_version == 'android13' || inputs.android_version == 'android14' || inputs.android_version == 'android15' || inputs.android_version == 'android16'
         working-directory: bootimgs
         run: |
@@ -1567,15 +1533,14 @@ jobs:
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot-lz4.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           cp ./boot-lz4.img ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot-lz4.img
 
-      - name: 鏀堕泦琛ヤ竵鍐茬獊鏂囦欢
-        if: always()
+      - name: 閺€鍫曟肠鐞涖儰绔甸崘鑼崐閺傚洣娆?        if: always()
         run: |
           REJECTS_DIR="$GITHUB_WORKSPACE/patch-rejects"
           mkdir -p "$REJECTS_DIR"
 
           mapfile -t REJS < <(find "$KERNEL_ROOT" -type f -name '*.rej')
           REJ_COUNT=${#REJS[@]}
-          echo "鍙戠幇 $REJ_COUNT 涓?.rej 鏂囦欢"
+          echo "閸欐垹骞?$REJ_COUNT 娑?.rej 閺傚洣娆?
           echo "REJ_COUNT=$REJ_COUNT" >> $GITHUB_ENV
 
           if [ "$REJ_COUNT" -gt 0 ]; then
@@ -1593,15 +1558,14 @@ jobs:
             done
           fi
 
-      - name: 涓婁紶 AnyKernel3 鍒峰叆鍖?        if: inputs.artifact_upload_mode != '涓婁紶鍏ㄩ儴'
+      - name: 娑撳﹣绱?AnyKernel3 閸掑嘲鍙嗛崠?        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}-AnyKernel3
           path: AnyKernel3/*
           compression-level: 9
 
-      - name: 涓婁紶鍏ㄩ儴鏋勫缓浜х墿
-        if: inputs.artifact_upload_mode == '涓婁紶鍏ㄩ儴'
+      - name: 娑撳﹣绱堕崗銊╁劥閺嬪嫬缂撴禍褏澧?        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}
@@ -1610,7 +1574,7 @@ jobs:
             *.img
           compression-level: 9
 
-      - name: 涓婁紶琛ヤ竵鍐茬獊鏂囦欢
+      - name: 娑撳﹣绱剁悰銉ょ閸愯尙鐛婇弬鍥︽
         if: always() && env.REJ_COUNT > 0
         uses: actions/upload-artifact@v6
         with:
