@@ -1423,7 +1423,8 @@ jobs:
             ATTEMPT_FILE="$LOG_DIR/.compile-attempt"
             mkdir -p "$LOG_DIR"
 
-            # 娑?retry 閻ㄥ嫭鐦″▎鈩冨⒔鐞涘瞼鏁撻幋鎰缁斿妫╄箛?            ATTEMPT=1
+            # 娑?retry 閻ㄥ嫭鐦″▎鈩冨⒔鐞涘瞼鏁撻幋鎰缁斿妫╄箛?
+            ATTEMPT=1
             if [ -s "$ATTEMPT_FILE" ]; then
               read -r LAST_ATTEMPT < "$ATTEMPT_FILE"
               if [[ "$LAST_ATTEMPT" =~ ^[0-9]+$ ]]; then
@@ -1450,7 +1451,8 @@ jobs:
                 LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh CC="/usr/bin/ccache clang" || exit 1
                 strings "out/${{ inputs.android_version }}-${{ inputs.kernel_version }}/dist/Image" | grep 'Linux version'
               else
-                # 閹绘劕褰?gki_defconfig 娣囶喗鏁奸崚?fragment閿涘矂浼╅崗?bazel trim 濡偓閺屻儱銇戠拹?                FRAG="common/arch/arm64/configs/ksu.fragment"
+                # 閹绘劕褰?gki_defconfig 娣囶喗鏁奸崚?fragment閿涘矂浼╅崗?bazel trim 濡偓閺屻儱銇戠拹?
+                FRAG="common/arch/arm64/configs/ksu.fragment"
                 diff "$DEFCONFIG.orig" "$DEFCONFIG" | grep '^>' | sed 's/^> //; s/^[[:space:]]*//' > "$FRAG" || true
                 cp "$DEFCONFIG.orig" "$DEFCONFIG"
                 echo "=== KSU Fragment 閸愬懎顔?==="
