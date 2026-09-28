@@ -599,6 +599,11 @@ jobs:
               ;;
           esac
 
+
+      - name: 鎼存梻鏁?SUSFS 鐞涖儰绔?(缁?2 閺?
+        if: inputs.enable_susfs
+        working-directory: ${{ env.KERNEL_ROOT }}
+        run: |
           cd $KERNEL_ROOT/common
           CURRENT_SUB="${{ inputs.sub_level }}"
           if [[ ! "$CURRENT_SUB" =~ ^[0-9]+$ ]]; then
@@ -761,6 +766,10 @@ jobs:
             fi
           fi
 
+      - name: 鎼存梻鏁?SUSFS 鐞涖儰绔?(缁?3 閺?
+        if: inputs.enable_susfs
+        working-directory: ${{ env.KERNEL_ROOT }}/common
+        run: |
           if [ "${{ inputs.ksu_variant }}" == "Official" ] || [ "${{ inputs.ksu_variant }}" == "Next" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40726)" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40548)" ] || [ "${{ inputs.ksu_variant }}" == "ReSukiSU" ]; then
             fix_namespace_susfs_mount_decls() {
               local label="$1"
