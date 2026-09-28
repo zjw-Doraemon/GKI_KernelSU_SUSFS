@@ -1,4 +1,4 @@
-name: 内核构建流程
+name: 鍐呮牳鏋勫缓娴佺▼
 
 permissions:
   contents: write
@@ -7,7 +7,7 @@ permissions:
 on:
   workflow_call:
     inputs:
-      # ==================== 基础配置 ====================
+      # ==================== 鍩虹閰嶇疆 ====================
       android_version:
         required: true
         type: string
@@ -21,12 +21,12 @@ on:
         required: true
         type: string
 
-      # ==================== KernelSU 配置 ====================
+      # ==================== KernelSU 閰嶇疆 ====================
       ksu_variant:
         required: true
         type: string
 
-      # ==================== 可选配置 ====================
+      # ==================== 鍙€夐厤缃?====================
       version:
         required: false
         type: string
@@ -39,7 +39,7 @@ on:
         type: string
         default: "Sun Dec 01 08:10:00 UTC 2024"
 
-      # ==================== 功能开关 ====================
+      # ==================== 鍔熻兘寮€鍏?====================
       use_zram:
         required: true
         type: boolean
@@ -51,7 +51,7 @@ on:
       use_kpm:
         required: true
         type: string
-        default: "disabled (关闭)"
+        default: "disabled (鍏抽棴)"
       use_rekernel:
         required: false
         type: boolean
@@ -75,7 +75,7 @@ on:
       artifact_upload_mode:
         required: false
         type: string
-        default: "上传全部"
+        default: "涓婁紶鍏ㄩ儴"
       droidspaces_ntsync:
         required: false
         type: boolean
@@ -93,30 +93,30 @@ jobs:
       CCACHE_HARDLINK: "true"
 
     steps:
-      - name: 构建信息摘要
+      - name: 鏋勫缓淇℃伅鎽樿
         run: |
           echo "========================================"
-          echo "       内核构建配置摘要"
+          echo "       鍐呮牳鏋勫缓閰嶇疆鎽樿"
           echo "========================================"
-          echo "Android 版本  : ${{ inputs.android_version }}"
-          echo "内核版本      : ${{ inputs.kernel_version }}"
-          echo "子版本号      : ${{ inputs.sub_level }}"
-          echo "补丁级别      : ${{ inputs.os_patch_level }}"
-          echo "KSU 变体      : ${{ inputs.ksu_variant }}"
-          echo "构建时间      : ${{ inputs.build_time }}"
-          echo "SUSFS 状态    : ${{ inputs.enable_susfs }}"
-          echo "ZRAM 增强     : ${{ inputs.use_zram }}"
-          echo "BBG 补丁      : ${{ inputs.use_bbg }}"
-          echo "KPM 功能      : ${{ inputs.use_kpm }}"
+          echo "Android 鐗堟湰  : ${{ inputs.android_version }}"
+          echo "鍐呮牳鐗堟湰      : ${{ inputs.kernel_version }}"
+          echo "瀛愮増鏈彿      : ${{ inputs.sub_level }}"
+          echo "琛ヤ竵绾у埆      : ${{ inputs.os_patch_level }}"
+          echo "KSU 鍙樹綋      : ${{ inputs.ksu_variant }}"
+          echo "鏋勫缓鏃堕棿      : ${{ inputs.build_time }}"
+          echo "SUSFS 鐘舵€?   : ${{ inputs.enable_susfs }}"
+          echo "ZRAM 澧炲己     : ${{ inputs.use_zram }}"
+          echo "BBG 琛ヤ竵      : ${{ inputs.use_bbg }}"
+          echo "KPM 鍔熻兘      : ${{ inputs.use_kpm }}"
           echo "Re-Kernel     : ${{ inputs.use_rekernel }}"
           echo "CVE-2026-43499: ${{ inputs.cve_2026_43499_patch }}"
           echo "Droidspaces   : ${{ inputs.droidspaces }}"
           echo "NTSync        : ${{ inputs.droidspaces_ntsync }}"
-          echo "产物上传模式  : ${{ inputs.artifact_upload_mode }}"
-          echo "Stock Config  : 自动检测 config/stock_defconfig"
+          echo "浜х墿涓婁紶妯″紡  : ${{ inputs.artifact_upload_mode }}"
+          echo "Stock Config  : 鑷姩妫€娴?config/stock_defconfig"
           echo "========================================"
 
-      - name: 清理磁盘空间
+      - name: 娓呯悊纾佺洏绌洪棿
         uses: endersonmenezes/free-disk-space@v3
         with:
           remove_android: true
@@ -131,11 +131,9 @@ jobs:
           rmz_version: "3.1.1"
           testing: false
 
-      - name: 检出代码仓库
-        uses: actions/checkout@v7
+      - name: 妫€鍑轰唬鐮佷粨搴?        uses: actions/checkout@v7
 
-      - name: 初始化构建环境
-        run: |
+      - name: 鍒濆鍖栨瀯寤虹幆澧?        run: |
           CONFIG="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}"
           KERNEL_ROOT="$GITHUB_WORKSPACE/$CONFIG"
           mkdir -p "$KERNEL_ROOT"
@@ -146,7 +144,7 @@ jobs:
           esac
 
           if [ -n "$LEGACY_SUKISU_CONFIG" ] && [ ! -f "$LEGACY_SUKISU_CONFIG" ]; then
-            echo "未找到 ${{ inputs.ksu_variant }} 固定提交配置: $LEGACY_SUKISU_CONFIG" >&2
+            echo "鏈壘鍒?${{ inputs.ksu_variant }} 鍥哄畾鎻愪氦閰嶇疆: $LEGACY_SUKISU_CONFIG" >&2
             exit 1
           fi
 
@@ -173,24 +171,24 @@ jobs:
           echo "$GITHUB_WORKSPACE/git-repo" >> "$GITHUB_PATH"
           echo "REPO=$GITHUB_WORKSPACE/git-repo/repo" >> $GITHUB_ENV
 
-      - name: 显示配置信息
+      - name: 鏄剧ず閰嶇疆淇℃伅
         run: |
           CONFIG_FILE="$GITHUB_WORKSPACE/config/config"
           if [ -f "$CONFIG_FILE" ]; then
-            echo "加载配置文件: $CONFIG_FILE"
+            echo "鍔犺浇閰嶇疆鏂囦欢: $CONFIG_FILE"
             cat "$CONFIG_FILE"
           fi
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
-            echo "加载老版 SukiSU 固定提交配置: $LEGACY_SUKISU_CONFIG"
+            echo "鍔犺浇鑰佺増 SukiSU 鍥哄畾鎻愪氦閰嶇疆: $LEGACY_SUKISU_CONFIG"
             cat "$LEGACY_SUKISU_CONFIG"
           fi
 
-      - name: 安装编译依赖
+      - name: 瀹夎缂栬瘧渚濊禆
         run: |
           sudo apt-get update
           sudo apt-get install -y ccache python3 git curl build-essential libssl-dev bison flex libelf-dev dwarves
 
-      - name: 配置 ccache
+      - name: 閰嶇疆 ccache
         run: |
           mkdir -p ~/.cache/bazel
           ccache --version
@@ -198,7 +196,7 @@ jobs:
           ccache --set-config=compression=true
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
 
-      - name: 恢复 ccache 缓存
+      - name: 鎭㈠ ccache 缂撳瓨
         uses: actions/cache@v5
         with:
           path: ~/.ccache
@@ -206,8 +204,7 @@ jobs:
           restore-keys: |
             ${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}-ccache-
 
-      - name: 缓存工具链
-        id: cache-toolchain
+      - name: 缂撳瓨宸ュ叿閾?        id: cache-toolchain
         uses: actions/cache@v5
         with:
           path: |
@@ -215,38 +212,37 @@ jobs:
             mkbootimg
           key: toolchain-${{ runner.os }}-v1
 
-      - name: 下载工具链
-        if: steps.cache-toolchain.outputs.cache-hit != 'true'
+      - name: 涓嬭浇宸ュ叿閾?        if: steps.cache-toolchain.outputs.cache-hit != 'true'
         run: |
           AOSP_MIRROR=https://android.googlesource.com
           BRANCH=main-kernel-build-2024
           git clone $AOSP_MIRROR/kernel/prebuilts/build-tools -b $BRANCH --depth 1 kernel-build-tools
           git clone $AOSP_MIRROR/platform/system/tools/mkbootimg -b $BRANCH --depth 1 mkbootimg
 
-      - name: 生成签名密钥
+      - name: 鐢熸垚绛惧悕瀵嗛挜
         run: |
           openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 > $BOOT_SIGN_KEY_PATH
 
-      - name: 配置 Git
+      - name: 閰嶇疆 Git
         run: |
           git config --global user.name "BuildBot"
           git config --global user.email "BuildGkiKernel@gmail.com"
 
-      - name: 克隆依赖仓库
+      - name: 鍏嬮殕渚濊禆浠撳簱
         run: |
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
 
-          echo "克隆 AnyKernel3..."
+          echo "鍏嬮殕 AnyKernel3..."
           git clone https://github.com/WildKernels/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           rm -rf AnyKernel3/.git
 
-          echo "克隆 SUSFS (分支: $SUSFS_BRANCH)..."
+          echo "鍏嬮殕 SUSFS (鍒嗘敮: $SUSFS_BRANCH)..."
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
             git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
           elif [ "${{ inputs.ksu_variant }}" == "SukiSU" ]; then
             if ! git clone https://github.com/ShirkNeko/susfs4ksu.git -b "$SUSFS_BRANCH" 2>/dev/null; then
-              echo "ShirkNeko 仓库未找到分支 $SUSFS_BRANCH，回退到 simonpunk 原版..."
+              echo "ShirkNeko 浠撳簱鏈壘鍒板垎鏀?$SUSFS_BRANCH锛屽洖閫€鍒?simonpunk 鍘熺増..."
               git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
             fi
           else
@@ -256,10 +252,10 @@ jobs:
           if [ -n "$LEGACY_SUKISU_CONFIG" ]; then
             SUSFS_FIXED_COMMIT=$(grep "^${SUSFS_BRANCH}=" "$LEGACY_SUKISU_CONFIG" | cut -d'=' -f2-)
             if [ -z "$SUSFS_FIXED_COMMIT" ]; then
-              echo "未在 $LEGACY_SUKISU_CONFIG 配置 $SUSFS_BRANCH 的固定 SUSFS 提交" >&2
+              echo "鏈湪 $LEGACY_SUKISU_CONFIG 閰嶇疆 $SUSFS_BRANCH 鐨勫浐瀹?SUSFS 鎻愪氦" >&2
               exit 1
             fi
-            echo "${{ inputs.ksu_variant }} 固定 SUSFS 提交: $SUSFS_FIXED_COMMIT"
+            echo "${{ inputs.ksu_variant }} 鍥哄畾 SUSFS 鎻愪氦: $SUSFS_FIXED_COMMIT"
             git -C susfs4ksu checkout "$SUSFS_FIXED_COMMIT"
           fi
 
@@ -269,7 +265,7 @@ jobs:
             if [ "$CUSTOM_ENABLED" == "true" ]; then
               CUSTOM_COMMIT=$(grep "^${SUSFS_BRANCH}=" "$CONFIG_FILE" | cut -d'=' -f2)
               if [ -n "$CUSTOM_COMMIT" ]; then
-                echo "切换 SUSFS 到自定义提交: $CUSTOM_COMMIT"
+                echo "鍒囨崲 SUSFS 鍒拌嚜瀹氫箟鎻愪氦: $CUSTOM_COMMIT"
                 cd susfs4ksu
                 git checkout "$CUSTOM_COMMIT"
                 cd ..
@@ -279,21 +275,21 @@ jobs:
 
           SUSFS_LATEST_COMMIT_DATE=$(git -C susfs4ksu log -1 --date=format:'%Y-%m-%d %H:%M:%S %z' --format='%cd')
           echo "SUSFS_LATEST_COMMIT_DATE=$SUSFS_LATEST_COMMIT_DATE" >> $GITHUB_ENV
-          echo "SUSFS 仓库最新提交日期: $SUSFS_LATEST_COMMIT_DATE"
+          echo "SUSFS 浠撳簱鏈€鏂版彁浜ゆ棩鏈? $SUSFS_LATEST_COMMIT_DATE"
 
-          echo "准备补丁资源..."
+          echo "鍑嗗琛ヤ竵璧勬簮..."
           git clone https://github.com/WildKernels/kernel_patches.git
           git clone https://github.com/ShirkNeko/SukiSU_patch.git
-          echo "使用当前仓库补丁目录: $ZZH_PATCHES"
+          echo "浣跨敤褰撳墠浠撳簱琛ヤ竵鐩綍: $ZZH_PATCHES"
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
 
-      - name: 初始化并同步内核源码
+      - name: 鍒濆鍖栧苟鍚屾鍐呮牳婧愮爜
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-6.4.1.git gcc
 
           FORMATTED_BRANCH="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.os_patch_level }}"
-          echo "初始化 repo，分支: common-${FORMATTED_BRANCH}"
+          echo "鍒濆鍖?repo锛屽垎鏀? common-${FORMATTED_BRANCH}"
 
           $REPO init --depth=1 -u https://android.googlesource.com/kernel/manifest -b common-${FORMATTED_BRANCH} --repo-rev=v2.16
 
@@ -301,50 +297,50 @@ jobs:
           DEFAULT_MANIFEST_PATH=.repo/manifests/default.xml
 
           if grep -q deprecated <<< $REMOTE_BRANCH; then
-            echo "检测到已弃用的分支: $FORMATTED_BRANCH"
+            echo "妫€娴嬪埌宸插純鐢ㄧ殑鍒嗘敮: $FORMATTED_BRANCH"
             sed -i "s/\"${FORMATTED_BRANCH}\"/\"deprecated\/${FORMATTED_BRANCH}\"/g" $DEFAULT_MANIFEST_PATH
           fi
 
           $REPO --trace sync -c -j$(nproc --all) --no-tags --fail-fast
           echo "REMOTE_BRANCH=$REMOTE_BRANCH" >> $GITHUB_ENV
 
-      - name: 应用 Stock Config 伪装
+      - name: 搴旂敤 Stock Config 浼
         run: |
           STOCK_SRC="$GITHUB_WORKSPACE/config/stock_defconfig"
           STOCK_DST="$KERNEL_ROOT/common/arch/arm64/configs/stock_defconfig"
 
           if [ ! -f "$STOCK_SRC" ]; then
-            echo "未检测到 $STOCK_SRC，跳过 Stock Config 伪装。"
+            echo "鏈娴嬪埌 $STOCK_SRC锛岃烦杩?Stock Config 浼銆?
             exit 0
           fi
 
           mkdir -p "$(dirname "$STOCK_DST")"
           if ! cp "$STOCK_SRC" "$STOCK_DST"; then
-            echo "::error::复制 stock_defconfig 失败: $STOCK_SRC -> $STOCK_DST"
+            echo "::error::澶嶅埗 stock_defconfig 澶辫触: $STOCK_SRC -> $STOCK_DST"
             exit 1
           fi
-          echo "已复制 stock_defconfig -> $STOCK_DST"
+          echo "宸插鍒?stock_defconfig -> $STOCK_DST"
 
           NEW_RULE='$(obj)/config_data: arch/arm64/configs/stock_defconfig FORCE'
           OLD_RULE='$(obj)/config_data: $(KCONFIG_CONFIG) FORCE'
           TARGET_MAKEFILE="$KERNEL_ROOT/common/kernel/Makefile"
 
           if [ ! -f "$TARGET_MAKEFILE" ]; then
-            echo "::error::未找到 $TARGET_MAKEFILE"
+            echo "::error::鏈壘鍒?$TARGET_MAKEFILE"
             exit 1
           fi
 
           if grep -qF "$NEW_RULE" "$TARGET_MAKEFILE"; then
-            echo "config_data 规则已是 stock_defconfig，跳过。"
+            echo "config_data 瑙勫垯宸叉槸 stock_defconfig锛岃烦杩囥€?
           elif grep -qF "$OLD_RULE" "$TARGET_MAKEFILE"; then
             sed -i 's|$(obj)/config_data: $(KCONFIG_CONFIG) FORCE|$(obj)/config_data: arch/arm64/configs/stock_defconfig FORCE|' "$TARGET_MAKEFILE"
-            echo "已替换 config_data 规则: $TARGET_MAKEFILE"
+            echo "宸叉浛鎹?config_data 瑙勫垯: $TARGET_MAKEFILE"
           else
-            echo "::error::未在 $TARGET_MAKEFILE 找到规则: $OLD_RULE"
+            echo "::error::鏈湪 $TARGET_MAKEFILE 鎵惧埌瑙勫垯: $OLD_RULE"
             exit 1
           fi
 
-      - name: 提取实际子版本号
+      - name: 鎻愬彇瀹為檯瀛愮増鏈彿
         run: |
           ACTUAL_SUBLEVEL="${{ inputs.sub_level }}"
           if [[ -f "$KERNEL_ROOT/common/Makefile" ]]; then
@@ -352,11 +348,9 @@ jobs:
             [[ -n "$EXTRACTED" ]] && ACTUAL_SUBLEVEL="$EXTRACTED"
           fi
           echo "ACTUAL_SUBLEVEL=$ACTUAL_SUBLEVEL" >> $GITHUB_ENV
-          echo "实际子版本号: $ACTUAL_SUBLEVEL"
+          echo "瀹為檯瀛愮増鏈彿: $ACTUAL_SUBLEVEL"
 
-      # 以同步后的实际 SUBLEVEL 判断，避免对已包含上游修复的 LTS 重复打补丁
-      - name: 自动应用 CVE-2026-43499 rtmutex 修复链
-        if: inputs.cve_2026_43499_patch
+      # 浠ュ悓姝ュ悗鐨勫疄闄?SUBLEVEL 鍒ゆ柇锛岄伩鍏嶅宸插寘鍚笂娓镐慨澶嶇殑 LTS 閲嶅鎵撹ˉ涓?      - name: 鑷姩搴旂敤 CVE-2026-43499 rtmutex 淇閾?        if: inputs.cve_2026_43499_patch
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           bash "$GITHUB_WORKSPACE/security_patch/apply_cve_2026_43499.sh" \
@@ -364,8 +358,7 @@ jobs:
             "$ACTUAL_SUBLEVEL" \
             "$GITHUB_WORKSPACE/security_patch"
 
-      - name: 修复 glibc 2.38 兼容性
-        working-directory: ${{ env.KERNEL_ROOT }}/common
+      - name: 淇 glibc 2.38 鍏煎鎬?        working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           RAW_SUB="${{ inputs.sub_level }}"
           [[ ! "$RAW_SUB" =~ ^[0-9]+$ ]] && CURRENT_SUB=99999 || CURRENT_SUB=$RAW_SUB
@@ -380,7 +373,7 @@ jobs:
           if [ "$NEEDS_FIX" = true ]; then
             GLIBC_VERSION=$(ldd --version 2>/dev/null | head -n 1 | awk '{print $NF}')
             if [ "$(printf '%s\n' "2.38" "$GLIBC_VERSION" | sort -V | head -n1)" = "2.38" ]; then
-              echo "应用 glibc 2.38 兼容性修复..."
+              echo "搴旂敤 glibc 2.38 鍏煎鎬т慨澶?.."
               sed -i '/\$(Q)\$(MAKE) -C \$(SUBCMD_SRC) OUTPUT=\$(abspath \$(dir \$@))\/ \$(abspath \$@)/s//$(Q)$(MAKE) -C $(SUBCMD_SRC) EXTRA_CFLAGS="$(CFLAGS)" OUTPUT=$(abspath $(dir $@))\/ $(abspath $@)/' tools/bpf/resolve_btfids/Makefile 2>/dev/null || true
 
               if [[ "${{ inputs.kernel_version }}" == "5.10" || "${{ inputs.kernel_version }}" == "5.15" ]]; then
@@ -392,15 +385,14 @@ jobs:
             fi
           fi
 
-      - name: 添加一加 8E 处理器支持
-        if: inputs.supp_op
+      - name: 娣诲姞涓€鍔?8E 澶勭悊鍣ㄦ敮鎸?        if: inputs.supp_op
         working-directory: ${{ env.KERNEL_ROOT }}/common/drivers
         run: |
-          echo "下载一加 8E 支持补丁..."
+          echo "涓嬭浇涓€鍔?8E 鏀寔琛ヤ竵..."
           curl -LSs "https://github.com/zzh20188/GKI_KernelSU_SUSFS/raw/refs/heads/dev/hmbird_patch.c" -o hmbird_patch.c
           echo "obj-y += hmbird_patch.o" >> Makefile
 
-      - name: 确定 KernelSU 分支
+      - name: 纭畾 KernelSU 鍒嗘敮
         id: ksu-branch
         run: |
           variant_input="${{ inputs.ksu_variant }}"
@@ -421,19 +413,19 @@ jobs:
               ;;
             *)
               if [ -z "$LEGACY_SUKISU_CONFIG" ] || [ ! -f "$LEGACY_SUKISU_CONFIG" ]; then
-                echo "未知变体: $variant_input" >&2
+                echo "鏈煡鍙樹綋: $variant_input" >&2
                 exit 1
               fi
               SUKISU_FIXED_COMMIT=$(grep "^sukisu=" "$LEGACY_SUKISU_CONFIG" | cut -d'=' -f2-)
               if [ -z "$SUKISU_FIXED_COMMIT" ]; then
-                echo "未在 $LEGACY_SUKISU_CONFIG 配置 SukiSU 固定提交" >&2
+                echo "鏈湪 $LEGACY_SUKISU_CONFIG 閰嶇疆 SukiSU 鍥哄畾鎻愪氦" >&2
                 exit 1
               fi
               BRANCH="-s $SUKISU_FIXED_COMMIT"
               ;;
           esac
 
-          # 检查自定义提交 (仅对 SukiSU 生效)
+          # 妫€鏌ヨ嚜瀹氫箟鎻愪氦 (浠呭 SukiSU 鐢熸晥)
           CONFIG_FILE="config/config"
           if [ -f "$CONFIG_FILE" ]; then
             CUSTOM_ENABLED=$(grep "^custom=" "$CONFIG_FILE" | cut -d'=' -f2)
@@ -441,20 +433,20 @@ jobs:
               SUKISU_COMMIT=$(grep "^sukisu=" "$CONFIG_FILE" | cut -d'=' -f2)
               if [ -n "$SUKISU_COMMIT" ]; then
                 BRANCH="-s $SUKISU_COMMIT"
-                echo "SukiSU 使用自定义提交: $SUKISU_COMMIT"
+                echo "SukiSU 浣跨敤鑷畾涔夋彁浜? $SUKISU_COMMIT"
               fi
             fi
           fi
 
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "KSU 分支: $BRANCH"
+          echo "KSU 鍒嗘敮: $BRANCH"
 
-      - name: 添加 KernelSU
+      - name: 娣诲姞 KernelSU
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           case "${{ inputs.ksu_variant }}" in
             "Official")
-              echo "添加 KernelSU 官方版..."
+              echo "娣诲姞 KernelSU 瀹樻柟鐗?.."
               curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash $BRANCH
 
               cd KernelSU
@@ -468,23 +460,23 @@ jobs:
               cd ..
               ;;
             "Next")
-              echo "添加 KernelSU-Next..."
+              echo "娣诲姞 KernelSU-Next..."
               curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/refs/heads/dev/kernel/setup.sh" | bash -s dev_susfs
               ;;
             "SukiSU")
-              echo "添加 ${{ inputs.ksu_variant }}..."
+              echo "娣诲姞 ${{ inputs.ksu_variant }}..."
               curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash $BRANCH
               ;;
             "ReSukiSU")
-              echo "添加 ReSukiSU..."
+              echo "娣诲姞 ReSukiSU..."
               curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash $BRANCH
               ;;
             *)
               if [ -z "$LEGACY_SUKISU_CONFIG" ]; then
-                echo "未知变体: ${{ inputs.ksu_variant }}" >&2
+                echo "鏈煡鍙樹綋: ${{ inputs.ksu_variant }}" >&2
                 exit 1
               fi
-              echo "添加 ${{ inputs.ksu_variant }}..."
+              echo "娣诲姞 ${{ inputs.ksu_variant }}..."
               curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash $BRANCH
               ;;
           esac
@@ -493,18 +485,17 @@ jobs:
             KSU_LATEST_COMMIT_DATE=$(git -C KernelSU log -1 --date=format:'%Y-%m-%d %H:%M:%S %z' --format='%cd')
             echo "KSU_LATEST_COMMIT_DATE=$KSU_LATEST_COMMIT_DATE" >> $GITHUB_ENV
           else
-            echo "KSU_LATEST_COMMIT_DATE=未知" >> $GITHUB_ENV
+            echo "KSU_LATEST_COMMIT_DATE=鏈煡" >> $GITHUB_ENV
           fi
 
-      - name: 配置 SukiSU 管理器信息
-        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
+      - name: 閰嶇疆 SukiSU 绠＄悊鍣ㄤ俊鎭?        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
         working-directory: ${{ env.KERNEL_ROOT }}/KernelSU
         run: |
           KBUILD_FILE="./kernel/Kbuild"
           CUSTOM_TAG="${{ vars.MANAGER_STR }}"
 
           if [ ! -f "$KBUILD_FILE" ]; then
-            echo "未找到 $KBUILD_FILE，跳过 SukiSU 版本标识定制"
+            echo "鏈壘鍒?$KBUILD_FILE锛岃烦杩?SukiSU 鐗堟湰鏍囪瘑瀹氬埗"
             exit 0
           fi
 
@@ -547,13 +538,13 @@ jobs:
             }
           ' "$KBUILD_FILE" > "${KBUILD_FILE}.tmp" && mv "${KBUILD_FILE}.tmp" "$KBUILD_FILE"
 
-          echo "已更新 get_ksu_version_full 模板: $VERSION_TEMPLATE"
+          echo "宸叉洿鏂?get_ksu_version_full 妯℃澘: $VERSION_TEMPLATE"
 
-      - name: 应用 SUSFS 补丁
+      - name: 搴旂敤 SUSFS 琛ヤ竵
         if: inputs.enable_susfs
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
-          echo "应用 SUSFS 补丁..."
+          echo "搴旂敤 SUSFS 琛ヤ竵..."
 
           SUSFS_PATCH="50_add_susfs_in_gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}.patch"
           cp "$SUSFS4KSU/kernel_patches/$SUSFS_PATCH" ./common/
@@ -564,7 +555,7 @@ jobs:
             "Official")
               cd ./KernelSU
               cp $SUSFS4KSU/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./
-              # 兼容旧版补丁：仅当补丁仍只修改 kernel/Makefile 时，才替换为 kernel/Kbuild
+              # 鍏煎鏃х増琛ヤ竵锛氫粎褰撹ˉ涓佷粛鍙慨鏀?kernel/Makefile 鏃讹紝鎵嶆浛鎹负 kernel/Kbuild
               if grep -q '^diff --git a/kernel/Makefile b/kernel/Makefile' ./10_enable_susfs_for_ksu.patch \
                 && ! grep -q '^diff --git a/kernel/Kbuild b/kernel/Kbuild' ./10_enable_susfs_for_ksu.patch; then
                 sed -i 's|kernel/Makefile|kernel/Kbuild|g' ./10_enable_susfs_for_ksu.patch
@@ -574,7 +565,7 @@ jobs:
               cd ..
               ;;
             "Next"|"SukiSU"|"SukiSU(40726)"|"SukiSU(40548)"|"ReSukiSU")
-              echo "Next/SukiSU/SukiSU(40726)/SukiSU(40548)/ReSukiSU 使用内置 SUSFS 支持"
+              echo "Next/SukiSU/SukiSU(40726)/SukiSU(40548)/ReSukiSU 浣跨敤鍐呯疆 SUSFS 鏀寔"
               ;;
           esac
 
@@ -584,29 +575,28 @@ jobs:
             CURRENT_SUB=99999
           fi
 
-          # 兜底兼容 SUSFS 上游误将 5.15+ 的 set_nameidata 四参数调用用于 Android 12 5.10，上游修复后自动跳过
+          # 鍏滃簳鍏煎 SUSFS 涓婃父璇皢 5.15+ 鐨?set_nameidata 鍥涘弬鏁拌皟鐢ㄧ敤浜?Android 12 5.10锛屼笂娓镐慨澶嶅悗鑷姩璺宠繃
           if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]] \
             && grep -qF 'static void set_nameidata(struct nameidata *p, int dfd, struct filename *name)' fs/namei.c \
             && grep -qF 'set_nameidata(nd, old_dfd, fake_filename, NULL);' "$SUSFS_PATCH"; then
-            echo "检测到 Android 12 5.10 set_nameidata 三参数接口，修正 SUSFS 补丁中的四参数调用"
+            echo "妫€娴嬪埌 Android 12 5.10 set_nameidata 涓夊弬鏁版帴鍙ｏ紝淇 SUSFS 琛ヤ竵涓殑鍥涘弬鏁拌皟鐢?
             sed -i 's/set_nameidata(nd, old_dfd, fake_filename, NULL);/set_nameidata(nd, old_dfd, fake_filename);/g' "$SUSFS_PATCH"
           fi
 
-          # 兼容 5.10.66~5.10.209、5.15.74~5.15.144 和 6.1.25~6.1.68 缺少 VMA padding 接口
+          # 鍏煎 5.10.66~5.10.209銆?.15.74~5.15.144 鍜?6.1.25~6.1.68 缂哄皯 VMA padding 鎺ュ彛
           if grep -qF 'VMA_PAD_START(vma)' "$SUSFS_PATCH" \
             && ! grep -Rqs 'VMA_PAD_START' ./include/linux; then
-            echo "目标内核未提供 VMA_PAD_START，使用 vma->vm_end 兼容 SUSFS OPEN_REDIRECT"
+            echo "鐩爣鍐呮牳鏈彁渚?VMA_PAD_START锛屼娇鐢?vma->vm_end 鍏煎 SUSFS OPEN_REDIRECT"
             sed -i 's/VMA_PAD_START(vma)/vma->vm_end/g' "$SUSFS_PATCH"
           fi
 
-          # 在应用主补丁前临时调整源码上下文，替代已归档的 wild 修复小补丁
-          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
+          # 鍦ㄥ簲鐢ㄤ富琛ヤ竵鍓嶄复鏃惰皟鏁存簮鐮佷笂涓嬫枃锛屾浛浠ｅ凡褰掓。鐨?wild 淇灏忚ˉ涓?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 43 ]]; then
-              echo "临时调整 Android 12 5.10 base.c 上下文"
+              echo "涓存椂璋冩暣 Android 12 5.10 base.c 涓婁笅鏂?
               perl -i -pe 's/(int|size_t)\s+this_len\s*=\s*min_t\s*\(\s*\1\s*,/size_t this_len = min_t(size_t,/;' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 117 ]]; then
-              echo "临时调整 Android 12 5.10 fdinfo.c 上下文"
+              echo "涓存椂璋冩暣 Android 12 5.10 fdinfo.c 涓婁笅鏂?
               sed -i '/^[[:space:]]*\/\*$/,/^[[:space:]]*u32 mask = mark->mask & IN_ALL_EVENTS;$/d' fs/notify/fdinfo.c
               perl -i -pe 's/\bmask,\s*mark->ignored_mask/inotify_mark_user_mask(mark)/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:%x/ignored_mask:0/g' fs/notify/fdinfo.c
@@ -615,7 +605,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 107 ]]; then
-              echo "临时调整 Android 13 5.10 fdinfo.c 上下文"
+              echo "涓存椂璋冩暣 Android 13 5.10 fdinfo.c 涓婁笅鏂?
               sed -i '/^[[:space:]]*\/\*$/,/^[[:space:]]*u32 mask = mark->mask & IN_ALL_EVENTS;$/d' fs/notify/fdinfo.c
               perl -i -pe 's/\bmask,\s*mark->ignored_mask/inotify_mark_user_mask(mark)/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:%x/ignored_mask:0/g' fs/notify/fdinfo.c
@@ -624,7 +614,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
             if [[ "$CURRENT_SUB" -le 41 ]]; then
-              echo "临时调整 Android 13 5.15 namespace.c/open.c/fdinfo.c 上下文"
+              echo "涓存椂璋冩暣 Android 13 5.15 namespace.c/open.c/fdinfo.c 涓婁笅鏂?
               if ! grep -qF '#include <linux/mnt_idmapping.h>' fs/namespace.c; then
                 sed -i '/^#include <linux\/shmem_fs.h>$/a #include <linux/mnt_idmapping.h>' fs/namespace.c
               fi
@@ -639,51 +629,50 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android14" && "${{ inputs.kernel_version }}" == "6.1" ]]; then
             if [[ "$CURRENT_SUB" -le 25 ]] && ! grep -qF '#include <trace/hooks/sched.h>' fs/proc/base.c; then
-              echo "临时调整 Android 14 6.1 sched.h 上下文"
+              echo "涓存椂璋冩暣 Android 14 6.1 sched.h 涓婁笅鏂?
               sed -i '/^#include <trace\/events\/oom.h>$/a #include <trace/hooks/sched.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 141 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/proc/base.c; then
-              echo "临时调整 Android 14 6.1 dma-buf.h 上下文"
+              echo "涓存椂璋冩暣 Android 14 6.1 dma-buf.h 涓婁笅鏂?
               sed -i '/^#include <linux\/cpufreq_times.h>$/a #include <linux/dma-buf.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -ge 157 ]]; then
-              echo "临时调整 Android 14 6.1 namespace.c 上下文"
+              echo "涓存椂璋冩暣 Android 14 6.1 namespace.c 涓婁笅鏂?
               sed -i '/^#include <trace\/hooks\/blk.h>$/d' fs/namespace.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
             if [[ "$CURRENT_SUB" -le 30 ]] && ! grep -qF 'last_vma_end = vma->vm_end;' fs/proc/task_mmu.c; then
-              echo "临时调整 Android 15 6.6 task_mmu.c 上下文"
+              echo "涓存椂璋冩暣 Android 15 6.6 task_mmu.c 涓婁笅鏂?
               sed -i '/smap_gather_stats(vma, &mss, last_vma_end);/a\last_vma_end = vma->vm_end;' fs/proc/task_mmu.c
             fi
             if [[ "$CURRENT_SUB" -le 92 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/proc/base.c; then
-              echo "临时调整 Android 15 6.6 base.c 上下文"
+              echo "涓存椂璋冩暣 Android 15 6.6 base.c 涓婁笅鏂?
               sed -i '/^#include <linux\/cpufreq_times.h>$/a #include <linux/dma-buf.h>' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 57 ]] && ! grep -qF '#include <linux/zswap.h>' mm/memory.c; then
-              echo "临时调整 Android 15 6.6 memory.c 上下文"
+              echo "涓存椂璋冩暣 Android 15 6.6 memory.c 涓婁笅鏂?
               sed -i '/^#include <linux\/sched\/sysctl.h>$/a #include <linux/zswap.h>' mm/memory.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
             if [[ "$CURRENT_SUB" -ge 58 ]]; then
-              echo "临时调整 Android 16 6.12 exec.c 上下文"
+              echo "涓存椂璋冩暣 Android 16 6.12 exec.c 涓婁笅鏂?
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/exec.c
             fi
           fi
 
           patch -p1 < "$SUSFS_PATCH" || true
 
-          # 主补丁应用后还原临时上下文，避免无关源码差异保留到最终产物
-          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
+          # 涓昏ˉ涓佸簲鐢ㄥ悗杩樺師涓存椂涓婁笅鏂囷紝閬垮厤鏃犲叧婧愮爜宸紓淇濈暀鍒版渶缁堜骇鐗?          if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 43 ]]; then
-              echo "还原 Android 12 5.10 base.c 临时调整"
+              echo "杩樺師 Android 12 5.10 base.c 涓存椂璋冩暣"
               sed -i 's/^size_t this_len = min_t(size_t, count, PAGE_SIZE);$/int this_len = min_t(int, count, PAGE_SIZE);/' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 117 ]]; then
-              echo "还原 Android 12 5.10 fdinfo.c 临时调整"
+              echo "杩樺師 Android 12 5.10 fdinfo.c 涓存椂璋冩暣"
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
               perl -i -pe 's/\binotify_mark_user_mask\(mark\)/mask, mark->ignored_mask/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:0/ignored_mask:%x/g' fs/notify/fdinfo.c
@@ -692,7 +681,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
             if [[ "$CURRENT_SUB" -le 107 ]]; then
-              echo "还原 Android 13 5.10 fdinfo.c 临时调整"
+              echo "杩樺師 Android 13 5.10 fdinfo.c 涓存椂璋冩暣"
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
               perl -i -pe 's/\binotify_mark_user_mask\(mark\)/mask, mark->ignored_mask/g' fs/notify/fdinfo.c
               perl -i -pe 's/ignored_mask:0/ignored_mask:%x/g' fs/notify/fdinfo.c
@@ -701,7 +690,7 @@ jobs:
 
           if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
             if [[ "$CURRENT_SUB" -le 41 ]]; then
-              echo "还原 Android 13 5.15 临时调整"
+              echo "杩樺師 Android 13 5.15 涓存椂璋冩暣"
               sed -i '/#include <linux\/mnt_idmapping.h>$/d' fs/namespace.c
               sed -i '/#include <linux\/mnt_idmapping.h>$/d' fs/open.c
               perl -i -pe 's/^(\s+if \(inode\) \{)/$1\n\t\t\/\*\n\t\t * IN_ALL_EVENTS represents all of the mask bits\n\t\t * that we expose to userspace.  There is at\n\t\t * least one bit (FS_EVENT_ON_CHILD) which is\n\t\t * used only internally to the kernel.\n\t\t *\/\n\t\tu32 mask = mark->mask & IN_ALL_EVENTS;/m' fs/notify/fdinfo.c
@@ -717,29 +706,29 @@ jobs:
               sed -i '/^#include <trace\/hooks\/sched.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 141 ]]; then
-              echo "还原 Android 14 6.1 base.c 临时调整"
+              echo "杩樺師 Android 14 6.1 base.c 涓存椂璋冩暣"
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -ge 157 ]] && ! grep -qF '#include <trace/hooks/blk.h>' fs/namespace.c; then
-              echo "还原 Android 14 6.1 namespace.c 临时调整"
+              echo "杩樺師 Android 14 6.1 namespace.c 涓存椂璋冩暣"
               sed -i '/^#include "internal.h"$/a #include <trace/hooks/blk.h>' fs/namespace.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
             if [[ "$CURRENT_SUB" -le 92 ]]; then
-              echo "还原 Android 15 6.6 base.c 临时调整"
+              echo "杩樺師 Android 15 6.6 base.c 涓存椂璋冩暣"
               sed -i '/^#include <linux\/dma-buf.h>$/d' fs/proc/base.c
             fi
             if [[ "$CURRENT_SUB" -le 57 ]]; then
-              echo "还原 Android 15 6.6 memory.c 临时调整"
+              echo "杩樺師 Android 15 6.6 memory.c 涓存椂璋冩暣"
               sed -i '/^#include <linux\/zswap.h>$/d' mm/memory.c
             fi
           fi
 
           if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
             if [[ "$CURRENT_SUB" -ge 58 ]] && ! grep -qF '#include <linux/dma-buf.h>' fs/exec.c; then
-              echo "还原 Android 16 6.12 exec.c 临时调整"
+              echo "杩樺師 Android 16 6.12 exec.c 涓存椂璋冩暣"
               sed -i '0,/^#include /s//#include <linux\/dma-buf.h>\n&/' fs/exec.c
             fi
           fi
@@ -754,7 +743,7 @@ jobs:
               fi
 
               if ! grep -qF '#include <linux/susfs_def.h>' ./fs/namespace.c; then
-                echo "检测到 ${label} namespace.c 缺少 susfs_def.h，注入声明..."
+                echo "妫€娴嬪埌 ${label} namespace.c 缂哄皯 susfs_def.h锛屾敞鍏ュ０鏄?.."
                 if grep -qF '#include <linux/mnt_idmapping.h>' ./fs/namespace.c; then
                   sed -i '/#include <linux\/mnt_idmapping.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT\n#include <linux\/susfs_def.h>\n#endif' ./fs/namespace.c
                 elif grep -qF '#include <linux/shmem_fs.h>' ./fs/namespace.c; then
@@ -765,7 +754,7 @@ jobs:
               fi
 
               if ! grep -q 'extern bool susfs_is_current_ksu_domain' ./fs/namespace.c; then
-                echo "检测到 ${label} namespace.c 缺少 SUSFS mount extern，注入声明..."
+                echo "妫€娴嬪埌 ${label} namespace.c 缂哄皯 SUSFS mount extern锛屾敞鍏ュ０鏄?.."
                 sed -i '/#include "internal.h"/a \\n#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT\nextern bool susfs_is_current_ksu_domain(void);\nextern struct static_key_true susfs_is_sdcard_android_data_not_decrypted;\n\n#define CL_COPY_MNT_NS BIT(25)\n\n#endif' ./fs/namespace.c
               fi
             }
@@ -786,20 +775,19 @@ jobs:
               fi
             }
 
-            # Android 12 - 5.10 修复
+            # Android 12 - 5.10 淇
             if [[ "${{ inputs.android_version }}" == "android12" && "${{ inputs.kernel_version }}" == "5.10" ]]; then
-              # 修复 2024-11 分支: mmap.c 调用了 vm_flags_clear()，但同分支 mm.h 未提供 helper
+              # 淇 2024-11 鍒嗘敮: mmap.c 璋冪敤浜?vm_flags_clear()锛屼絾鍚屽垎鏀?mm.h 鏈彁渚?helper
               fix_missing_vm_flags_clear
               fix_task_mmu_show_pad 209
             fi
 
-            # Android 13 - 5.15 修复
+            # Android 13 - 5.15 淇
             if [[ "${{ inputs.android_version }}" == "android13" && "${{ inputs.kernel_version }}" == "5.15" ]]; then
-              # 修复 2024-11 分支: mmap.c 调用了 vm_flags_clear()，但同分支 mm.h 未提供 helper
+              # 淇 2024-11 鍒嗘敮: mmap.c 璋冪敤浜?vm_flags_clear()锛屼絾鍚屽垎鏀?mm.h 鏈彁渚?helper
               fix_missing_vm_flags_clear
               fix_task_mmu_show_pad 148 "2024-05"
-              # 修复 5.15 LTS: task_mmu.c 头部 hunk 失配，导致 SUSFS 宏缺少声明
-              if grep -q 'SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/task_mmu.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/task_mmu.c; then
+              # 淇 5.15 LTS: task_mmu.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS 瀹忕己灏戝０鏄?              if grep -q 'SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/task_mmu.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/task_mmu.c; then
                 if grep -qF '#include <linux/pkeys.h>' ./fs/proc/task_mmu.c; then
                   sed -i '/#include <linux\/pkeys.h>/a #if defined(CONFIG_KSU_SUSFS_SUS_KSTAT) || defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)\n#include <linux\/susfs_def.h>\n#endif' ./fs/proc/task_mmu.c
                 elif grep -qF '#include <linux/uaccess.h>' ./fs/proc/task_mmu.c; then
@@ -807,13 +795,13 @@ jobs:
                 else
                   sed -i '0,/^#include /s//#if defined(CONFIG_KSU_SUSFS_SUS_KSTAT) || defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)\n#include <linux\/susfs_def.h>\n#endif\n&/' ./fs/proc/task_mmu.c
                 fi
-                echo "已修复 Android 13 5.15 task_mmu.c 缺少 susfs_def.h 问题"
+                echo "宸蹭慨澶?Android 13 5.15 task_mmu.c 缂哄皯 susfs_def.h 闂"
               fi
-              # 修复 5.15 LTS: namespace.c 头部 hunk 失配，导致 SUSFS mount 符号缺少声明
+              # 淇 5.15 LTS: namespace.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS mount 绗﹀彿缂哄皯澹版槑
               fix_namespace_susfs_mount_decls "Android 13 5.15" 'DEFAULT_KSU_MNT_ID\|VFSMOUNT_MNT_FLAGS_KSU_UNSHARED_MNT\|CL_COPY_MNT_NS'
             fi
 
-            # Android 14 - 6.1 修复
+            # Android 14 - 6.1 淇
             if [[ "${{ inputs.android_version }}" == "android14" && "${{ inputs.kernel_version }}" == "6.1" ]]; then
               if grep -q 'susfs_is_current_proc_umounted\|SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/base.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/proc/base.c; then
                 if grep -qF '#include <linux/dma-buf.h>' ./fs/proc/base.c; then
@@ -823,13 +811,13 @@ jobs:
                 fi
               fi
               fix_task_mmu_show_pad 75 "2024-05"
-              # 修复 6.1 LTS: namespace.c 头部 hunk 失配，导致 SUSFS mount 符号缺少声明
+              # 淇 6.1 LTS: namespace.c 澶撮儴 hunk 澶遍厤锛屽鑷?SUSFS mount 绗﹀彿缂哄皯澹版槑
               fix_namespace_susfs_mount_decls "Android 14 6.1" 'DEFAULT_KSU_MNT_ID\|susfs_mnt_id_ida'
             fi
 
-            # Android 15 - 6.6 修复
+            # Android 15 - 6.6 淇
             if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
-              # 修复 6.6.50~6.6.97: fs/proc/base.c 头部 hunk 失配，导致 susfs_def.h 漏打
+              # 淇 6.6.50~6.6.97: fs/proc/base.c 澶撮儴 hunk 澶遍厤锛屽鑷?susfs_def.h 婕忔墦
               if grep -q 'AS_FLAGS_SUS_MAP\|susfs_is_current_proc_umounted\|SUSFS_IS_INODE_SUS_MAP\|SUSFS_IS_INODE_OPEN_REDIRECT' ./fs/proc/base.c && ! grep -qF 'susfs_def.h' ./fs/proc/base.c; then
                 if ! grep -qF '#include <linux/dma-buf.h>' ./fs/proc/base.c; then
                   sed -i '/#include <linux\/cpufreq_times.h>/a #include <linux\/dma-buf.h>' ./fs/proc/base.c
@@ -838,7 +826,7 @@ jobs:
                 sed -i '/#include <linux\/dma-buf.h>/a #include <linux\/susfs_def.h>' ./fs/proc/base.c
                 sed -i '/#include <linux\/dma-buf.h>/a #if defined(CONFIG_KSU_SUSFS_SUS_MAP) || defined(CONFIG_KSU_SUSFS_OPEN_REDIRECT)' ./fs/proc/base.c
               fi
-              # 修复 6.6 早期分支: memory.c 头部上下文缺少 zswap.h，导致 SUSFS 头文件 hunk 漏打
+              # 淇 6.6 鏃╂湡鍒嗘敮: memory.c 澶撮儴涓婁笅鏂囩己灏?zswap.h锛屽鑷?SUSFS 澶存枃浠?hunk 婕忔墦
               if grep -q 'SUSFS_IS_INODE_SUS_MAP' ./mm/memory.c && ! grep -qF '#include <linux/susfs_def.h>' ./mm/memory.c; then
                 if grep -qF '#include <linux/zswap.h>' ./mm/memory.c; then
                   sed -i '/#include <linux\/zswap.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MAP\n#include <linux\/susfs_def.h>\n#endif' ./mm/memory.c
@@ -846,56 +834,55 @@ jobs:
                   sed -i '/#include <linux\/sched\/sysctl.h>/a #ifdef CONFIG_KSU_SUSFS_SUS_MAP\n#include <linux\/susfs_def.h>\n#endif' ./mm/memory.c
                 fi
               fi
-              # 修复老版 SukiSU 6.6.50~6.6.58: task_mmu.c 打入 SUSFS 后使用 vma，但旧源码没有对应声明
-              if [[ -n "$LEGACY_SUKISU_CONFIG" && "$CURRENT_SUB" -ge 50 && "$CURRENT_SUB" -le 58 ]] \
+              # 淇鑰佺増 SukiSU 6.6.50~6.6.58: task_mmu.c 鎵撳叆 SUSFS 鍚庝娇鐢?vma锛屼絾鏃ф簮鐮佹病鏈夊搴斿０鏄?              if [[ -n "$LEGACY_SUKISU_CONFIG" && "$CURRENT_SUB" -ge 50 && "$CURRENT_SUB" -le 58 ]] \
                 && grep -qF 'vma = find_vma(mm, start_vaddr);' ./fs/proc/task_mmu.c; then
                 TASK_MMU_PATCH="$KERNEL_PATCHES/wild/archived/susfs_fix_patches/v2.1.0/a15-6.6/task_mmu.c.patch"
                 if [ ! -f "$TASK_MMU_PATCH" ]; then
-                  echo "::error::补丁不存在: $TASK_MMU_PATCH"
+                  echo "::error::琛ヤ竵涓嶅瓨鍦? $TASK_MMU_PATCH"
                   exit 1
                 fi
                 cp "$TASK_MMU_PATCH" ./
                 if patch -p1 --dry-run < task_mmu.c.patch >/dev/null 2>&1; then
                   patch -p1 --no-backup-if-mismatch < task_mmu.c.patch
-                  echo "已应用 Android 15 6.6.50~6.6.58 task_mmu.c 归档修复补丁"
+                  echo "宸插簲鐢?Android 15 6.6.50~6.6.58 task_mmu.c 褰掓。淇琛ヤ竵"
                 else
-                  echo "Android 15 6.6.50~6.6.58 task_mmu.c 归档修复补丁已应用或当前上下文不匹配，跳过"
+                  echo "Android 15 6.6.50~6.6.58 task_mmu.c 褰掓。淇琛ヤ竵宸插簲鐢ㄦ垨褰撳墠涓婁笅鏂囦笉鍖归厤锛岃烦杩?
                 fi
               fi
 
             fi
 
-            # Android 16 - 6.12 修复
+            # Android 16 - 6.12 淇
             if [[ "${{ inputs.android_version }}" == "android16" && "${{ inputs.kernel_version }}" == "6.12" ]]; then
-              # 修复 setuid_hook.c 重复定义
+              # 淇 setuid_hook.c 閲嶅瀹氫箟
               SETUID_HOOK="$KERNEL_ROOT/common/drivers/kernelsu/setuid_hook.c"
               if [ -f "$SETUID_HOOK" ]; then
                 sed -i 's/defined(CONFIG_KSU_MANUAL_HOOK))/!defined(CONFIG_KSU_SUSFS) \&\& defined(CONFIG_KSU_MANUAL_HOOK))/' "$SETUID_HOOK"
-                echo "已修复 setuid_hook.c 重复定义问题"
+                echo "宸蹭慨澶?setuid_hook.c 閲嶅瀹氫箟闂"
               fi
 
-              # 修复 6.12.58+: exec.c 头部上下文变化导致 SUSFS 补丁漏掉 susfs_def.h
+              # 淇 6.12.58+: exec.c 澶撮儴涓婁笅鏂囧彉鍖栧鑷?SUSFS 琛ヤ竵婕忔帀 susfs_def.h
               if grep -q 'susfs_is_current_proc_umounted' ./fs/exec.c && ! grep -qF '#include <linux/susfs_def.h>' ./fs/exec.c; then
                 if grep -qF '#include <linux/dma-buf.h>' ./fs/exec.c; then
                   sed -i '/#include <linux\/dma-buf.h>/a #ifdef CONFIG_KSU_SUSFS\n#include <linux\/susfs_def.h>\n#endif' ./fs/exec.c
                 else
                   sed -i '/#include <linux\/ksm.h>/a #ifdef CONFIG_KSU_SUSFS\n#include <linux\/susfs_def.h>\n#endif' ./fs/exec.c
                 fi
-                echo "已修复 exec.c 缺少 susfs_def.h 问题"
+                echo "宸蹭慨澶?exec.c 缂哄皯 susfs_def.h 闂"
               fi
             fi
           fi
 
-      - name: 克隆 Droidspaces 补丁仓库
+      - name: 鍏嬮殕 Droidspaces 琛ヤ竵浠撳簱
         if: inputs.droidspaces != 'off'
         run: |
           git clone --depth 1 https://github.com/ravindu644/Droidspaces-OSS.git /tmp/Droidspaces-OSS
           echo "DROIDSPACES_PATCHES=/tmp/Droidspaces-OSS/Documentation/resources/kernel-patches/GKI" >> $GITHUB_ENV
 
-      - name: 备份基准 defconfig
+      - name: 澶囦唤鍩哄噯 defconfig
         run: cp "$DEFCONFIG" "$DEFCONFIG.orig"
 
-      - name: 集成 Droidspaces 支持
+      - name: 闆嗘垚 Droidspaces 鏀寔
         if: inputs.droidspaces != 'off'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
@@ -904,7 +891,7 @@ jobs:
 
           # 678 -> 6_7_8, 123 -> 1_2_3, 345 -> 3_4_5
           SLOT_NAME=$(echo "$SLOT" | sed 's/\(.\)/\1_/g; s/_$//')
-          echo "应用 Droidspaces SYSVIPC kABI 修复补丁 (槽位: $SLOT / $SLOT_NAME)..."
+          echo "搴旂敤 Droidspaces SYSVIPC kABI 淇琛ヤ竵 (妲戒綅: $SLOT / $SLOT_NAME)..."
           case "$KERNEL_VER" in
             6.12)
               PATCH_FILE="$DROIDSPACES_PATCHES/kernel-6.12/001.GKI-6.12-or-above-fix_sysvipc_kabi.patch"
@@ -913,50 +900,48 @@ jobs:
               PATCH_FILE="$DROIDSPACES_PATCHES/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_${SLOT_NAME}.patch"
               ;;
             *)
-              echo "::warning::Droidspaces: 未适配的内核版本 $KERNEL_VER，跳过补丁"
+              echo "::warning::Droidspaces: 鏈€傞厤鐨勫唴鏍哥増鏈?$KERNEL_VER锛岃烦杩囪ˉ涓?
               exit 0
               ;;
           esac
           if ! patch -p1 --forward < "$PATCH_FILE"; then
-            echo "::warning::SYSVIPC kABI 补丁应用失败，可能已应用或上下文不匹配"
+            echo "::warning::SYSVIPC kABI 琛ヤ竵搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
           fi
 
-          # 5.10 及以下还需要 POSIX_MQUEUE 的 kABI 修复
+          # 5.10 鍙婁互涓嬭繕闇€瑕?POSIX_MQUEUE 鐨?kABI 淇
           if [ "$KERNEL_VER" = "5.10" ]; then
-            echo "应用 Droidspaces POSIX_MQUEUE kABI 修复补丁 (5.10)..."
+            echo "搴旂敤 Droidspaces POSIX_MQUEUE kABI 淇琛ヤ竵 (5.10)..."
             POSIX_PATCH="$DROIDSPACES_PATCHES/below-kernel-6.12/002.5.10_or_lower_use_android_abi_padding_for_posix_mqueue.patch"
             if ! patch -p1 --forward < "$POSIX_PATCH"; then
-              echo "::warning::POSIX_MQUEUE kABI 补丁应用失败，可能已应用或上下文不匹配"
+              echo "::warning::POSIX_MQUEUE kABI 琛ヤ竵搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
             fi
           fi
 
-          # Android 16 / 6.12 的 rust_binder.ko 在启用 IPC_NS 后会引用
-          # init_ipc_ns 与 put_ipc_ns，但当前 AOSP common 分支尚未导出这两个符号。
-          # 这里补齐导出，避免 modpost 因 undefined symbol 失败。
-          if [ "$KERNEL_VER" = "6.12" ]; then
+          # Android 16 / 6.12 鐨?rust_binder.ko 鍦ㄥ惎鐢?IPC_NS 鍚庝細寮曠敤
+          # init_ipc_ns 涓?put_ipc_ns锛屼絾褰撳墠 AOSP common 鍒嗘敮灏氭湭瀵煎嚭杩欎袱涓鍙枫€?          # 杩欓噷琛ラ綈瀵煎嚭锛岄伩鍏?modpost 鍥?undefined symbol 澶辫触銆?          if [ "$KERNEL_VER" = "6.12" ]; then
             if [ -f "ipc/msgutil.c" ] && ! grep -qF 'EXPORT_SYMBOL(init_ipc_ns);' "ipc/msgutil.c"; then
               sed -i '/^struct msg_msgseg {/i EXPORT_SYMBOL(init_ipc_ns);' "ipc/msgutil.c"
-              echo "已为 init_ipc_ns 补充符号导出"
+              echo "宸蹭负 init_ipc_ns 琛ュ厖绗﹀彿瀵煎嚭"
             fi
 
             if [ -f "ipc/namespace.c" ] && ! grep -qF 'EXPORT_SYMBOL(put_ipc_ns);' "ipc/namespace.c"; then
               sed -i '/^static struct ns_common \*ipcns_get(/i EXPORT_SYMBOL(put_ipc_ns);' "ipc/namespace.c"
-              echo "已为 put_ipc_ns 补充符号导出"
+              echo "宸蹭负 put_ipc_ns 琛ュ厖绗﹀彿瀵煎嚭"
             fi
           fi
 
-          echo "添加 Droidspaces 内核配置..."
-          # 按文档规则逐个处理: 已启用则跳过, "# not set" 则替换, 不存在则追加
+          echo "娣诲姞 Droidspaces 鍐呮牳閰嶇疆..."
+          # 鎸夋枃妗ｈ鍒欓€愪釜澶勭悊: 宸插惎鐢ㄥ垯璺宠繃, "# not set" 鍒欐浛鎹? 涓嶅瓨鍦ㄥ垯杩藉姞
           enable_config() {
             local cfg="$1"
             if grep -q "^${cfg}=y" "$DEFCONFIG"; then
-              echo "  已启用: $cfg"
+              echo "  宸插惎鐢? $cfg"
             elif grep -q "^# ${cfg} is not set" "$DEFCONFIG"; then
               sed -i "s/^# ${cfg} is not set$/${cfg}=y/" "$DEFCONFIG"
-              echo "  已切换: $cfg"
+              echo "  宸插垏鎹? $cfg"
             else
               echo "${cfg}=y" >> "$DEFCONFIG"
-              echo "  已添加: $cfg"
+              echo "  宸叉坊鍔? $cfg"
             fi
           }
 
@@ -970,18 +955,18 @@ jobs:
             if config_defined "$cfg"; then
               enable_config "$cfg"
             else
-              echo "  当前内核未定义: $cfg，跳过"
+              echo "  褰撳墠鍐呮牳鏈畾涔? $cfg锛岃烦杩?
             fi
           }
 
-          # 必要配置
+          # 蹇呰閰嶇疆
           enable_config CONFIG_SYSVIPC
           enable_config CONFIG_POSIX_MQUEUE
           enable_config CONFIG_IPC_NS
           enable_config CONFIG_PID_NS
           enable_config CONFIG_DEVTMPFS
 
-          # 可选: 网络相关配置 (Docker/NAT 模式)
+          # 鍙€? 缃戠粶鐩稿叧閰嶇疆 (Docker/NAT 妯″紡)
           enable_config_if_defined CONFIG_NETFILTER_XT_MATCH_ADDRTYPE
           enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_LOG
           enable_config_if_defined CONFIG_NETFILTER_XT_MATCH_RECENT
@@ -990,42 +975,41 @@ jobs:
           enable_config_if_defined CONFIG_IP_SET_HASH_NET
           enable_config_if_defined CONFIG_NETFILTER_XT_SET
 
-          # REJECT 目标在不同内核版本上的符号名可能不同，按实际存在的配置启用
-          enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_REJECT
+          # REJECT 鐩爣鍦ㄤ笉鍚屽唴鏍哥増鏈笂鐨勭鍙峰悕鍙兘涓嶅悓锛屾寜瀹為檯瀛樺湪鐨勯厤缃惎鐢?          enable_config_if_defined CONFIG_NETFILTER_XT_TARGET_REJECT
           enable_config_if_defined CONFIG_IP_NF_TARGET_REJECT
 
-          echo "Droidspaces 集成完成"
+          echo "Droidspaces 闆嗘垚瀹屾垚"
 
-          echo "GKI6.6 普通用户联网专用配置 (Droidspaces)"
-          # 专门处理 =n 类型的配置（安卓网络权限必须关闭）
-          disable_config() {
+          echo "GKI6.6 鏅€氱敤鎴疯仈缃戜笓鐢ㄩ厤缃?(Droidspaces)"
+          # 涓撻棬澶勭悊 =n 绫诲瀷鐨勯厤缃紙瀹夊崜缃戠粶鏉冮檺蹇呴』鍏抽棴锛?          disable_config() {
             local cfg="$1"
             if grep -q "^${cfg}=n" "$DEFCONFIG"; then
-              echo "  已禁用: $cfg"
+              echo "  宸茬鐢? $cfg"
             elif grep -q "^${cfg}=y" "$DEFCONFIG"; then
               sed -i "s/^${cfg}=y$/${cfg}=n/" "$DEFCONFIG"
-              echo "  已关闭: $cfg"
+              echo "  宸插叧闂? $cfg"
             else
               echo "# ${cfg} is not set" >> "$DEFCONFIG"
-              echo "  已添加并禁用: $cfg"
+              echo "  宸叉坊鍔犲苟绂佺敤: $cfg"
             fi
           }
 
           if [[ "${{ inputs.android_version }}" == "android15" && "${{ inputs.kernel_version }}" == "6.6" ]]; then
-            # 1. 开启用户命名空间（必须）
-            enable_config_if_defined CONFIG_USER_NS
-            # 2. 关闭安卓严格网络控制（必须）
+            # 1. 寮€鍚敤鎴峰懡鍚嶇┖闂达紙蹇呴』锛夆€斺€?寮哄埗鍐欏叆锛屽嬁鐢?enable_config_if_defined锛坉efconfig 鏈畾涔夎绗﹀彿鏃剁┖杞級
+            sed -i '/^# CONFIG_USER_NS is not set$/d' "$DEFCONFIG"
+            grep -q '^CONFIG_USER_NS=y$' "$DEFCONFIG" || echo "CONFIG_USER_NS=y" >> "$DEFCONFIG"
+            # 2. 鍏抽棴瀹夊崜涓ユ牸缃戠粶鎺у埗锛堝繀椤伙級
             disable_config CONFIG_ANDROID_PARANOID_NETWORK
           fi
 
-      - name: 注入 NTSync 内核配置
+      - name: 娉ㄥ叆 NTSync 鍐呮牳閰嶇疆
         if: inputs.droidspaces != 'off' && inputs.droidspaces_ntsync
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           set -e
-          echo "=== 开始注入 NTSync 内核补丁 ==="
-          echo "Android 版本: ${{ inputs.android_version }}"
-          echo "Kernel 版本: ${{ inputs.kernel_version }}"
+          echo "=== 寮€濮嬫敞鍏?NTSync 鍐呮牳琛ヤ竵 ==="
+          echo "Android 鐗堟湰: ${{ inputs.android_version }}"
+          echo "Kernel 鐗堟湰: ${{ inputs.kernel_version }}"
 
           case "${{ inputs.android_version }}-${{ inputs.kernel_version }}" in
             android12-5.10)
@@ -1044,12 +1028,12 @@ jobs:
               NTSYNC_PATCH="ntsync_compat_android16-6.12"
               ;;
             *)
-              echo "::warning::NTSync: 未适配 ${{ inputs.android_version }} / ${{ inputs.kernel_version }}，跳过补丁"
+              echo "::warning::NTSync: 鏈€傞厤 ${{ inputs.android_version }} / ${{ inputs.kernel_version }}锛岃烦杩囪ˉ涓?
               exit 0
               ;;
           esac
 
-          echo "自动选择 NTSync 补丁: ${NTSYNC_PATCH}.patch"
+          echo "鑷姩閫夋嫨 NTSync 琛ヤ竵: ${NTSYNC_PATCH}.patch"
           wget -q "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/ntsync_base.patch"
           wget -q "https://raw.githubusercontent.com/Goldzxcbug/Droidspaces_Kernel_patch/refs/heads/main/NTsync/${NTSYNC_PATCH}.patch"
 
@@ -1058,22 +1042,21 @@ jobs:
 
           cd ..
 
-          # 配置路径
+          # 閰嶇疆璺緞
           CONFIG_PATH="./common/arch/arm64/configs/gki_defconfig"
-          echo "正在检查并启用 CONFIG_NTSYNC..."
+          echo "姝ｅ湪妫€鏌ュ苟鍚敤 CONFIG_NTSYNC..."
 
-          # 移除未启用标记，再追加启用项，保证重复运行时保持幂等。
-          sed -i '/CONFIG_NTSYNC is not set/d' "$CONFIG_PATH"
+          # 绉婚櫎鏈惎鐢ㄦ爣璁帮紝鍐嶈拷鍔犲惎鐢ㄩ」锛屼繚璇侀噸澶嶈繍琛屾椂淇濇寔骞傜瓑銆?          sed -i '/CONFIG_NTSYNC is not set/d' "$CONFIG_PATH"
           if ! grep -q "^CONFIG_NTSYNC=y" "$CONFIG_PATH"; then
             echo "CONFIG_NTSYNC=y" >> "$CONFIG_PATH"
-            echo "✅ 已成功启用 CONFIG_NTSYNC"
+            echo "鉁?宸叉垚鍔熷惎鐢?CONFIG_NTSYNC"
           else
-            echo "✅ CONFIG_NTSYNC 已处于启用状态"
+            echo "鉁?CONFIG_NTSYNC 宸插浜庡惎鐢ㄧ姸鎬?
           fi
 
-          echo "=== NTSync 补丁与配置注入完成 ==="
+          echo "=== NTSync 琛ヤ竵涓庨厤缃敞鍏ュ畬鎴?==="
 
-      - name: 应用 Unicode 绕过修复
+      - name: 搴旂敤 Unicode 缁曡繃淇
         if: inputs.enable_susfs
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
@@ -1083,11 +1066,10 @@ jobs:
             patch -p1 --forward < "$ACTION_BUILD/patches/unicode_bypass_fix_6.1+.patch" || true
           fi
 
-      - name: 配置 ZRAM LZ4 补丁栈
-        if: inputs.use_zram
+      - name: 閰嶇疆 ZRAM LZ4 琛ヤ竵鏍?        if: inputs.use_zram
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
-          echo "升级 LZ4..."
+          echo "鍗囩骇 LZ4..."
           rm -f lib/lz4/lz4_compress.c lib/lz4/lz4_decompress.c lib/lz4/lz4defs.h lib/lz4/lz4hc_compress.c
 
           cp -r $ZZH_PATCHES/zram/lz4/* ./lib/lz4/
@@ -1105,23 +1087,22 @@ jobs:
 
           cp $SUKISU_PATCHES/other/zram/zram_patch/${{ inputs.kernel_version }}/lz4kd.patch ./
           if ! patch -p1 -F 3 < lz4kd.patch; then
-            echo "::warning::lz4kd.patch 应用失败，可能已应用或上下文不匹配"
+            echo "::warning::lz4kd.patch 搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
           fi
 
           cp $SUKISU_PATCHES/other/zram/zram_patch/${{ inputs.kernel_version }}/lz4k_oplus.patch ./
           if ! patch -p1 -F 3 < lz4k_oplus.patch; then
-            echo "::warning::lz4k_oplus.patch 应用失败，可能已应用或上下文不匹配"
+            echo "::warning::lz4k_oplus.patch 搴旂敤澶辫触锛屽彲鑳藉凡搴旂敤鎴栦笂涓嬫枃涓嶅尮閰?
           fi
 
-      - name: 修复 6.6 WiFi/蓝牙兼容性（三星 + 小米）
-        if: inputs.kernel_version == '6.6'
+      - name: 淇 6.6 WiFi/钃濈墮鍏煎鎬э紙涓夋槦 + 灏忕背锛?        if: inputs.kernel_version == '6.6'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           ensure_line_once() {
             local file="$1"
             local line="$2"
             if [ ! -f "$file" ]; then
-              echo "::error::文件不存在: $file"
+              echo "::error::鏂囦欢涓嶅瓨鍦? $file"
               exit 1
             fi
             if ! grep -qF "$line" "$file"; then
@@ -1141,17 +1122,17 @@ jobs:
           ensure_line_once "$GALAXY_SYMBOL_LIST" "kdp_usecount_inc"
 
           if [ ! -f "$MIN_KDP_PATCH" ]; then
-            echo "::error::补丁不存在: $MIN_KDP_PATCH"
+            echo "::error::琛ヤ竵涓嶅瓨鍦? $MIN_KDP_PATCH"
             exit 1
           fi
           if patch -p1 --dry-run < "$MIN_KDP_PATCH" >/dev/null 2>&1; then
             patch -p1 --no-backup-if-mismatch < "$MIN_KDP_PATCH"
           else
-            echo "min_kdp symbols patch 已应用或当前上下文不匹配，跳过。"
+            echo "min_kdp symbols patch 宸插簲鐢ㄦ垨褰撳墠涓婁笅鏂囦笉鍖归厤锛岃烦杩囥€?
           fi
 
           if [ ! -f "$MIN_KDP_SRC" ]; then
-            echo "::error::文件不存在: $MIN_KDP_SRC"
+            echo "::error::鏂囦欢涓嶅瓨鍦? $MIN_KDP_SRC"
             exit 1
           fi
           cp "$MIN_KDP_SRC" "$MIN_KDP_DST"
@@ -1159,7 +1140,7 @@ jobs:
 
           ensure_line_once "$XIAOMI_SYMBOL_LIST" "device_find_any_child"
 
-      - name: 配置 ZRAM 选项
+      - name: 閰嶇疆 ZRAM 閫夐」
         if: inputs.use_zram
         run: |
           CONFIG_FILE="$DEFCONFIG"
@@ -1196,15 +1177,14 @@ jobs:
             cat "$ZZH_PATCHES/config/zram.config" >> "$CONFIG_FILE"
           fi
 
-      - name: 添加 BBG 防格机补丁
-        if: inputs.use_bbg
+      - name: 娣诲姞 BBG 闃叉牸鏈鸿ˉ涓?        if: inputs.use_bbg
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
           echo "CONFIG_BBG=y" >> common/arch/arm64/configs/gki_defconfig
           sed -i '/^config LSM$/,/^help$/{ /^[[:space:]]*default/ { /baseband_guard/! s/selinux/selinux,baseband_guard/ } }' common/security/Kconfig
 
-      - name: 应用 Re-Kernel
+      - name: 搴旂敤 Re-Kernel
         if: inputs.use_rekernel
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
@@ -1214,19 +1194,18 @@ jobs:
           rm -rf "$TMP_REKERNEL"
           git clone --depth 1 https://github.com/Sakion-Team/Re-Kernel.git "$TMP_REKERNEL"
 
-          # 同步上游拆分后的完整驱动源码
+          # 鍚屾涓婃父鎷嗗垎鍚庣殑瀹屾暣椹卞姩婧愮爜
           rm -rf common/drivers/rekernel
           mkdir -p common/drivers/rekernel
           cp -a "$TMP_REKERNEL/LKM-Source/." common/drivers/rekernel/
 
-          # 将上游外置模块配置适配为内核内置驱动
-          REKERNEL_MAKEFILE="common/drivers/rekernel/Makefile"
+          # 灏嗕笂娓稿缃ā鍧楅厤缃€傞厤涓哄唴鏍稿唴缃┍鍔?          REKERNEL_MAKEFILE="common/drivers/rekernel/Makefile"
           sed -i 's/^obj-m := rekernel\.o$/obj-$(CONFIG_REKERNEL) += rekernel.o/' "$REKERNEL_MAKEFILE"
           grep -qF 'ccflags-$(CONFIG_REKERNEL_LEGACY_NETLINK) += -DLEGACY_NETLINK' "$REKERNEL_MAKEFILE" || \
             echo 'ccflags-$(CONFIG_REKERNEL_LEGACY_NETLINK) += -DLEGACY_NETLINK' >> "$REKERNEL_MAKEFILE"
           sed -i '/^[[:space:]]*depends on MODULES[[:space:]]*$/d' common/drivers/rekernel/Kconfig
 
-          # 挂载到驱动树
+          # 鎸傝浇鍒伴┍鍔ㄦ爲
           if ! grep -qF 'source "drivers/rekernel/Kconfig"' common/drivers/Kconfig; then
             sed -i '/^endmenu$/i source "drivers/rekernel/Kconfig"' common/drivers/Kconfig
           fi
@@ -1234,17 +1213,15 @@ jobs:
             echo 'obj-$(CONFIG_REKERNEL) += rekernel/' >> common/drivers/Makefile
           fi
 
-          # 修正头文件包含路径（适配 in-tree 编译）
-          sed -i 's|#include <../android/binder_internal.h>|#include "../android/binder_internal.h"|g' common/drivers/rekernel/rekernel_binder.c
-          # 补齐 5.10 binder_internal.h 使用 DEFINE_SHOW_ATTRIBUTE 所需的定义
-          grep -qF '#include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c || \
+          # 淇澶存枃浠跺寘鍚矾寰勶紙閫傞厤 in-tree 缂栬瘧锛?          sed -i 's|#include <../android/binder_internal.h>|#include "../android/binder_internal.h"|g' common/drivers/rekernel/rekernel_binder.c
+          # 琛ラ綈 5.10 binder_internal.h 浣跨敤 DEFINE_SHOW_ATTRIBUTE 鎵€闇€鐨勫畾涔?          grep -qF '#include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c || \
             sed -i '/#include <linux\/kprobes.h>/a #include <linux/seq_file.h>' common/drivers/rekernel/rekernel_binder.c
 
-          # 配置 defconfig（幂等）
+          # 閰嶇疆 defconfig锛堝箓绛夛級
           grep -q '^CONFIG_REKERNEL=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL=y" >> "$DEFCONFIG"
           grep -q '^CONFIG_REKERNEL_NETWORK=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL_NETWORK=y" >> "$DEFCONFIG"
 
-      - name: 配置内核选项
+      - name: 閰嶇疆鍐呮牳閫夐」
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
@@ -1256,7 +1233,7 @@ jobs:
           if [ "${{ inputs.ksu_variant }}" == "SukiSU" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40726)" ] || [ "${{ inputs.ksu_variant }}" == "SukiSU(40548)" ] || [ "${{ inputs.ksu_variant }}" == "ReSukiSU" ] || [ "${{ inputs.ksu_variant }}" == "Next" ]; then
             if [[ "${{ inputs.use_kpm }}" == enabled* ]] || [[ "${{ inputs.use_kpm }}" == patched* ]]; then
               if ! grep -RqsE '^[[:space:]]*config[[:space:]]+KPM([[:space:]]|$)' common KernelSU 2>/dev/null; then
-                echo "错误: 已请求启用 KPM，但当前 KernelSU 代码未声明 CONFIG_KPM" >&2
+                echo "閿欒: 宸茶姹傚惎鐢?KPM锛屼絾褰撳墠 KernelSU 浠ｇ爜鏈０鏄?CONFIG_KPM" >&2
                 exit 1
               fi
               echo "CONFIG_KPM=y" >> "$DEFCONFIG"
@@ -1272,20 +1249,20 @@ jobs:
               echo "CONFIG_KALLSYMS=y"
               echo "CONFIG_KALLSYMS_ALL=y"
             } >> "$DEFCONFIG"
-            # 修复 5.15.74~5.15.137: kallsyms_on_each_symbol 仅在 LIVEPATCH 下编译，导致 ReSukiSU 链接失败
+            # 淇 5.15.74~5.15.137: kallsyms_on_each_symbol 浠呭湪 LIVEPATCH 涓嬬紪璇戯紝瀵艰嚧 ReSukiSU 閾炬帴澶辫触
             KALLSYMS_C="./common/kernel/kallsyms.c"
             if [ -f "$KALLSYMS_C" ] \
               && grep -qF 'int kallsyms_on_each_symbol' "$KALLSYMS_C" \
               && grep -qF '#endif /* CONFIG_LIVEPATCH */' "$KALLSYMS_C"; then
               sed -i '/^#ifdef CONFIG_LIVEPATCH$/,/^int kallsyms_on_each_symbol/ { /^#ifdef CONFIG_LIVEPATCH$/d }' "$KALLSYMS_C"
               sed -i '/^int kallsyms_on_each_symbol/,/^#endif \/\* CONFIG_LIVEPATCH \*\// { /^#endif \/\* CONFIG_LIVEPATCH \*\//d }' "$KALLSYMS_C"
-              echo "已修复 kallsyms_on_each_symbol 的 LIVEPATCH 编译限制"
+              echo "宸蹭慨澶?kallsyms_on_each_symbol 鐨?LIVEPATCH 缂栬瘧闄愬埗"
             fi
           fi
 
           sed -i 's/check_defconfig//' ./common/build.config.gki
 
-      - name: 添加 SUSFS 配置
+      - name: 娣诲姞 SUSFS 閰嶇疆
         if: inputs.enable_susfs
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
@@ -1301,7 +1278,7 @@ jobs:
           CONFIG_KSU_SUSFS_SUS_MAP=y
           EOF
 
-      - name: 配置内核名称
+      - name: 閰嶇疆鍐呮牳鍚嶇О
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           if [ -f "build/build.sh" ]; then
@@ -1340,8 +1317,7 @@ jobs:
             fi
           fi
 
-      - name: 设置自定义构建时间
-        shell: bash
+      - name: 璁剧疆鑷畾涔夋瀯寤烘椂闂?        shell: bash
         env:
           INPUT_TIME: ${{ inputs.build_time }}
         run: |
@@ -1350,13 +1326,13 @@ jobs:
           if [[ -n "$INPUT_TIME" && "$INPUT_TIME" != "N" && "$INPUT_TIME" != "n" ]]; then
             TIME_REGEX='^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (0[1-9]|[12][0-9]|3[01]) ([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9] UTC [0-9]{4}$'
             if [[ ! "$INPUT_TIME" =~ $TIME_REGEX ]]; then
-              echo "::warning title=构建时间格式错误::自定义构建时间必须形如 Sun Dec 01 08:10:00 UTC 2024，请删除多余前缀并使用两位日期。"
+              echo "::warning title=鏋勫缓鏃堕棿鏍煎紡閿欒::鑷畾涔夋瀯寤烘椂闂村繀椤诲舰濡?Sun Dec 01 08:10:00 UTC 2024锛岃鍒犻櫎澶氫綑鍓嶇紑骞朵娇鐢ㄤ袱浣嶆棩鏈熴€?
               exit 1
             fi
 
             NORMALIZED_TIME="$(LC_ALL=C TZ=UTC date -u -d "$INPUT_TIME" +'%a %b %d %T UTC %Y' 2>/dev/null || true)"
             if [[ "$NORMALIZED_TIME" != "$INPUT_TIME" ]]; then
-              echo "::warning title=构建时间无效::自定义构建时间无法解析为真实 UTC 时间，或星期与日期不匹配。"
+              echo "::warning title=鏋勫缓鏃堕棿鏃犳晥::鑷畾涔夋瀯寤烘椂闂存棤娉曡В鏋愪负鐪熷疄 UTC 鏃堕棿锛屾垨鏄熸湡涓庢棩鏈熶笉鍖归厤銆?
               exit 1
             fi
 
@@ -1365,18 +1341,18 @@ jobs:
             DATESTR="$(TZ='UTC' date +'%a %b %d %T %Z %Y')"
           fi
 
-          echo "使用构建时间: $DATESTR"
+          echo "浣跨敤鏋勫缓鏃堕棿: $DATESTR"
           echo "KBUILD_BUILD_TIMESTAMP=$DATESTR" >> "$GITHUB_ENV"
           echo "KBUILD_BUILD_VERSION=1" >> "$GITHUB_ENV"
 
-          # 统一处理 mkcompile_h 补丁
+          # 缁熶竴澶勭悊 mkcompile_h 琛ヤ竵
           f="$KERNEL_ROOT/common/scripts/mkcompile_h"
           if [ -f "$f" ]; then
             if [[ "${{ inputs.kernel_version }}" == "5.10" || "${{ inputs.kernel_version }}" == "5.15" ]]; then
-              echo "应用 5.x 经典时间戳补丁: $f"
+              echo "搴旂敤 5.x 缁忓吀鏃堕棿鎴宠ˉ涓? $f"
               perl -pi -e "s{UTS_VERSION=\"\\\$\(echo \\\$UTS_VERSION \\\$CONFIG_FLAGS \\\$TIMESTAMP \\| cut -b -\\\$UTS_LEN\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" "$f"
             else
-              echo "应用 6.x mkcompile_h 补丁: $f"
+              echo "搴旂敤 6.x mkcompile_h 琛ヤ竵: $f"
               if grep -q 'UTS_VERSION=' "$f"; then
                 perl -pi -e "s{UTS_VERSION=\"\\\$\\\(.*?\\\)\"}{UTS_VERSION=\"#1 SMP PREEMPT $DATESTR\"}" "$f"
               else
@@ -1385,7 +1361,7 @@ jobs:
             fi
           fi
 
-      - name: 编译内核
+      - name: 缂栬瘧鍐呮牳
         id: compile_kernel
         uses: nick-fields/retry@v4
         with:
@@ -1398,8 +1374,7 @@ jobs:
             ATTEMPT_FILE="$LOG_DIR/.compile-attempt"
             mkdir -p "$LOG_DIR"
 
-            # 为 retry 的每次执行生成独立日志
-            ATTEMPT=1
+            # 涓?retry 鐨勬瘡娆℃墽琛岀敓鎴愮嫭绔嬫棩蹇?            ATTEMPT=1
             if [ -s "$ATTEMPT_FILE" ]; then
               read -r LAST_ATTEMPT < "$ATTEMPT_FILE"
               if [[ "$LAST_ATTEMPT" =~ ^[0-9]+$ ]]; then
@@ -1411,10 +1386,10 @@ jobs:
 
             set -o pipefail
             {
-              echo "编译尝试: $ATTEMPT"
-              echo "开始时间: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-              echo "当前 KSU 最新提交日期: ${KSU_LATEST_COMMIT_DATE}"
-              echo "当前 SUSFS 最新提交日期: ${SUSFS_LATEST_COMMIT_DATE}"
+              echo "缂栬瘧灏濊瘯: $ATTEMPT"
+              echo "寮€濮嬫椂闂? $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+              echo "褰撳墠 KSU 鏈€鏂版彁浜ゆ棩鏈? ${KSU_LATEST_COMMIT_DATE}"
+              echo "褰撳墠 SUSFS 鏈€鏂版彁浜ゆ棩鏈? ${SUSFS_LATEST_COMMIT_DATE}"
               set -ex
               cd "$KERNEL_ROOT"
 
@@ -1426,11 +1401,10 @@ jobs:
                 LTO=thin BUILD_CONFIG=common/build.config.gki.aarch64 build/build.sh CC="/usr/bin/ccache clang" || exit 1
                 strings "out/${{ inputs.android_version }}-${{ inputs.kernel_version }}/dist/Image" | grep 'Linux version'
               else
-                # 提取 gki_defconfig 修改到 fragment，避免 bazel trim 检查失败
-                FRAG="common/arch/arm64/configs/ksu.fragment"
+                # 鎻愬彇 gki_defconfig 淇敼鍒?fragment锛岄伩鍏?bazel trim 妫€鏌ュけ璐?                FRAG="common/arch/arm64/configs/ksu.fragment"
                 diff "$DEFCONFIG.orig" "$DEFCONFIG" | grep '^>' | sed 's/^> //; s/^[[:space:]]*//' > "$FRAG" || true
                 cp "$DEFCONFIG.orig" "$DEFCONFIG"
-                echo "=== KSU Fragment 内容 ==="
+                echo "=== KSU Fragment 鍐呭 ==="
                 cat "$FRAG"
                 echo "========================="
                 FRAG_FLAG=""
@@ -1445,19 +1419,19 @@ jobs:
                 strings ./bazel-bin/common/kernel_aarch64/Image | grep 'Linux version'
               fi
 
-              echo "当前 KSU 最新提交日期: ${KSU_LATEST_COMMIT_DATE}"
-              echo "当前 SUSFS 最新提交日期: ${SUSFS_LATEST_COMMIT_DATE}"
-              echo "如果日期不同或相差过远则补丁失效、编译失败"
+              echo "褰撳墠 KSU 鏈€鏂版彁浜ゆ棩鏈? ${KSU_LATEST_COMMIT_DATE}"
+              echo "褰撳墠 SUSFS 鏈€鏂版彁浜ゆ棩鏈? ${SUSFS_LATEST_COMMIT_DATE}"
+              echo "濡傛灉鏃ユ湡涓嶅悓鎴栫浉宸繃杩滃垯琛ヤ竵澶辨晥銆佺紪璇戝け璐?
             } 2>&1 | tee "$LOG_FILE"
 
             BUILD_STATUS=${PIPESTATUS[0]}
             {
-              echo "结束时间: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-              echo "退出码: $BUILD_STATUS"
+              echo "缁撴潫鏃堕棿: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+              echo "閫€鍑虹爜: $BUILD_STATUS"
             } >> "$LOG_FILE"
             exit "$BUILD_STATUS"
 
-      - name: 整理编译失败日志
+      - name: 鏁寸悊缂栬瘧澶辫触鏃ュ織
         if: ${{ always() && steps.compile_kernel.outcome == 'failure' }}
         env:
           COMPILE_ATTEMPTS: ${{ steps.compile_kernel.outputs.total_attempts }}
@@ -1467,17 +1441,17 @@ jobs:
           mkdir -p "$LOG_DIR"
 
           {
-            echo "Android 版本: ${{ inputs.android_version }}"
-            echo "内核版本: ${{ inputs.kernel_version }}.${{ inputs.sub_level }}"
-            echo "安全补丁级别: ${{ inputs.os_patch_level }}"
-            echo "KernelSU 变体: ${{ inputs.ksu_variant }}"
-            echo "配置名称: ${CONFIG:-未知}"
-            echo "Git 提交: $GITHUB_SHA"
-            echo "工作流地址: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-            echo "编译尝试次数: ${COMPILE_ATTEMPTS:-未知}"
-            echo "最终退出码: ${COMPILE_EXIT_CODE:-未知}"
-            echo "KSU 提交日期: ${KSU_LATEST_COMMIT_DATE:-未知}"
-            echo "SUSFS 提交日期: ${SUSFS_LATEST_COMMIT_DATE:-未知}"
+            echo "Android 鐗堟湰: ${{ inputs.android_version }}"
+            echo "鍐呮牳鐗堟湰: ${{ inputs.kernel_version }}.${{ inputs.sub_level }}"
+            echo "瀹夊叏琛ヤ竵绾у埆: ${{ inputs.os_patch_level }}"
+            echo "KernelSU 鍙樹綋: ${{ inputs.ksu_variant }}"
+            echo "閰嶇疆鍚嶇О: ${CONFIG:-鏈煡}"
+            echo "Git 鎻愪氦: $GITHUB_SHA"
+            echo "宸ヤ綔娴佸湴鍧€: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo "缂栬瘧灏濊瘯娆℃暟: ${COMPILE_ATTEMPTS:-鏈煡}"
+            echo "鏈€缁堥€€鍑虹爜: ${COMPILE_EXIT_CODE:-鏈煡}"
+            echo "KSU 鎻愪氦鏃ユ湡: ${KSU_LATEST_COMMIT_DATE:-鏈煡}"
+            echo "SUSFS 鎻愪氦鏃ユ湡: ${SUSFS_LATEST_COMMIT_DATE:-鏈煡}"
           } > "$LOG_DIR/summary.txt"
 
           printf '%s\n' "${{ inputs.ksu_variant }}_kernel-${CONFIG}-Build-Logs" > "$LOG_DIR/artifact-name.txt"
@@ -1485,7 +1459,7 @@ jobs:
           df -h "$GITHUB_WORKSPACE" > "$LOG_DIR/disk-usage.txt" 2>&1 || true
           ccache -s > "$LOG_DIR/ccache-stats.txt" 2>&1 || true
 
-      - name: 上传编译失败日志
+      - name: 涓婁紶缂栬瘧澶辫触鏃ュ織
         if: ${{ always() && steps.compile_kernel.outcome == 'failure' }}
         uses: actions/upload-artifact@v6
         with:
@@ -1495,7 +1469,7 @@ jobs:
           retention-days: 7
           compression-level: 9
 
-      # - name: 应用 KPM 补丁 (SukiSU/ReSukiSU/Next)
+      # - name: 搴旂敤 KPM 琛ヤ竵 (SukiSU/ReSukiSU/Next)
       #   if: startsWith(inputs.use_kpm, 'patched') && (inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'ReSukiSU' || inputs.ksu_variant == 'Next')
       #   run: |
       #     case "${{ inputs.android_version }}" in
@@ -1516,7 +1490,7 @@ jobs:
       #     rm -rf Image
       #     mv oImage Image
 
-      - name: 准备 Boot 镜像
+      - name: 鍑嗗 Boot 闀滃儚
         run: |
           mkdir -p bootimgs
 
@@ -1532,20 +1506,19 @@ jobs:
           cp "$SRC_DIR/Image.lz4" ./
           gzip -n -k -f -9 ./Image > ./Image.gz
 
-      - name: 创建 AnyKernel3 压缩包
-        if: inputs.artifact_upload_mode == '上传全部'
+      - name: 鍒涘缓 AnyKernel3 鍘嬬缉鍖?        if: inputs.artifact_upload_mode == '涓婁紶鍏ㄩ儴'
         run: |
           cd "$ANYKERNEL3"
           ZIP_NAME="${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-AnyKernel3.zip"
           mv ../Image ./Image
           zip -r "../$ZIP_NAME" ./*
 
-      - name: 准备 AnyKernel3 目录
-        if: inputs.artifact_upload_mode != '上传全部'
+      - name: 鍑嗗 AnyKernel3 鐩綍
+        if: inputs.artifact_upload_mode != '涓婁紶鍏ㄩ儴'
         run: |
           mv ./Image "$ANYKERNEL3/Image"
 
-      - name: 构建 Boot 镜像 (Android 12)
+      - name: 鏋勫缓 Boot 闀滃儚 (Android 12)
         if: inputs.android_version == 'android12'
         working-directory: bootimgs
         run: |
@@ -1576,7 +1549,7 @@ jobs:
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot-lz4.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           cp ./boot-lz4.img ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot-lz4.img
 
-      - name: 构建 Boot 镜像 (Android 13+)
+      - name: 鏋勫缓 Boot 闀滃儚 (Android 13+)
         if: inputs.android_version == 'android13' || inputs.android_version == 'android14' || inputs.android_version == 'android15' || inputs.android_version == 'android16'
         working-directory: bootimgs
         run: |
@@ -1594,7 +1567,7 @@ jobs:
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot-lz4.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           cp ./boot-lz4.img ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot-lz4.img
 
-      - name: 收集补丁冲突文件
+      - name: 鏀堕泦琛ヤ竵鍐茬獊鏂囦欢
         if: always()
         run: |
           REJECTS_DIR="$GITHUB_WORKSPACE/patch-rejects"
@@ -1602,7 +1575,7 @@ jobs:
 
           mapfile -t REJS < <(find "$KERNEL_ROOT" -type f -name '*.rej')
           REJ_COUNT=${#REJS[@]}
-          echo "发现 $REJ_COUNT 个 .rej 文件"
+          echo "鍙戠幇 $REJ_COUNT 涓?.rej 鏂囦欢"
           echo "REJ_COUNT=$REJ_COUNT" >> $GITHUB_ENV
 
           if [ "$REJ_COUNT" -gt 0 ]; then
@@ -1620,16 +1593,15 @@ jobs:
             done
           fi
 
-      - name: 上传 AnyKernel3 刷入包
-        if: inputs.artifact_upload_mode != '上传全部'
+      - name: 涓婁紶 AnyKernel3 鍒峰叆鍖?        if: inputs.artifact_upload_mode != '涓婁紶鍏ㄩ儴'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}-AnyKernel3
           path: AnyKernel3/*
           compression-level: 9
 
-      - name: 上传全部构建产物
-        if: inputs.artifact_upload_mode == '上传全部'
+      - name: 涓婁紶鍏ㄩ儴鏋勫缓浜х墿
+        if: inputs.artifact_upload_mode == '涓婁紶鍏ㄩ儴'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}
@@ -1638,7 +1610,7 @@ jobs:
             *.img
           compression-level: 9
 
-      - name: 上传补丁冲突文件
+      - name: 涓婁紶琛ヤ竵鍐茬獊鏂囦欢
         if: always() && env.REJ_COUNT > 0
         uses: actions/upload-artifact@v6
         with:
