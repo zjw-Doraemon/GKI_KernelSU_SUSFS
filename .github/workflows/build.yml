@@ -93,7 +93,7 @@ jobs:
 
     steps:
       - name: 閺嬪嫬缂撴穱鈩冧紖閹芥顩?
-            run: |
+        run: |
           echo "========================================"
           echo "       閸愬懏鐗抽弸鍕紦闁板秶鐤嗛幗妯款洣"
           echo "========================================"
@@ -132,7 +132,7 @@ jobs:
       - name: 濡偓閸戣桨鍞惍浣风波鎼?        uses: actions/checkout@v7
 
       - name: 閸掓繂顫愰崠鏍ㄧ€铏瑰箚婢?
-            run: |
+        run: |
           CONFIG="${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}"
           KERNEL_ROOT="$GITHUB_WORKSPACE/$CONFIG"
           mkdir -p "$KERNEL_ROOT"
@@ -171,7 +171,7 @@ jobs:
           echo "REPO=$GITHUB_WORKSPACE/git-repo/repo" >> $GITHUB_ENV
 
       - name: 閺勫墽銇氶柊宥囩枂娣団剝浼?
-            run: |
+        run: |
           CONFIG_FILE="$GITHUB_WORKSPACE/config/config"
           if [ -f "$CONFIG_FILE" ]; then
             echo "閸旂姾娴囬柊宥囩枂閺傚洣娆? $CONFIG_FILE"
@@ -183,7 +183,7 @@ jobs:
           fi
 
       - name: 鐎瑰顥婄紓鏍槯娓氭繆绂?
-            run: |
+        run: |
           sudo apt-get update
           sudo apt-get install -y ccache python3 git curl build-essential libssl-dev bison flex libelf-dev dwarves
 
@@ -218,7 +218,7 @@ jobs:
           git clone $AOSP_MIRROR/platform/system/tools/mkbootimg -b $BRANCH --depth 1 mkbootimg
 
       - name: 閻㈢喐鍨氱粵鎯ф倳鐎靛棝鎸?
-            run: |
+        run: |
           openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 > $BOOT_SIGN_KEY_PATH
 
       - name: 闁板秶鐤?Git
@@ -227,7 +227,7 @@ jobs:
           git config --global user.email "BuildGkiKernel@gmail.com"
 
       - name: 閸忓娈曟笟婵婄娴犳挸绨?
-            run: |
+        run: |
           ANYKERNEL_BRANCH="gki-2.0"
           SUSFS_BRANCH="gki-${{ inputs.android_version }}-${{ inputs.kernel_version }}"
 
@@ -324,7 +324,7 @@ jobs:
           echo "REMOTE_BRANCH=$REMOTE_BRANCH" >> $GITHUB_ENV
 
       - name: 鎼存梻鏁?Stock Config 娴碱亣顥?
-            run: |
+        run: |
           STOCK_SRC="$GITHUB_WORKSPACE/config/stock_defconfig"
           STOCK_DST="$KERNEL_ROOT/common/arch/arm64/configs/stock_defconfig"
 
@@ -360,7 +360,7 @@ jobs:
           fi
 
       - name: 閹绘劕褰囩€圭偤妾€涙劗澧楅張顒€褰?
-            run: |
+        run: |
           ACTUAL_SUBLEVEL="${{ inputs.sub_level }}"
           if [[ -f "$KERNEL_ROOT/common/Makefile" ]]; then
             EXTRACTED=$(grep '^SUBLEVEL = ' "$KERNEL_ROOT/common/Makefile" | awk '{print $3}')
