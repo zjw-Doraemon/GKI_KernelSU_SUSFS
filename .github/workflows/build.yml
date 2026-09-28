@@ -1470,7 +1470,7 @@ jobs:
 
               echo "瑜版挸澧?KSU 閺堚偓閺傜増褰佹禍銈嗘）閺? ${KSU_LATEST_COMMIT_DATE}"
               echo "瑜版挸澧?SUSFS 閺堚偓閺傜増褰佹禍銈嗘）閺? ${SUSFS_LATEST_COMMIT_DATE}"
-              echo "婵″倹鐏夐弮銉︽埂娑撳秴鎮撻幋鏍祲瀹割喛绻冩潻婊冨灟鐞涖儰绔垫径杈ㄦ櫏閵嗕胶绱拠鎴濄亼鐠?
+              echo "If build fails check logs above; retrying via retry action."
             } 2>&1 | tee "$LOG_FILE"
 
             BUILD_STATUS=${PIPESTATUS[0]}
