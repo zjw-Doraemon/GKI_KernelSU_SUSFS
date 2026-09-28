@@ -115,7 +115,8 @@ jobs:
           echo "Stock Config  : 閼奉亜濮╁Λ鈧ù?config/stock_defconfig"
           echo "========================================"
 
-      - name: 濞撳懐鎮婄壕浣烘磸缁屾椽妫?        uses: endersonmenezes/free-disk-space@v3
+      - name: 濞撳懐鎮婄壕浣烘磸缁屾椽妫?
+        uses: endersonmenezes/free-disk-space@v3
         with:
           remove_android: true
           remove_dotnet: true
@@ -129,7 +130,8 @@ jobs:
           rmz_version: "3.1.1"
           testing: false
 
-      - name: 濡偓閸戣桨鍞惍浣风波鎼?        uses: actions/checkout@v7
+      - name: 濡偓閸戣桨鍞惍浣风波鎼?
+        uses: actions/checkout@v7
 
       - name: 閸掓繂顫愰崠鏍ㄧ€铏瑰箚婢?
         run: |
@@ -195,14 +197,16 @@ jobs:
           ccache --set-config=compression=true
           echo "CCACHE_DIR=$HOME/.ccache" >> $GITHUB_ENV
 
-      - name: 閹垹顦?ccache 缂傛挸鐡?        uses: actions/cache@v5
+      - name: 閹垹顦?ccache 缂傛挸鐡?
+        uses: actions/cache@v5
         with:
           path: ~/.ccache
           key: ${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}-ccache-${{ github.sha }}
           restore-keys: |
             ${{ inputs.android_version }}-${{ inputs.kernel_version }}-${{ inputs.sub_level }}-ccache-
 
-      - name: 缂傛挸鐡ㄥ銉ュ徔闁?        id: cache-toolchain
+      - name: 缂傛挸鐡ㄥ銉ュ徔闁?
+        id: cache-toolchain
         uses: actions/cache@v5
         with:
           path: |
@@ -210,7 +214,8 @@ jobs:
             mkbootimg
           key: toolchain-${{ runner.os }}-v1
 
-      - name: 娑撳娴囧銉ュ徔闁?        if: steps.cache-toolchain.outputs.cache-hit != 'true'
+      - name: 娑撳娴囧銉ュ徔闁?
+        if: steps.cache-toolchain.outputs.cache-hit != 'true'
         run: |
           AOSP_MIRROR=https://android.googlesource.com
           BRANCH=main-kernel-build-2024
@@ -303,7 +308,8 @@ jobs:
           echo "娴ｈ法鏁よぐ鎾冲娴犳挸绨辩悰銉ょ閻╊喖缍? $ZZH_PATCHES"
           git clone https://github.com/Numbersf/Action-Build.git --depth=1
 
-      - name: 閸掓繂顫愰崠鏍ц嫙閸氬本顒為崘鍛壋濠ф劗鐖?        working-directory: ${{ env.KERNEL_ROOT }}
+      - name: 閸掓繂顫愰崠鏍ц嫙閸氬本顒為崘鍛壋濠ф劗鐖?
+        working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           git clone https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-6.4.1.git gcc
 
@@ -369,7 +375,9 @@ jobs:
           echo "ACTUAL_SUBLEVEL=$ACTUAL_SUBLEVEL" >> $GITHUB_ENV
           echo "鐎圭偤妾€涙劗澧楅張顒€褰? $ACTUAL_SUBLEVEL"
 
-      # 娴犮儱鎮撳銉ユ倵閻ㄥ嫬鐤勯梽?SUBLEVEL 閸掋倖鏌囬敍宀勪缉閸忓秴顕鎻掑瘶閸氼偂绗傚〒闀愭叏婢跺秶娈?LTS 闁插秴顦查幍鎾顾夋稉?      - name: 閼奉亜濮╂惔鏃傛暏 CVE-2026-43499 rtmutex 娣囶喖顦查柧?        if: inputs.cve_2026_43499_patch
+      # 娴犮儱鎮撳銉ユ倵閻ㄥ嫬鐤勯梽?SUBLEVEL 閸掋倖鏌囬敍宀勪缉閸忓秴顕鎻掑瘶閸氼偂绗傚〒闀愭叏婢跺秶娈?LTS 闁插秴顦查幍鎾顾夋稉?
+      - name: 閼奉亜濮╂惔鏃傛暏 CVE-2026-43499 rtmutex 娣囶喖顦查柧?
+        if: inputs.cve_2026_43499_patch
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           bash "$GITHUB_WORKSPACE/security_patch/apply_cve_2026_43499.sh" \
@@ -377,7 +385,8 @@ jobs:
             "$ACTUAL_SUBLEVEL" \
             "$GITHUB_WORKSPACE/security_patch"
 
-      - name: 娣囶喖顦?glibc 2.38 閸忕厧顔愰幀?        working-directory: ${{ env.KERNEL_ROOT }}/common
+      - name: 娣囶喖顦?glibc 2.38 閸忕厧顔愰幀?
+        working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           RAW_SUB="${{ inputs.sub_level }}"
           [[ ! "$RAW_SUB" =~ ^[0-9]+$ ]] && CURRENT_SUB=99999 || CURRENT_SUB=$RAW_SUB
@@ -404,14 +413,16 @@ jobs:
             fi
           fi
 
-      - name: 濞ｈ濮炴稉鈧崝?8E 婢跺嫮鎮婇崳銊︽暜閹?        if: inputs.supp_op
+      - name: 濞ｈ濮炴稉鈧崝?8E 婢跺嫮鎮婇崳銊︽暜閹?
+        if: inputs.supp_op
         working-directory: ${{ env.KERNEL_ROOT }}/common/drivers
         run: |
           echo "娑撳娴囨稉鈧崝?8E 閺€顖涘瘮鐞涖儰绔?.."
           curl -LSs "https://github.com/zzh20188/GKI_KernelSU_SUSFS/raw/refs/heads/dev/hmbird_patch.c" -o hmbird_patch.c
           echo "obj-y += hmbird_patch.o" >> Makefile
 
-      - name: 绾喖鐣?KernelSU 閸掑棙鏁?        id: ksu-branch
+      - name: 绾喖鐣?KernelSU 閸掑棙鏁?
+        id: ksu-branch
         run: |
           variant_input="${{ inputs.ksu_variant }}"
 
@@ -506,7 +517,8 @@ jobs:
             echo "KSU_LATEST_COMMIT_DATE=閺堫亞鐓? >> $GITHUB_ENV
           fi
 
-      - name: 闁板秶鐤?SukiSU 缁狅紕鎮婇崳銊や繆閹?        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
+      - name: 闁板秶鐤?SukiSU 缁狅紕鎮婇崳銊や繆閹?
+        if: inputs.ksu_variant == 'SukiSU' || inputs.ksu_variant == 'SukiSU(40726)' || inputs.ksu_variant == 'SukiSU(40548)'
         working-directory: ${{ env.KERNEL_ROOT }}/KernelSU
         run: |
           KBUILD_FILE="./kernel/Kbuild"
@@ -558,7 +570,8 @@ jobs:
 
           echo "瀹稿弶娲块弬?get_ksu_version_full 濡剝婢? $VERSION_TEMPLATE"
 
-      - name: 鎼存梻鏁?SUSFS 鐞涖儰绔?        if: inputs.enable_susfs
+      - name: 鎼存梻鏁?SUSFS 鐞涖儰绔?
+        if: inputs.enable_susfs
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           echo "鎼存梻鏁?SUSFS 鐞涖儰绔?.."
@@ -1069,7 +1082,8 @@ jobs:
             patch -p1 --forward < "$ACTION_BUILD/patches/unicode_bypass_fix_6.1+.patch" || true
           fi
 
-      - name: 闁板秶鐤?ZRAM LZ4 鐞涖儰绔甸弽?        if: inputs.use_zram
+      - name: 闁板秶鐤?ZRAM LZ4 鐞涖儰绔甸弽?
+        if: inputs.use_zram
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           echo "閸楀洨楠?LZ4..."
@@ -1098,7 +1112,8 @@ jobs:
             echo "::warning::lz4k_oplus.patch 鎼存梻鏁ゆ径杈Е閿涘苯褰查懗钘夊嚒鎼存梻鏁ら幋鏍︾瑐娑撳鏋冩稉宥呭爱闁?
           fi
 
-      - name: 娣囶喖顦?6.6 WiFi/閽冩繄澧崗鐓庮啇閹嶇礄娑撳妲?+ 鐏忓繒鑳岄敍?        if: inputs.kernel_version == '6.6'
+      - name: 娣囶喖顦?6.6 WiFi/閽冩繄澧崗鐓庮啇閹嶇礄娑撳妲?+ 鐏忓繒鑳岄敍?
+        if: inputs.kernel_version == '6.6'
         working-directory: ${{ env.KERNEL_ROOT }}/common
         run: |
           ensure_line_once() {
@@ -1143,7 +1158,8 @@ jobs:
 
           ensure_line_once "$XIAOMI_SYMBOL_LIST" "device_find_any_child"
 
-      - name: 闁板秶鐤?ZRAM 闁銆?        if: inputs.use_zram
+      - name: 闁板秶鐤?ZRAM 闁銆?
+        if: inputs.use_zram
         run: |
           CONFIG_FILE="$DEFCONFIG"
 
@@ -1179,7 +1195,8 @@ jobs:
             cat "$ZZH_PATCHES/config/zram.config" >> "$CONFIG_FILE"
           fi
 
-      - name: 濞ｈ濮?BBG 闂冨弶鐗搁張楦克夋稉?        if: inputs.use_bbg
+      - name: 濞ｈ濮?BBG 闂冨弶鐗搁張楦克夋稉?
+        if: inputs.use_bbg
         working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           wget -O- https://github.com/vc-teahouse/Baseband-guard/raw/main/setup.sh | bash
@@ -1221,7 +1238,8 @@ jobs:
           grep -q '^CONFIG_REKERNEL=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL=y" >> "$DEFCONFIG"
           grep -q '^CONFIG_REKERNEL_NETWORK=y$' "$DEFCONFIG" || echo "CONFIG_REKERNEL_NETWORK=y" >> "$DEFCONFIG"
 
-      - name: 闁板秶鐤嗛崘鍛壋闁銆?        working-directory: ${{ env.KERNEL_ROOT }}
+      - name: 闁板秶鐤嗛崘鍛壋闁銆?
+        working-directory: ${{ env.KERNEL_ROOT }}
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
           CONFIG_KSU=y
@@ -1261,7 +1279,8 @@ jobs:
 
           sed -i 's/check_defconfig//' ./common/build.config.gki
 
-      - name: 濞ｈ濮?SUSFS 闁板秶鐤?        if: inputs.enable_susfs
+      - name: 濞ｈ濮?SUSFS 闁板秶鐤?
+        if: inputs.enable_susfs
         run: |
           cat >> "$DEFCONFIG" << 'EOF'
           CONFIG_KSU_SUSFS=y
@@ -1315,7 +1334,8 @@ jobs:
             fi
           fi
 
-      - name: 鐠佸墽鐤嗛懛顏勭暰娑斿鐎鐑樻闂?        shell: bash
+      - name: 鐠佸墽鐤嗛懛顏勭暰娑斿鐎鐑樻闂?
+        shell: bash
         env:
           INPUT_TIME: ${{ inputs.build_time }}
         run: |
@@ -1503,7 +1523,8 @@ jobs:
           cp "$SRC_DIR/Image.lz4" ./
           gzip -n -k -f -9 ./Image > ./Image.gz
 
-      - name: 閸掓稑缂?AnyKernel3 閸樺缂夐崠?        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
+      - name: 閸掓稑缂?AnyKernel3 閸樺缂夐崠?
+        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
         run: |
           cd "$ANYKERNEL3"
           ZIP_NAME="${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-AnyKernel3.zip"
@@ -1520,7 +1541,8 @@ jobs:
             exit 1
           fi
 
-      - name: 閸戝棗顦?AnyKernel3 閻╊喖缍?        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
+      - name: 閸戝棗顦?AnyKernel3 閻╊喖缍?
+        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
         run: |
           mv ./Image "$ANYKERNEL3/Image"
 
@@ -1580,7 +1602,8 @@ jobs:
           $AVBTOOL add_hash_footer --partition_name boot --partition_size $((64 * 1024 * 1024)) --image boot-lz4.img --algorithm SHA256_RSA2048 --key $BOOT_SIGN_KEY_PATH
           cp ./boot-lz4.img ../${{ inputs.android_version }}-${{ inputs.kernel_version }}.${{ inputs.sub_level }}-${{ inputs.os_patch_level }}-boot-lz4.img
 
-      - name: 閺€鍫曟肠鐞涖儰绔甸崘鑼崐閺傚洣娆?        if: always()
+      - name: 閺€鍫曟肠鐞涖儰绔甸崘鑼崐閺傚洣娆?
+        if: always()
         run: |
           REJECTS_DIR="$GITHUB_WORKSPACE/patch-rejects"
           mkdir -p "$REJECTS_DIR"
@@ -1605,14 +1628,16 @@ jobs:
             done
           fi
 
-      - name: 娑撳﹣绱?AnyKernel3 閸掑嘲鍙嗛崠?        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
+      - name: 娑撳﹣绱?AnyKernel3 閸掑嘲鍙嗛崠?
+        if: inputs.artifact_upload_mode != '娑撳﹣绱堕崗銊╁劥'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}-AnyKernel3
           path: AnyKernel3/*
           compression-level: 9
 
-      - name: 娑撳﹣绱堕崗銊╁劥閺嬪嫬缂撴禍褏澧?        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
+      - name: 娑撳﹣绱堕崗銊╁劥閺嬪嫬缂撴禍褏澧?
+        if: inputs.artifact_upload_mode == '娑撳﹣绱堕崗銊╁劥'
         uses: actions/upload-artifact@v6
         with:
           name: ${{ inputs.ksu_variant }}_kernel-${{ env.CONFIG }}
