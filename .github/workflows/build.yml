@@ -246,7 +246,8 @@ jobs:
           # target and a sane version gate, otherwise they abort early with
           # "failed to fetch executable" / "unsupported device".
           if [ -f AnyKernel3/anykernel.sh ]; then
-            sed -i 's|^kernel\.string=.*|kernel.string={{ inputs.ksu_variant }} KernelSU+SUSFS (android15-6.6) by zjw-Doraemon|' AnyKernel3/anykernel.sh
+            KSTR="${{ inputs.ksu_variant }} KernelSU+SUSFS (android15-6.6) by zjw-Doraemon"
+            sed -i "s|^kernel\\.string=.*|kernel.string=${KSTR}|" AnyKernel3/anykernel.sh
             sed -i 's|^do\.devicecheck=.*|do.devicecheck=0|' AnyKernel3/anykernel.sh
             sed -i 's|^block=.*|block=boot|' AnyKernel3/anykernel.sh
             sed -i 's|^is_slot_device=.*|is_slot_device=auto|' AnyKernel3/anykernel.sh
@@ -259,7 +260,7 @@ jobs:
           # AnyKernel3 needs a top-level 'banner' file for some flashers;
           # keep upstream's if present, otherwise drop in a minimal one.
           if [ ! -f AnyKernel3/banner ]; then
-            printf '%s\n' "{{ inputs.ksu_variant }} KernelSU + SUSFS / Droidspaces (android15-6.6)" > AnyKernel3/banner
+            printf '%s\n' "${{ inputs.ksu_variant }} KernelSU + SUSFS / Droidspaces (android15-6.6)" > AnyKernel3/banner
           fi
 
           echo "閸忓娈?SUSFS (閸掑棙鏁? $SUSFS_BRANCH)..."
